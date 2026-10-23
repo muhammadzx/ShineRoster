@@ -1,0 +1,547 @@
+[
+  {
+    "name": "GET index.php",
+    "pass": true,
+    "detail": "200"
+  },
+  {
+    "name": "GET login.php",
+    "pass": true,
+    "detail": "200"
+  },
+  {
+    "name": "GET register.php",
+    "pass": true,
+    "detail": "200"
+  },
+  {
+    "name": "GET provider/dashboard.php",
+    "pass": true,
+    "detail": "200"
+  },
+  {
+    "name": "GET provider/services.php",
+    "pass": true,
+    "detail": "200"
+  },
+  {
+    "name": "GET provider/slots.php",
+    "pass": true,
+    "detail": "200"
+  },
+  {
+    "name": "GET provider/bookings.php",
+    "pass": true,
+    "detail": "200"
+  },
+  {
+    "name": "GET profile.php",
+    "pass": true,
+    "detail": "200"
+  },
+  {
+    "name": "anonymous redirect provider/dashboard.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "anonymous redirect provider/services.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "anonymous redirect provider/slots.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "anonymous redirect provider/bookings.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "anonymous redirect profile.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "customer denied provider/dashboard.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "customer denied provider/services.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "customer denied provider/slots.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "customer denied provider/bookings.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "customer denied profile.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "POST works login.php",
+    "pass": true,
+    "detail": "303 "
+  },
+  {
+    "name": "POST works register.php",
+    "pass": true,
+    "detail": "303 "
+  },
+  {
+    "name": "active nav dashboard.php",
+    "pass": true,
+    "detail": "['dashboard.php']"
+  },
+  {
+    "name": "active nav services.php",
+    "pass": true,
+    "detail": "['services.php']"
+  },
+  {
+    "name": "active nav slots.php",
+    "pass": true,
+    "detail": "['slots.php']"
+  },
+  {
+    "name": "active nav bookings.php",
+    "pass": true,
+    "detail": "['bookings.php']"
+  },
+  {
+    "name": "profile active nav",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "service invalid fields rejected 1",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "service invalid fields rejected -1",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "service creation requires CSRF",
+    "pass": true,
+    "detail": "actual 403"
+  },
+  {
+    "name": "service creation with CSRF succeeds",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "nonexistent service update reports failure",
+    "pass": true,
+    "detail": "actual 200"
+  },
+  {
+    "name": "service empty results visible",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "array query handled without crash",
+    "pass": true,
+    "detail": "200"
+  },
+  {
+    "name": "CSRF rejection provider/slots.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "CSRF rejection provider/bookings.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "CSRF rejection profile.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "profile valid save",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "profile stored text escaped",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "profile duplicate email rejected",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "asset css/style.css",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "asset css/dashboard.css",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "asset css/provider-services.css",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "asset images/ShineRoster_Logo.png",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "asset images/favicon.ico",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "contact submission acknowledges receipt",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "SQL export not publicly downloadable",
+    "pass": true,
+    "detail": "actual 403"
+  },
+  {
+    "name": "HTTP foreign service remains unchanged",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "service search filters list",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "inactive service filter",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "disabled provider denied slots",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "disabled provider cannot mutate services",
+    "pass": true,
+    "detail": "response 302"
+  },
+  {
+    "name": "HTTP slot creation",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP slot duration follows service",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP slot overlap rejected",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP foreign service rejected",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP slot close",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP slot reopen",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP slot edit",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP unused slot delete",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP booked history protects slot",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP future completion rejected",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP future cancellation",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP booking ID search",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "dashboard reflects cancellation",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "private resource blocked /database/shineroster_with_demo.sql",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "private resource blocked /database/upgrade_security.sql",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "private resource blocked /classes/Auth.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "private resource blocked /includes/init.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "private resource blocked /.htaccess",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "private resource blocked /router.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "private resource blocked /%64atabase/shineroster.sql",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "security response headers",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "session cookie flags",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "login without csrf rejected",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "registration without csrf rejected",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "array parameters safe login.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "array parameters safe register.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "array parameters safe provider/services.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "array parameters safe provider/slots.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "array parameters safe provider/bookings.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "NUL date rejected provider/slots.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "NUL date rejected provider/bookings.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "malformed post safe login.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "malformed post safe register.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "malformed post safe provider/services.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "malformed post safe provider/slots.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "malformed post safe provider/bookings.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "malformed post safe profile.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "real provider registration",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "real provider profile created",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "real new-provider login",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "new provider must finish profile",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "new provider completes profile",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "new provider sees own empty dashboard",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "HTTP admin registration blocked",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "service accepts text safely",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "service stored XSS escaped",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "foreign service action reports failure",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "deferred public destination explicit services.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "deferred public destination explicit providers.php",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "deferred admin guarded",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "provider cannot enter deferred admin",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "contact requires csrf",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "idle session expires",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "provider role loaded from database",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "old orphan provider gets profile redirect",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "old orphan provider can open profile recovery",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "logout GET confirmation only",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "logout CSRF rejected",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "logout valid and session revoked",
+    "pass": true,
+    "detail": ""
+  }
+]

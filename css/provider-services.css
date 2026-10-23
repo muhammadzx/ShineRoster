@@ -1,0 +1,520 @@
+/* ================= SERVICES SUMMARY ================= */
+
+.service-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.service-list-panel {
+    margin-bottom: 25px;
+}
+
+/* ================= ALERTS ================= */
+
+.service-alert {
+    margin-bottom: 22px;
+    padding: 15px 18px;
+    border: 1px solid;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.service-alert-success {
+    color: #166534;
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+}
+
+.service-alert-error {
+    color: #991b1b;
+    border-color: #fecaca;
+    background: #fef2f2;
+}
+
+/* ================= FORM FIELDS ================= */
+
+.service-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+}
+
+.service-field label {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.service-field input,
+.service-field select,
+.service-field textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    color: var(--color-text);
+    background: var(--color-white);
+    font: inherit;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.service-field input,
+.service-field select {
+    min-height: 48px;
+}
+
+.service-field textarea {
+    min-height: 125px;
+    resize: vertical;
+}
+
+.service-field select {
+    cursor: pointer;
+}
+
+.service-field input::placeholder,
+.service-field textarea::placeholder {
+    color: #64748b;
+    opacity: 1;
+}
+
+.service-field input:hover,
+.service-field select:hover,
+.service-field textarea:hover {
+    border-color: #94a3b8;
+}
+
+.service-field input:focus,
+.service-field select:focus,
+.service-field textarea:focus {
+    border-color: var(--color-primary);
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgb(15 118 110 / 8%);
+}
+
+.service-field-hint {
+    color: var(--color-muted);
+    font-size: 0.73rem;
+    line-height: 1.7;
+}
+
+.service-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* ================= SEARCH AND FILTERS ================= */
+
+.service-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 170px auto;
+    align-items: end;
+    gap: 16px;
+    margin-bottom: 26px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.service-filter-actions {
+    display: flex;
+    gap: 9px;
+}
+
+.service-filter-actions .btn {
+    min-height: 48px;
+    padding: 12px 17px;
+    font-size: 0.8rem;
+}
+
+/* ================= SERVICE CARDS ================= */
+
+.provider-service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 18px;
+}
+
+.provider-service-card {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--color-border);
+    border-radius: 15px;
+    background: var(--color-white);
+}
+
+.provider-service-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.provider-service-icon {
+    display: grid;
+    place-items: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 13px;
+    color: var(--color-primary);
+    background: #edf7f2;
+    font-size: 1.5rem;
+}
+
+.provider-service-card > h3 {
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+}
+
+.provider-service-description {
+    margin-top: 12px;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    line-height: 1.85;
+    overflow-wrap: anywhere;
+}
+
+.provider-service-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 22px 0 12px;
+    padding-top: 18px;
+    border-top: 1px solid #edf1f4;
+}
+
+.provider-service-details dt {
+    margin-bottom: 7px;
+    color: var(--color-muted);
+    font-size: 0.67rem;
+}
+
+.provider-service-details dd {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.service-appointments-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    margin-bottom: 10px;
+    color: var(--color-primary-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.service-appointments-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.status-inactive {
+    color: #475569;
+    border-color: #e2e8f0;
+    background: #f1f5f9;
+}
+
+/* ================= SERVICE ACTIONS ================= */
+
+.provider-service-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid #edf1f4;
+}
+
+.provider-service-actions > form {
+    margin: 0;
+}
+
+.service-action-button,
+.service-edit > summary,
+.service-delete > summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 13px;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+    color: var(--color-primary-dark);
+    background: var(--color-white);
+    font: inherit;
+    font-size: 0.74rem;
+    font-weight: 700;
+    line-height: 1.5;
+    list-style: none;
+    cursor: pointer;
+}
+
+.service-edit > summary::-webkit-details-marker,
+.service-delete > summary::-webkit-details-marker {
+    display: none;
+}
+
+.service-action-button:hover,
+.service-edit > summary:hover {
+    border-color: #b8d9ca;
+    background: #edf7f2;
+}
+
+.service-edit {
+    min-width: 0;
+}
+
+.service-edit[open] {
+    flex-basis: 100%;
+}
+
+.service-edit[open] > summary {
+    margin-bottom: 15px;
+    border-color: var(--color-primary);
+    background: #edf7f2;
+}
+
+.service-edit-form {
+    display: grid;
+    gap: 17px;
+    padding: 16px;
+    border: 1px solid #dcece3;
+    border-radius: 12px;
+    background: #f8fcf9;
+}
+
+.service-edit-form .service-form-row {
+    gap: 12px;
+}
+
+.service-edit-form .btn {
+    min-height: 44px;
+    padding: 12px;
+    font-size: 0.78rem;
+}
+
+.service-history-note {
+    margin-top: 14px;
+    color: var(--color-muted);
+    font-size: 0.69rem;
+    line-height: 1.8;
+}
+
+/* ================= DELETE CONFIRMATION ================= */
+
+.service-delete {
+    margin-top: 14px;
+}
+
+.service-delete > summary {
+    padding-inline: 0;
+    border-color: transparent;
+    color: #b91c1c;
+    background: transparent;
+}
+
+.service-delete > summary:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.service-delete-form {
+    display: grid;
+    justify-items: start;
+    gap: 12px;
+    margin-top: 8px;
+    padding: 14px;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    background: #fef2f2;
+}
+
+.service-delete-form p {
+    color: #991b1b;
+    font-size: 0.75rem;
+    line-height: 1.8;
+}
+
+.service-action-danger {
+    color: #991b1b;
+    border-color: #fecaca;
+    background: var(--color-white);
+}
+
+.service-action-danger:hover {
+    border-color: #fca5a5;
+    background: #fee2e2;
+}
+
+/* ================= ADD SERVICE ================= */
+
+.add-service-panel {
+    scroll-margin-top: 110px;
+}
+
+.service-panel-icon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    color: var(--color-primary);
+    background: #edf7f2;
+    font-size: 1.4rem;
+}
+
+.service-create-form {
+    display: grid;
+    gap: 22px;
+}
+
+.service-form-note {
+    padding: 16px 18px;
+    border: 1px solid #dcece3;
+    border-radius: 12px;
+    background: #f4faf6;
+}
+
+.service-form-note strong {
+    color: var(--color-primary-dark);
+    font-size: 0.8rem;
+}
+
+.service-form-note p {
+    margin-top: 6px;
+    color: var(--color-muted);
+    font-size: 0.77rem;
+    line-height: 1.8;
+}
+
+.service-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+.service-form-footer > p {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+}
+
+.service-form-footer .btn {
+    font-size: 0.82rem;
+}
+
+/* ================= EMPTY STATE ================= */
+
+.service-empty {
+    padding: 45px 20px;
+    text-align: center;
+}
+
+.service-empty > span {
+    display: inline-block;
+    margin-bottom: 17px;
+    color: var(--color-primary);
+    font-size: 2.4rem;
+}
+
+.service-empty h3 {
+    font-size: 1.15rem;
+}
+
+.service-empty p {
+    margin-top: 12px;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+}
+
+.service-empty .btn {
+    margin-top: 22px;
+}
+
+.service-alert[hidden],
+.service-empty[hidden] {
+    display: none;
+}
+
+/* ================= RESPONSIVE: 1350PX ================= */
+
+@media (max-width: 1350px) {
+    .provider-service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* ================= RESPONSIVE: 1100PX ================= */
+
+@media (max-width: 1100px) {
+    .service-filters {
+        grid-template-columns: minmax(0, 1fr) 170px;
+    }
+
+    .service-filter-actions {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ================= RESPONSIVE: 600PX ================= */
+
+@media (max-width: 600px) {
+    .service-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .service-filters,
+    .provider-service-grid,
+    .service-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .service-filter-actions {
+        grid-column: auto;
+    }
+
+    .service-filter-actions .btn {
+        flex: 1;
+    }
+
+    .provider-service-card {
+        padding: 20px;
+    }
+
+    .service-field input,
+    .service-field select,
+    .service-field textarea {
+        font-size: 1rem;
+    }
+
+    .service-form-footer {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .service-form-footer .btn {
+        width: 100%;
+    }
+}

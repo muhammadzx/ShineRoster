@@ -1,0 +1,9 @@
+Options -Indexes
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^(?:classes|includes|database|tests|verification)(?:/|$) - [F,L,NC]
+RewriteRule (^|/)\. - [F,L]
+</IfModule>
+<FilesMatch "(?i)(\.(sql|zip|log|ini|md|bak|env|sh|py)$|^router\.php$)">
+Require all denied
+</FilesMatch>

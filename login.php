@@ -1,30 +1,21 @@
-
 <?php
-
-    function Validation(){
-    require_once __DIR__ . "../includes/init.php";
-
-    $email = trim($_POST["email"]) ?? '';
-    $password = $_POST["password"] ?? '';
-    $auth = new Auth($db);
-    
-    $result = $auth->login($email,$password);
-
-    if ($result) {
-        if ($_SESSION['role'] === 'provider') {
-            header('Location: provider/dashboard.php');
-        } else if($_SESSION['role'] === 'customer'){
-            header('Location: services.php');
-        } else {
-            header('Location: admin/dashboard.php');
+require_once __DIR__ . '/includes/init.php';
+$error = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validCsrf($_POST['csrf_token'] ?? null)) {
+        http_response_code(403); $error = 'The form expired. Reload the page and try again.';
+    } elseif (!$auth->allowAttempt('login', 30)) {
+        http_response_code(429); $error = 'Too many attempts. Try again in 15 minutes.';
+    } else {
+        if ($auth->login(inputText($_POST,'email'), $_POST['password'] ?? null)) {
+            $destination = match ($_SESSION['role']) {
+                'provider' => 'provider/dashboard.php', 'admin' => 'admin/dashboard.php', default => 'services.php'
+            };
+            header('Location: ' . $destination, true, 303); exit;
         }
-
-        exit;
+        $error = $auth->getError();
     }
-    
-        
-    }
-
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,13 +108,15 @@
                     </p>
                 </header>
 
-                <?php if ($_SERVER['REQUEST_METHOD'] === "POST") {Validation();}?>
+                <?php if ($error !== ''): ?><div class="auth-alert auth-alert-error" role="alert"><p><?= escapeHtml($error) ?></p></div><?php endif; ?>
 
+                <?php if (isset($_GET['registered'])): ?><p role="status">Account created. You can now log in.</p><?php endif; ?>
                 <form class="auth-form" action="login.php" method="post">
+                    <input type="hidden" name="csrf_token" value="<?= escapeHtml(csrfToken()) ?>">
                     <div class="auth-field">
                         <label for="login-email">Email address</label>
 
-                        <input type="email" id="login-email" name="email" placeholder="you@example.com"
+                        <input type="email" id="login-email" name="email" value="<?= escapeHtml(inputText($_POST,'email')) ?>" placeholder="you@example.com"
                             autocomplete="username" maxlength="190" required>
                     </div>
 

@@ -1,3 +1,23 @@
+<?php
+require_once __DIR__ . '/includes/init.php';
+require_once __DIR__ . '/classes/Contact.php';
+$contactError = '';
+$contactSuccess = $_SESSION['contact_success'] ?? '';
+unset($_SESSION['contact_success']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        if (!validCsrf($_POST['csrf_token'] ?? null)) { http_response_code(403); throw new RuntimeException('The form expired. Reload and try again.'); }
+        if (time() - ($_SESSION['contact_sent'] ?? 0) < 60) throw new RuntimeException('Please wait a minute before sending another message.');
+        if (!$auth->allowAttempt('contact', 5)) { http_response_code(429); throw new RuntimeException('Too many messages. Try again in 15 minutes.'); }
+        (new Contact($db))->send($_POST);
+        $_SESSION['contact_sent'] = time();
+        $_SESSION['contact_success'] = 'Your message has been received. Thank you.';
+        header('Location: index.php#contact', true, 303); exit;
+    } catch (PDOException $e) {
+        error_log((string)$e); $contactError = 'Your message could not be saved. Please try again later.';
+    } catch (RuntimeException $e) { $contactError = $e->getMessage(); }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,7 +112,7 @@
 
                 <div class="hero-visual">
                     <div class="hero-photo">
-                        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&amp;fit=crop&amp;w=1100&amp;q=85"
+                        <img src="images/living-room.jpg"
                             alt="Bright living room with a comfortable sofa, plants, and natural light" width="1100"
                             height="1100" fetchpriority="high">
 
@@ -314,7 +334,7 @@
             <div class="container why-grid">
 
                 <div class="why-visual">
-                    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+                    <img src="images/clean-home.jpg"
                         alt="Calm, light-filled home interior with natural finishes" width="1000" height="1100"
                         loading="lazy" decoding="async">
 
@@ -553,6 +573,9 @@
             method="post"
         >
             <input type="hidden" name="form_type" value="contact">
+            <input type="hidden" name="csrf_token" value="<?= escapeHtml(csrfToken()) ?>">
+            <?php if ($contactError !== ''): ?><p role="alert"><?= escapeHtml($contactError) ?></p><?php endif; ?>
+            <?php if ($contactSuccess !== ''): ?><p role="status"><?= escapeHtml($contactSuccess) ?></p><?php endif; ?>
 
             <div class="contact-form-heading">
                 <h3>Send us a message</h3>

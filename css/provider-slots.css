@@ -1,0 +1,342 @@
+/* ================= ALERTS ================= */
+
+.slots-alert {
+    margin-bottom: 22px;
+    padding: 15px 18px;
+    border: 1px solid;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.slots-alert-success {
+    color: #166534;
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+}
+
+.slots-alert-error {
+    color: #991b1b;
+    border-color: #fecaca;
+    background: #fef2f2;
+}
+
+/* ================= INFORMATION ================= */
+
+.slots-notice {
+    margin-bottom: 25px;
+    padding: 19px 22px;
+    border: 1px solid #dcece3;
+    border-radius: 14px;
+    background: #edf7f2;
+}
+
+.slots-notice strong {
+    color: var(--color-primary-dark);
+    font-size: 0.87rem;
+}
+
+.slots-notice p {
+    max-width: 850px;
+    margin-top: 7px;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    line-height: 1.85;
+}
+
+.slots-list {
+    margin-bottom: 25px;
+}
+
+/* ================= FIELDS ================= */
+
+.slots-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+}
+
+.slots-field label {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.slots-field input,
+.slots-field select {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    color: var(--color-text);
+    background: var(--color-white);
+    font: inherit;
+    font-size: 0.86rem;
+    line-height: 1.5;
+}
+
+.slots-field select {
+    cursor: pointer;
+}
+
+.slots-field input:hover,
+.slots-field select:hover {
+    border-color: #94a3b8;
+}
+
+.slots-field input:focus,
+.slots-field select:focus {
+    border-color: var(--color-primary);
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ================= FILTERS ================= */
+
+.slots-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 190px auto;
+    align-items: end;
+    gap: 16px;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.slots-filter-actions {
+    display: flex;
+    gap: 9px;
+}
+
+.slots-filter-actions .btn {
+    min-height: 48px;
+    padding: 12px 17px;
+    font-size: 0.8rem;
+}
+
+/* ================= TABLE ================= */
+
+.slots-table {
+    min-width: 760px;
+}
+
+.slots-table tbody th {
+    max-width: 240px;
+    line-height: 1.7;
+}
+
+.slot-status-closed {
+    color: #92400e;
+    border-color: #fde68a;
+    background: #fffbeb;
+}
+
+.slot-status-ended {
+    color: #475569;
+    border-color: #e2e8f0;
+    background: #f1f5f9;
+}
+
+/* ================= ACTIONS ================= */
+
+.slot-actions {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 180px;
+    max-width: 320px;
+}
+
+.slot-actions form {
+    margin: 0;
+}
+
+.slot-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 9px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-primary-dark);
+    background: var(--color-white);
+    font: inherit;
+    font-size: 0.73rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.slot-action:hover {
+    border-color: #b8d9ca;
+    background: #edf7f2;
+}
+
+.slot-action-danger {
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.slot-action-danger:hover {
+    border-color: #fca5a5;
+    background: #fef2f2;
+}
+
+.slot-delete {
+    min-width: 0;
+}
+
+.slot-delete summary {
+    list-style: none;
+}
+
+.slot-delete summary::-webkit-details-marker {
+    display: none;
+}
+
+.slot-delete[open] {
+    flex-basis: 100%;
+}
+
+.slot-delete-confirm {
+    display: grid;
+    justify-items: start;
+    gap: 12px;
+    margin-top: 10px !important;
+    padding: 14px;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    background: #fef2f2;
+}
+
+.slot-delete-confirm p {
+    color: #991b1b;
+    font-size: 0.73rem;
+    line-height: 1.8;
+}
+
+.slot-history {
+    flex-basis: 100%;
+    color: var(--color-muted);
+    font-size: 0.66rem;
+    line-height: 1.7;
+}
+
+/* ================= CREATE / EDIT FORM ================= */
+
+.slots-form-panel {
+    scroll-margin-top: 110px;
+}
+
+.slots-form {
+    display: grid;
+    gap: 22px;
+}
+
+.slots-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.slots-form-hint {
+    padding: 15px 17px;
+    border-radius: 10px;
+    color: var(--color-muted);
+    background: var(--color-background);
+    font-size: 0.78rem;
+    line-height: 1.85;
+}
+
+.slots-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+.slots-form-actions .btn {
+    font-size: 0.83rem;
+}
+
+/* ================= EMPTY STATE ================= */
+
+.slots-empty {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.slots-empty > span {
+    display: inline-block;
+    margin-bottom: 16px;
+    color: var(--color-primary);
+    font-size: 2.3rem;
+}
+
+.slots-empty h3 {
+    font-size: 1.1rem;
+}
+
+.slots-empty p {
+    margin-top: 12px;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.8;
+}
+
+.slots-empty .btn {
+    margin-top: 22px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1100px) {
+    .slots-filters {
+        grid-template-columns: minmax(0, 1fr) 190px;
+    }
+
+    .slots-filter-actions {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .slots-notice {
+        padding: 17px;
+    }
+
+    .slots-filters,
+    .slots-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .slots-filter-actions {
+        grid-column: auto;
+    }
+
+    .slots-filter-actions .btn {
+        flex: 1;
+    }
+
+    .slots-field input,
+    .slots-field select {
+        font-size: 1rem;
+    }
+
+    .slots-form-actions {
+        flex-direction: column;
+    }
+
+    .slots-form-actions .btn {
+        width: 100%;
+    }
+}

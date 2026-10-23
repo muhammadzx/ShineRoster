@@ -1,0 +1,238 @@
+[
+    {
+        "name": "demo password works",
+        "pass": true
+    },
+    {
+        "name": "wrong password rejected",
+        "pass": true
+    },
+    {
+        "name": "SQL injection login rejected",
+        "pass": true
+    },
+    {
+        "name": "valid login creates provider session",
+        "pass": true
+    },
+    {
+        "name": "disabled account login rejected",
+        "pass": true
+    },
+    {
+        "name": "password mismatch registration rejected",
+        "pass": true
+    },
+    {
+        "name": "duplicate email rejected",
+        "pass": true
+    },
+    {
+        "name": "public admin registration rejected",
+        "pass": true
+    },
+    {
+        "name": "invalid email and short password rejected",
+        "pass": true
+    },
+    {
+        "name": "provider registration atomic and valid",
+        "pass": true
+    },
+    {
+        "name": "appointment duration computed",
+        "pass": true
+    },
+    {
+        "name": "overlap rejected",
+        "pass": true
+    },
+    {
+        "name": "cross-service overlap rejected",
+        "pass": true
+    },
+    {
+        "name": "closed slot overlap rejected",
+        "pass": true
+    },
+    {
+        "name": "adjacent appointment accepted",
+        "pass": true
+    },
+    {
+        "name": "past date rejected",
+        "pass": true
+    },
+    {
+        "name": "invalid date rejected",
+        "pass": true
+    },
+    {
+        "name": "foreign provider service rejected",
+        "pass": true
+    },
+    {
+        "name": "foreign slot update rejected",
+        "pass": true
+    },
+    {
+        "name": "foreign slot delete rejected",
+        "pass": true
+    },
+    {
+        "name": "foreign slot open rejected",
+        "pass": true
+    },
+    {
+        "name": "booked slot edit rejected",
+        "pass": true
+    },
+    {
+        "name": "booked slot delete rejected",
+        "pass": true
+    },
+    {
+        "name": "future booking completion rejected",
+        "pass": true
+    },
+    {
+        "name": "foreign booking cancellation rejected",
+        "pass": true
+    },
+    {
+        "name": "future booking cancellation succeeds",
+        "pass": true
+    },
+    {
+        "name": "cancelled booking immutable",
+        "pass": true
+    },
+    {
+        "name": "cancelled history protects slot",
+        "pass": true
+    },
+    {
+        "name": "past booking cancellation rejected",
+        "pass": true
+    },
+    {
+        "name": "past booking completion succeeds",
+        "pass": true
+    },
+    {
+        "name": "completed booking immutable",
+        "pass": true
+    },
+    {
+        "name": "provider booking isolation",
+        "pass": true
+    },
+    {
+        "name": "booking number search",
+        "pass": true
+    },
+    {
+        "name": "booking status filter",
+        "pass": true
+    },
+    {
+        "name": "foreign service update blocked",
+        "pass": true
+    },
+    {
+        "name": "nonexistent service update reports failure",
+        "pass": true
+    },
+    {
+        "name": "profile save and skills",
+        "pass": true
+    },
+    {
+        "name": "duplicate profile email rejected",
+        "pass": true
+    },
+    {
+        "name": "invalid skill rejected and rollback",
+        "pass": true
+    },
+    {
+        "name": "invalid phone rejected",
+        "pass": true
+    },
+    {
+        "name": "empty city rejected",
+        "pass": true
+    },
+    {
+        "name": "duplicate skills deduplicated",
+        "pass": true
+    },
+    {
+        "name": "dashboard data populated",
+        "pass": true
+    },
+    {
+        "name": "schema rejects duplicate occupied booking",
+        "pass": true
+    },
+    {
+        "name": "schema rejects rating 6",
+        "pass": true
+    },
+    {
+        "name": "provider insert failure rolls back user insert",
+        "pass": true
+    },
+    {
+        "name": "registration rejects password over bcrypt byte limit",
+        "pass": true
+    },
+    {
+        "name": "registration rejects array input",
+        "pass": true
+    },
+    {
+        "name": "service overlong name rejected",
+        "pass": true
+    },
+    {
+        "name": "service overlong description rejected",
+        "pass": true
+    },
+    {
+        "name": "service excess decimal precision rejected",
+        "pass": true
+    },
+    {
+        "name": "service array input rejected",
+        "pass": true
+    },
+    {
+        "name": "service unchanged update succeeds",
+        "pass": true
+    },
+    {
+        "name": "foreign service status reports failure",
+        "pass": true
+    },
+    {
+        "name": "login throttles ten failed attempts",
+        "pass": true
+    },
+    {
+        "name": "login throttle expires",
+        "pass": true
+    },
+    {
+        "name": "successful login clears failed-attempt record",
+        "pass": true
+    },
+    {
+        "name": "registration requires eight Unicode characters",
+        "pass": true
+    },
+    {
+        "name": "registration name matches profile minimum",
+        "pass": true
+    }
+]

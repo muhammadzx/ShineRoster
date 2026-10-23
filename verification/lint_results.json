@@ -1,0 +1,110 @@
+[
+  {
+    "file": "admin/dashboard.php",
+    "pass": true
+  },
+  {
+    "file": "classes/Appointment.php",
+    "pass": true
+  },
+  {
+    "file": "classes/Auth.php",
+    "pass": true
+  },
+  {
+    "file": "classes/Booking.php",
+    "pass": true
+  },
+  {
+    "file": "classes/Contact.php",
+    "pass": true
+  },
+  {
+    "file": "classes/Database.php",
+    "pass": true
+  },
+  {
+    "file": "classes/Provider.php",
+    "pass": true
+  },
+  {
+    "file": "classes/Service.php",
+    "pass": true
+  },
+  {
+    "file": "classes/User.php",
+    "pass": true
+  },
+  {
+    "file": "includes/footer.php",
+    "pass": true
+  },
+  {
+    "file": "includes/header.php",
+    "pass": true
+  },
+  {
+    "file": "includes/init.php",
+    "pass": true
+  },
+  {
+    "file": "includes/sidebar.php",
+    "pass": true
+  },
+  {
+    "file": "includes/unavailable.php",
+    "pass": true
+  },
+  {
+    "file": "index.php",
+    "pass": true
+  },
+  {
+    "file": "login.php",
+    "pass": true
+  },
+  {
+    "file": "logout.php",
+    "pass": true
+  },
+  {
+    "file": "my-bookings.php",
+    "pass": true
+  },
+  {
+    "file": "profile.php",
+    "pass": true
+  },
+  {
+    "file": "provider/bookings.php",
+    "pass": true
+  },
+  {
+    "file": "provider/dashboard.php",
+    "pass": true
+  },
+  {
+    "file": "provider/services.php",
+    "pass": true
+  },
+  {
+    "file": "provider/slots.php",
+    "pass": true
+  },
+  {
+    "file": "providers.php",
+    "pass": true
+  },
+  {
+    "file": "register.php",
+    "pass": true
+  },
+  {
+    "file": "router.php",
+    "pass": true
+  },
+  {
+    "file": "services.php",
+    "pass": true
+  }
+]

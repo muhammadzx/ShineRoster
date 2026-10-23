@@ -1,0 +1,5903 @@
+[
+  {
+    "engine": "firefox",
+    "browser": "153.0",
+    "results": [
+      {
+        "page": "index.php",
+        "width": 1440,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "firefox",
+        "page": "index.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 1024,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "firefox",
+        "page": "index.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 801,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "firefox",
+        "page": "index.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 800,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "firefox",
+        "page": "index.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 768,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "firefox",
+        "page": "index.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 390,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "firefox",
+        "page": "index.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 320,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "firefox",
+        "page": "index.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "login.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "login.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "login.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "login.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "login.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "login.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "login.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "register.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "register.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "register.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "register.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "register.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "register.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "register.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/dashboard.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/dashboard.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/dashboard.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 879,
+            "left": 780
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 990,
+            "left": 879
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "table-price",
+            "right": 879,
+            "left": 780
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 990,
+            "left": 879
+          },
+          {
+            "tag": "SPAN",
+            "class": "status-badge status-completed",
+            "right": 968,
+            "left": 892
+          }
+        ]
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 408,
+            "left": 254
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 547,
+            "left": 408
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 646,
+            "left": 547
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 757,
+            "left": 646
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 408,
+            "left": 254
+          }
+        ]
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 408,
+            "left": 254
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 547,
+            "left": 408
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 646,
+            "left": 547
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 757,
+            "left": 646
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 408,
+            "left": 254
+          }
+        ]
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/services.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/services.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/services.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/slots.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/slots.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/slots.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          },
+          {
+            "tag": "DIV",
+            "class": "slot-actions",
+            "right": 1017,
+            "left": 790
+          },
+          {
+            "tag": "A",
+            "class": "slot-action",
+            "right": 838,
+            "left": 790
+          },
+          {
+            "tag": "FORM",
+            "class": "",
+            "right": 904,
+            "left": 846
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 805,
+            "left": 552
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 805,
+            "left": 552
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 805,
+            "left": 552
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 805,
+            "left": 552
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 805,
+            "left": 552
+          },
+          {
+            "tag": "DIV",
+            "class": "slot-actions",
+            "right": 792,
+            "left": 565
+          },
+          {
+            "tag": "P",
+            "class": "",
+            "right": 773,
+            "left": 702
+          },
+          {
+            "tag": "BUTTON",
+            "class": "slot-action slot-action-danger",
+            "right": 773,
+            "left": 702
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 447,
+            "left": 347
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 544,
+            "left": 447
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 797,
+            "left": 544
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 447,
+            "left": 347
+          },
+          {
+            "tag": "SPAN",
+            "class": "table-secondary",
+            "right": 434,
+            "left": 360
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 347,
+            "left": 236
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 447,
+            "left": 347
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 544,
+            "left": 447
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 797,
+            "left": 544
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 347,
+            "left": 236
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/bookings.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/bookings.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/bookings.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "profile.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "profile.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "profile.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "profile.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "profile.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "profile.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "firefox",
+        "page": "profile.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      }
+    ],
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "browser": "26.5",
+    "results": [
+      {
+        "page": "index.php",
+        "width": 1440,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "webkit",
+        "page": "index.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 1024,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "webkit",
+        "page": "index.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 801,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "webkit",
+        "page": "index.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 800,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "webkit",
+        "page": "index.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 768,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "webkit",
+        "page": "index.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 390,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "webkit",
+        "page": "index.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 320,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "webkit",
+        "page": "index.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "login.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "login.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "login.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "login.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "login.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "login.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "login.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "register.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "register.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "register.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "register.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "register.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "register.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "register.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/dashboard.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/dashboard.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/dashboard.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 879,
+            "left": 780
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 990,
+            "left": 879
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "table-price",
+            "right": 879,
+            "left": 780
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 990,
+            "left": 879
+          },
+          {
+            "tag": "SPAN",
+            "class": "status-badge status-completed",
+            "right": 968,
+            "left": 892
+          }
+        ]
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 408,
+            "left": 254
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 547,
+            "left": 408
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 646,
+            "left": 547
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 757,
+            "left": 646
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 408,
+            "left": 254
+          }
+        ]
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 408,
+            "left": 254
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 547,
+            "left": 408
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 646,
+            "left": 547
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 757,
+            "left": 646
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 408,
+            "left": 254
+          }
+        ]
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/services.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/services.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/services.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/slots.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/slots.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/slots.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 1030,
+            "left": 777
+          },
+          {
+            "tag": "DIV",
+            "class": "slot-actions",
+            "right": 1017,
+            "left": 790
+          },
+          {
+            "tag": "A",
+            "class": "slot-action",
+            "right": 838,
+            "left": 790
+          },
+          {
+            "tag": "FORM",
+            "class": "",
+            "right": 904,
+            "left": 846
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 805,
+            "left": 552
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 805,
+            "left": 552
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 805,
+            "left": 552
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 805,
+            "left": 552
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 805,
+            "left": 552
+          },
+          {
+            "tag": "DIV",
+            "class": "slot-actions",
+            "right": 792,
+            "left": 565
+          },
+          {
+            "tag": "P",
+            "class": "",
+            "right": 773,
+            "left": 702
+          },
+          {
+            "tag": "BUTTON",
+            "class": "slot-action slot-action-danger",
+            "right": 773,
+            "left": 702
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 447,
+            "left": 347
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 544,
+            "left": 447
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 797,
+            "left": 544
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 447,
+            "left": 347
+          },
+          {
+            "tag": "SPAN",
+            "class": "table-secondary",
+            "right": 434,
+            "left": 360
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 347,
+            "left": 236
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 447,
+            "left": 347
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 544,
+            "left": 447
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 797,
+            "left": 544
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 347,
+            "left": 236
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/bookings.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/bookings.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/bookings.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "profile.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "profile.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "profile.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "profile.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "profile.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "profile.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "webkit",
+        "page": "profile.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      }
+    ],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "browser": "151.0.7922.34",
+    "results": [
+      {
+        "page": "index.php",
+        "width": 1440,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "chromium",
+        "page": "index.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 1024,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "chromium",
+        "page": "index.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 801,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "chromium",
+        "page": "index.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 800,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "chromium",
+        "page": "index.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 768,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "chromium",
+        "page": "index.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 390,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "chromium",
+        "page": "index.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "index.php",
+        "width": 320,
+        "check": "landing images loaded",
+        "pass": true,
+        "images": [
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          },
+          {
+            "src": "images/living-room.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/clean-home.jpg",
+            "ok": true
+          },
+          {
+            "src": "images/ShineRoster_Logo.png",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "browser": "chromium",
+        "page": "index.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "login.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "login.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "login.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "login.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "login.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "login.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "login.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "register.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "register.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "register.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "register.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "register.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "register.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "register.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/dashboard.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/dashboard.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/dashboard.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 876,
+            "left": 773
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 990,
+            "left": 876
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 990,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "table-price",
+            "right": 876,
+            "left": 773
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 990,
+            "left": 876
+          },
+          {
+            "tag": "SPAN",
+            "class": "status-badge status-completed",
+            "right": 975,
+            "left": 889
+          }
+        ]
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 401,
+            "left": 256
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 540,
+            "left": 401
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 643,
+            "left": 540
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 757,
+            "left": 643
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 401,
+            "left": 256
+          }
+        ]
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 401,
+            "left": 256
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 540,
+            "left": 401
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 643,
+            "left": 540
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 757,
+            "left": 643
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 757,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 401,
+            "left": 256
+          }
+        ]
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/dashboard.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/services.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/services.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/services.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/services.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/slots.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/slots.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 1030,
+            "left": 774
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 1030,
+            "left": 774
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 1030,
+            "left": 774
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/slots.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 1030,
+            "left": 774
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 1030,
+            "left": 270
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 1030,
+            "left": 774
+          },
+          {
+            "tag": "DIV",
+            "class": "slot-actions",
+            "right": 1017,
+            "left": 787
+          },
+          {
+            "tag": "A",
+            "class": "slot-action",
+            "right": 838,
+            "left": 787
+          },
+          {
+            "tag": "FORM",
+            "class": "",
+            "right": 908,
+            "left": 846
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 805,
+            "left": 549
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 805,
+            "left": 549
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 805,
+            "left": 549
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 805,
+            "left": 549
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 805,
+            "left": 45
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 805,
+            "left": 549
+          },
+          {
+            "tag": "DIV",
+            "class": "slot-actions",
+            "right": 792,
+            "left": 562
+          },
+          {
+            "tag": "P",
+            "class": "",
+            "right": 787,
+            "left": 706
+          },
+          {
+            "tag": "BUTTON",
+            "class": "slot-action slot-action-danger",
+            "right": 787,
+            "left": 706
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 443,
+            "left": 342
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 541,
+            "left": 443
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 797,
+            "left": 541
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 443,
+            "left": 342
+          },
+          {
+            "tag": "SPAN",
+            "class": "table-secondary",
+            "right": 430,
+            "left": 355
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "class": "dashboard-table slots-table",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "THEAD",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 342,
+            "left": 227
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 443,
+            "left": 342
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 541,
+            "left": 443
+          },
+          {
+            "tag": "TH",
+            "class": "",
+            "right": 797,
+            "left": 541
+          },
+          {
+            "tag": "TBODY",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TR",
+            "class": "",
+            "right": 797,
+            "left": 37
+          },
+          {
+            "tag": "TD",
+            "class": "",
+            "right": 342,
+            "left": 227
+          }
+        ]
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/slots.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/bookings.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/bookings.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/bookings.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "provider/bookings.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "profile.php",
+        "width": 1440,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1440,
+        "client": 1440,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 1440,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 1440,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "profile.php",
+        "width": 1024,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 1024,
+        "client": 1024,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 1024,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 1024,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "profile.php",
+        "width": 801,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 801,
+        "client": 801,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 801,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 801,
+        "check": "desktop sidebar visible",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "profile.php",
+        "width": 800,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 800,
+        "client": 800,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 800,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 800,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 800,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "profile.php",
+        "width": 768,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 768,
+        "client": 768,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 768,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 768,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 768,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "profile.php",
+        "width": 390,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 390,
+        "client": 390,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 390,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 390,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 285,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 390,
+        "check": "burger closes sidebar",
+        "pass": true
+      },
+      {
+        "browser": "chromium",
+        "page": "profile.php",
+        "width": 320,
+        "check": "horizontal overflow",
+        "pass": true,
+        "scroll": 320,
+        "client": 320,
+        "offenders": []
+      },
+      {
+        "page": "profile.php",
+        "width": 320,
+        "check": "sticky header",
+        "pass": true,
+        "y": 0
+      },
+      {
+        "page": "profile.php",
+        "width": 320,
+        "check": "burger opens sidebar",
+        "pass": true,
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 272,
+          "height": 1000
+        }
+      },
+      {
+        "page": "profile.php",
+        "width": 320,
+        "check": "burger closes sidebar",
+        "pass": true
+      }
+    ],
+    "errors": []
+  }
+]

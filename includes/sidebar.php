@@ -1,4 +1,18 @@
-<aside class="dashboard-sidebar">
+<?php
+
+$currentPage = basename($_SERVER["SCRIPT_NAME"] ?? "");
+
+?>
+
+<aside class="dashboard-sidebar" id="provider-sidebar">
+
+    <label
+        class="sidebar-close"
+        for="sidebar-toggle"
+        aria-label="Close navigation menu"
+    >
+        <span aria-hidden="true">×</span>
+    </label>
 
     <a
         class="brand dashboard-brand"
@@ -17,28 +31,47 @@
 
     <nav class="sidebar-nav" aria-label="Provider navigation">
 
-        <!-- انقل aria-current="page" إلى رابط الصفحة الحالية -->
-        <a href="dashboard.php" aria-current="page">
+        <a
+            href="dashboard.php"
+            <?= $currentPage === "dashboard.php"
+                ? 'aria-current="page"' : "" ?>
+        >
             <span class="nav-icon" aria-hidden="true">▦</span>
             Overview
         </a>
 
-        <a href="services.php">
+        <a
+            href="services.php"
+            <?= $currentPage === "services.php"
+                ? 'aria-current="page"' : "" ?>
+        >
             <span class="nav-icon" aria-hidden="true">✦</span>
             My services
         </a>
 
-        <a href="slots.php">
+        <a
+            href="slots.php"
+            <?= $currentPage === "slots.php"
+                ? 'aria-current="page"' : "" ?>
+        >
             <span class="nav-icon" aria-hidden="true">▤</span>
             My appointments
         </a>
 
-        <a href="bookings.php">
+        <a
+            href="bookings.php"
+            <?= $currentPage === "bookings.php"
+                ? 'aria-current="page"' : "" ?>
+        >
             <span class="nav-icon" aria-hidden="true">▣</span>
             Bookings
         </a>
 
-        <a href="../profile.php">
+        <a
+            href="../profile.php"
+            <?= $currentPage === "profile.php"
+                ? 'aria-current="page"' : "" ?>
+        >
             <span class="nav-icon" aria-hidden="true">◎</span>
             My profile
         </a>

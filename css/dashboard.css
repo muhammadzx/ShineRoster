@@ -1,4 +1,6 @@
-/* ================= DASHBOARD LAYOUT ================= */
+/* ==================================================
+   SHARED LAYOUT
+================================================== */
 
 .dashboard-page {
     background: #f5f7f9;
@@ -7,12 +9,29 @@
 .dashboard-layout {
     display: grid;
     grid-template-columns: 245px minmax(0, 1fr);
+    align-items: start;
     min-height: 100vh;
     min-height: 100svh;
 }
 
 .dashboard-workspace {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     min-width: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+}
+
+.dashboard-main {
+    flex: 1;
+    width: min(1400px, 100%);
+    min-width: 0;
+    margin-inline: auto;
+    padding: 35px;
+    scroll-margin-top: 100px;
 }
 
 .visually-hidden {
@@ -27,23 +46,30 @@
     border: 0;
 }
 
-/* ================= SIDEBAR ================= */
+/* ==================================================
+   SHARED SIDEBAR
+================================================== */
 
 .dashboard-sidebar {
     position: sticky;
     top: 0;
+    grid-column: 1;
+    grid-row: 1;
     display: flex;
     flex-direction: column;
     align-self: start;
+    min-width: 0;
     height: 100vh;
     height: 100svh;
     padding: 25px 18px 20px;
     overflow-y: auto;
+    overscroll-behavior: contain;
     border-right: 1px solid var(--color-border);
     background: var(--color-white);
 }
 
 .dashboard-brand {
+    align-self: flex-start;
     margin: 0 8px 35px;
 }
 
@@ -139,7 +165,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    min-height: 40px;
+    min-height: 44px;
     margin-top: 8px;
     color: var(--color-primary-dark);
     font-size: 0.73rem;
@@ -184,23 +210,41 @@
     background: #fef2f2;
 }
 
-/* ================= HEADER ================= */
+/* ==================================================
+   SHARED HEADER
+================================================== */
 
 .dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-shrink: 0;
     gap: 20px;
+    width: 100%;
+    min-width: 0;
     min-height: 85px;
     padding: 16px 35px;
     border-bottom: 1px solid var(--color-border);
     background: var(--color-white);
+    box-shadow: 0 4px 15px rgb(15 23 42 / 4%);
+}
+
+.dashboard-header-start {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
 }
 
 .header-location {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 12px;
+    min-width: 0;
     color: var(--color-muted);
     font-size: 0.8rem;
 }
@@ -213,7 +257,9 @@
 .dashboard-account {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
     gap: 11px;
+    min-height: 44px;
     padding: 3px;
     border-radius: 10px;
 }
@@ -223,14 +269,17 @@
     display: grid;
     flex-shrink: 0;
     place-items: center;
-    width: 42px;
-    height: 42px;
     border: 1px solid #d8e9e0;
     border-radius: 50%;
     color: var(--color-primary-dark);
     background: #eaf5ee;
-    font-size: 0.8rem;
     font-weight: 700;
+}
+
+.account-avatar {
+    width: 42px;
+    height: 42px;
+    font-size: 0.8rem;
 }
 
 .account-details {
@@ -257,13 +306,34 @@
     color: var(--color-primary);
 }
 
-/* ================= MAIN ================= */
+/* ==================================================
+   MOBILE MENU CONTROLS
+================================================== */
 
-.dashboard-main {
-    width: min(1400px, 100%);
-    margin-inline: auto;
-    padding: 35px;
+.sidebar-toggle,
+.sidebar-toggle-button,
+.sidebar-close,
+.sidebar-overlay {
+    display: none;
 }
+
+.burger-lines {
+    display: grid;
+    gap: 5px;
+    width: 20px;
+}
+
+.burger-lines > span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+}
+
+/* ==================================================
+   PAGE HEADING
+================================================== */
 
 .dashboard-page-heading {
     display: flex;
@@ -303,15 +373,17 @@
 .dashboard-demo-note {
     margin-bottom: 24px;
     padding: 11px 14px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
     border-radius: 10px;
     color: var(--color-muted);
-    background: #fff;
+    background: var(--color-white);
     font-size: 0.75rem;
     line-height: 1.7;
 }
 
-/* ================= STATS ================= */
+/* ==================================================
+   STATISTICS
+================================================== */
 
 .stats-grid {
     display: grid;
@@ -368,7 +440,9 @@
     font-size: 0.7rem;
 }
 
-/* ================= SHARED CARDS ================= */
+/* ==================================================
+   CONTENT GRID AND CARDS
+================================================== */
 
 .dashboard-content-grid {
     display: grid;
@@ -406,11 +480,12 @@
 
 .card-heading > .text-link {
     flex-shrink: 0;
-    min-height: 24px;
     font-size: 0.76rem;
 }
 
-/* ================= NEXT VISIT ================= */
+/* ==================================================
+   NEXT VISIT
+================================================== */
 
 .next-visit {
     min-width: 0;
@@ -497,7 +572,9 @@
     font-size: 0.72rem;
 }
 
-/* ================= STATUS BADGES ================= */
+/* ==================================================
+   STATUS BADGES
+================================================== */
 
 .status-badge {
     display: inline-flex;
@@ -530,7 +607,9 @@
     background: #fef2f2;
 }
 
-/* ================= QUICK ACTIONS ================= */
+/* ==================================================
+   QUICK ACTIONS
+================================================== */
 
 .quick-actions .card-heading {
     margin-bottom: 12px;
@@ -560,7 +639,7 @@
     font-size: 1.2rem;
 }
 
-.quick-action > span:nth-child(2) {
+.quick-action-text {
     display: grid;
     gap: 4px;
     min-width: 0;
@@ -587,7 +666,9 @@
     color: var(--color-primary);
 }
 
-/* ================= BOOKINGS TABLE ================= */
+/* ==================================================
+   BOOKINGS TABLE
+================================================== */
 
 .bookings-card {
     margin-bottom: 25px;
@@ -658,7 +739,9 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* ================= SERVICES OVERVIEW ================= */
+/* ==================================================
+   SERVICES OVERVIEW
+================================================== */
 
 .service-overview-list {
     display: grid;
@@ -703,7 +786,9 @@
     font-size: 0.72rem;
 }
 
-/* ================= REVIEWS ================= */
+/* ==================================================
+   CUSTOMER REVIEWS
+================================================== */
 
 .review-heading-icon {
     color: var(--color-primary);
@@ -785,15 +870,17 @@
     font-size: 0.65rem;
 }
 
-/* ================= FOOTER ================= */
+/* ==================================================
+   SHARED FOOTER — OUTSIDE MAIN
+================================================== */
 
 .dashboard-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    margin-top: 12px;
-    padding-top: 18px;
+    margin: 0 35px;
+    padding-block: 18px;
     border-top: 1px solid var(--color-border);
     color: var(--color-muted);
     font-size: 0.7rem;
@@ -802,15 +889,19 @@
 .dashboard-footer a {
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
+    gap: 7px;
+    min-height: 44px;
     color: var(--color-primary-dark);
 }
 
 .dashboard-footer a:hover {
     text-decoration: underline;
+    text-underline-offset: 4px;
 }
 
-/* ================= RESPONSIVE: 1200PX ================= */
+/* ==================================================
+   RESPONSIVE — 1200PX
+================================================== */
 
 @media (max-width: 1200px) {
     .dashboard-layout {
@@ -825,12 +916,22 @@
         width: 175px;
     }
 
+    .dashboard-header {
+        padding-inline: 25px;
+    }
+
     .dashboard-main {
         padding: 25px;
     }
 
-    .dashboard-header {
-        padding-inline: 25px;
+    .dashboard-footer {
+        margin-inline: 25px;
+    }
+
+    .dashboard-page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
     }
 
     .stats-grid {
@@ -841,102 +942,162 @@
         grid-template-columns: 1fr;
     }
 
-    .dashboard-page-heading {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 18px;
-    }
-
     .dashboard-table {
         min-width: 720px;
     }
 }
 
-/* ================= RESPONSIVE: 800PX ================= */
+/* ==================================================
+   RESPONSIVE — MOBILE MENU AT 800PX
+================================================== */
 
 @media (max-width: 800px) {
     .dashboard-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
+
+    .dashboard-workspace {
+        grid-column: 1;
+    }
+
+    /* Hidden visually, available to keyboard users. */
+
+    .sidebar-toggle {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    /* Burger control */
+
+    .sidebar-toggle-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--color-border);
+        border-radius: 10px;
+        color: var(--color-primary-dark);
+        background: var(--color-white);
+        cursor: pointer;
+    }
+
+    .sidebar-toggle-button:hover {
+        background: #edf7f2;
+    }
+
+    .sidebar-toggle:focus-visible
+    ~ .dashboard-workspace
+    .sidebar-toggle-button {
+        outline: 3px solid var(--color-primary);
+        outline-offset: 4px;
+    }
+
+    /* Off-canvas sidebar */
 
     .dashboard-sidebar {
-        position: static;
-        height: auto;
-        padding: 16px 20px;
-        overflow: visible;
-        border-right: none;
-        border-bottom: 1px solid var(--color-border);
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 70;
+        width: min(285px, 85vw);
+        height: 100vh;
+        height: 100dvh;
+        padding: 22px 18px;
+        visibility: hidden;
+        transform: translateX(-100%);
+        box-shadow: 15px 0 45px rgb(15 23 42 / 15%);
     }
 
-    .dashboard-brand {
-        align-self: flex-start;
-        margin: 0 0 16px;
+    .sidebar-toggle:checked ~ .dashboard-sidebar {
+        visibility: visible;
+        transform: translateX(0);
     }
 
     .dashboard-brand img {
-        width: 175px;
+        width: 190px;
     }
 
-    .sidebar-label {
-        margin-left: 0;
-        margin-bottom: 8px;
+    /* Close control */
+
+    .sidebar-close {
+        display: grid;
+        place-items: center;
+        align-self: flex-end;
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        margin-bottom: 12px;
+        border: 1px solid var(--color-border);
+        border-radius: 10px;
+        color: var(--color-muted);
+        background: var(--color-white);
+        font-size: 1.7rem;
+        line-height: 1;
+        cursor: pointer;
     }
 
-    .sidebar-nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 7px;
+    .sidebar-close:hover {
+        color: var(--color-primary);
+        background: #edf7f2;
     }
 
-    .sidebar-nav a {
-        gap: 7px;
-        min-height: 44px;
-        padding: 10px 12px;
-        font-size: 0.74rem;
+    /* Backdrop */
+
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        background: rgb(15 23 42 / 45%);
+        cursor: pointer;
     }
 
-    .nav-icon {
-        width: 18px;
-        font-size: 1rem;
+    .sidebar-toggle:checked ~ .sidebar-overlay {
+        display: block;
     }
 
-    .sidebar-bottom {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px solid #edf1f4;
+    .sidebar-toggle:checked ~ .dashboard-workspace {
+        pointer-events: none;
+        user-select: none;
     }
 
-    .sidebar-tip {
-        display: none;
-    }
-
-    .sidebar-help,
-    .sidebar-logout {
-        gap: 7px;
-        padding: 8px 10px;
-        font-size: 0.74rem;
-    }
+    /* Shared spacing */
 
     .dashboard-header {
-        min-height: 75px;
-        padding: 13px 20px;
+        min-height: 76px;
+        padding: 12px 20px;
+    }
+
+    .dashboard-header-start {
+        gap: 10px;
     }
 
     .dashboard-main {
         padding: 25px 20px;
     }
+
+    .dashboard-footer {
+        margin-inline: 20px;
+    }
 }
 
-/* ================= RESPONSIVE: 500PX ================= */
+/* ==================================================
+   RESPONSIVE — 500PX
+================================================== */
 
 @media (max-width: 500px) {
-    .dashboard-sidebar {
-        padding-inline: 16px;
-    }
-
     .dashboard-header {
         gap: 12px;
         padding-inline: 16px;
@@ -1085,19 +1246,82 @@
         align-items: flex-start;
         flex-direction: column;
         gap: 5px;
+        margin-inline: 16px;
     }
 }
+
+/* ==================================================
+   RESPONSIVE — 400PX
+================================================== */
+
+@media (max-width: 400px) {
+    .dashboard-header-start {
+        gap: 8px;
+    }
+
+    .header-location {
+        gap: 6px;
+    }
+
+    .header-location > span {
+        display: none;
+    }
+}
+
+/* ==================================================
+   RESPONSIVE — 350PX
+================================================== */
 
 @media (max-width: 350px) {
     .stats-grid {
         grid-template-columns: 1fr;
     }
 
-    .sidebar-nav a {
-        flex: 1 1 45%;
-    }
-
     .service-overview-item > .status-badge {
         margin-left: 54px;
     }
+}
+/* ================= DASHBOARD LIVE DATA ================= */
+
+.dashboard-status-inactive {
+    color: #475569;
+    border-color: #e2e8f0;
+    background: #f1f5f9;
+}
+
+.dashboard-empty {
+    padding-block: 18px;
+    color: var(--color-muted);
+    font-size: 0.82rem;
+    line-height: 1.85;
+}
+
+.dashboard-empty strong {
+    display: block;
+    color: var(--color-text);
+    font-size: 0.95rem;
+}
+
+.dashboard-empty p {
+    margin-top: 10px;
+}
+
+.dashboard-empty a {
+    color: var(--color-primary-dark);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.service-overview-info h3,
+.review-quote > p,
+.next-visit h2,
+.next-visit-customer,
+.visit-details dd,
+.account-details strong {
+    overflow-wrap: anywhere;
+}
+
+.review-quote > p {
+    white-space: pre-wrap;
 }

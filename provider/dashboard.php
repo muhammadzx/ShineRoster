@@ -1,3 +1,85 @@
+<?php
+
+require_once __DIR__ . "/../includes/init.php";
+$currentUser = $auth->requireRole('provider', '../login.php');
+require_once __DIR__ . "/../classes/User.php";
+require_once __DIR__ . "/../classes/Provider.php";
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+date_default_timezone_set("Asia/Amman");
+
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$db->exec("SET time_zone = '+03:00'");
+
+$userId = filter_var(
+    $_SESSION["user_id"] ?? null,
+    FILTER_VALIDATE_INT,
+    ["options" => ["min_range" => 1]]
+);
+
+if (!$userId) {
+    header("Location: ../login.php");
+    exit;
+}
+
+$userObject = new User($db);
+$providerObject = new Provider($db);
+
+$account = $userObject->getProfileAccount((int) $userId);
+
+if (
+    !$account ||
+    $account["role"] !== "provider" ||
+    !(int) $account["is_active"]
+) {
+    http_response_code(403);
+    exit("You do not have permission to access this page.");
+}
+
+$providerProfile = $providerObject->getProfileByUserId((int) $userId);
+
+if (!$providerProfile || trim($providerProfile["city"]) === "") {
+    header("Location: ../profile.php");
+    exit;
+}
+
+$providerId = (int) $providerProfile["id"];
+
+$data = $providerObject->getDashboardData($providerId);
+
+$stats = $data["stats"];
+$nextBooking = $data["next_booking"];
+$recentBookings = $data["recent_bookings"];
+$services = $data["services"];
+$rating = $data["rating"];
+$latestReview = $data["latest_review"];
+
+$pageTitle = "Overview";
+$activePage = "dashboard";
+
+$escape = static function ($value): string {
+    return htmlspecialchars((string) $value, ENT_QUOTES, "UTF-8");
+};
+
+$nameParts = preg_split(
+    '/\s+/u',
+    trim($account["full_name"]),
+    -1,
+    PREG_SPLIT_NO_EMPTY
+);
+
+$firstName = $nameParts[0] ?? $account["full_name"];
+
+$statusClasses = [
+    "confirmed" => "status-confirmed",
+    "completed" => "status-completed",
+    "cancelled" => "status-cancelled"
+];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,22 +104,36 @@
 
     <div class="dashboard-layout">
 
-        <?php require_once __DIR__ . "/../includes/sidebar.php"?>
+        <input
+            type="checkbox"
+            id="sidebar-toggle"
+            class="sidebar-toggle"
+            aria-label="Toggle navigation menu"
+            aria-controls="provider-sidebar"
+        >
+
+        <label
+            class="sidebar-overlay"
+            for="sidebar-toggle"
+            aria-hidden="true"
+        ></label>
+
+        <?php require_once __DIR__ . "/../includes/sidebar.php"; ?>
 
         <div class="dashboard-workspace">
 
-             <?php require_once __DIR__ . "/../includes/header.php"?>
+            <?php require_once __DIR__ . "/../includes/header.php"; ?>
 
-            <!-- ================= PAGE CONTENT START ================= -->
             <main class="dashboard-main" id="dashboard-main">
 
+                <!-- PAGE HEADING -->
                 <div class="dashboard-page-heading">
 
                     <div>
                         <span class="eyebrow">Your business at a glance</span>
 
                         <h1>
-                            Welcome back, Ahmad
+                            Welcome back, <?= $escape($firstName) ?>
                             <span aria-hidden="true">✦</span>
                         </h1>
 
@@ -53,12 +149,7 @@
 
                 </div>
 
-                <p class="dashboard-demo-note">
-                    <strong>Preview:</strong>
-                    These figures and bookings are sample data.
-                </p>
-
-                <!-- SUMMARY CARDS -->
+                <!-- SUMMARY -->
                 <section class="stats-grid" aria-label="Booking summary">
 
                     <article class="stat-card">
@@ -67,7 +158,10 @@
                             <span class="stat-icon" aria-hidden="true">▣</span>
                         </div>
 
-                        <strong class="stat-value">24</strong>
+                        <strong class="stat-value">
+                            <?= (int) $stats["total"] ?>
+                        </strong>
+
                         <p>All booking statuses</p>
                     </article>
 
@@ -77,7 +171,10 @@
                             <span class="stat-icon" aria-hidden="true">▤</span>
                         </div>
 
-                        <strong class="stat-value">6</strong>
+                        <strong class="stat-value">
+                            <?= (int) $stats["upcoming"] ?>
+                        </strong>
+
                         <p>Confirmed future visits</p>
                     </article>
 
@@ -87,7 +184,10 @@
                             <span class="stat-icon" aria-hidden="true">✓</span>
                         </div>
 
-                        <strong class="stat-value">16</strong>
+                        <strong class="stat-value">
+                            <?= (int) $stats["completed"] ?>
+                        </strong>
+
                         <p>Finished cleaning visits</p>
                     </article>
 
@@ -97,72 +197,132 @@
                             <span class="stat-icon" aria-hidden="true">×</span>
                         </div>
 
-                        <strong class="stat-value">2</strong>
+                        <strong class="stat-value">
+                            <?= (int) $stats["cancelled"] ?>
+                        </strong>
+
                         <p>Cancelled reservations</p>
                     </article>
 
                 </section>
 
-                <!-- NEXT VISIT + QUICK ACTIONS -->
+                <!-- NEXT BOOKING + QUICK ACTIONS -->
                 <div class="dashboard-content-grid">
 
                     <section
                         class="next-visit"
                         aria-labelledby="next-visit-title"
                     >
-                        <div class="next-visit-top">
 
+                        <div class="next-visit-top">
                             <span class="next-visit-label">
                                 <span aria-hidden="true">●</span>
                                 Next scheduled visit
                             </span>
 
-                            <span class="status-badge status-confirmed">
-                                Confirmed
-                            </span>
-
+                            <?php if ($nextBooking): ?>
+                                <span class="status-badge status-confirmed">
+                                    Confirmed
+                                </span>
+                            <?php endif; ?>
                         </div>
 
-                        <h2 id="next-visit-title">Regular home cleaning</h2>
+                        <?php if ($nextBooking): ?>
+                            <?php
+                            $nextStart = new DateTimeImmutable(
+                                $nextBooking["starts_at"]
+                            );
 
-                        <p class="next-visit-customer">
-                            For Muhammad Sami · Booking #1042
-                        </p>
+                            $nextEnd = new DateTimeImmutable(
+                                $nextBooking["ends_at"]
+                            );
+                            ?>
 
-                        <dl class="visit-details">
+                            <h2 id="next-visit-title">
+                                <?= $escape($nextBooking["service_name"]) ?>
+                            </h2>
 
-                            <div>
-                                <dt>Date</dt>
-                                <dd>
-                                    <time datetime="2026-10-25">
-                                        25 Oct 2026
-                                    </time>
-                                </dd>
+                            <p class="next-visit-customer">
+                                For <?= $escape($nextBooking["customer_name"]) ?>
+                                · Booking #<?= (int) $nextBooking["id"] ?>
+                            </p>
+
+                            <dl class="visit-details">
+
+                                <div>
+                                    <dt>Date</dt>
+
+                                    <dd>
+                                        <time datetime="<?= $nextStart->format("Y-m-d") ?>">
+                                            <?= $nextStart->format("d M Y") ?>
+                                        </time>
+                                    </dd>
+                                </div>
+
+                                <div>
+                                    <dt>Time</dt>
+
+                                    <dd>
+                                        <?= $nextStart->format("h:i A") ?>
+                                        –
+                                        <?= $nextEnd->format("h:i A") ?>
+
+                                        <?php if (
+                                            $nextStart->format("Y-m-d") !==
+                                            $nextEnd->format("Y-m-d")
+                                        ): ?>
+                                            <br>
+                                            Ends <?= $nextEnd->format("d M Y") ?>
+                                        <?php endif; ?>
+                                    </dd>
+                                </div>
+
+                                <div>
+                                    <dt>Location</dt>
+
+                                    <dd>
+                                        <?= $escape($nextBooking["city"]) ?>
+                                    </dd>
+                                </div>
+
+                            </dl>
+
+                            <div class="next-visit-bottom">
+                                <p>All times are in Jordan local time.</p>
+
+                                <a
+                                    class="btn btn-white btn-small"
+                                    href="bookings.php"
+                                >
+                                    View bookings
+                                    <span aria-hidden="true">↗</span>
+                                </a>
                             </div>
 
-                            <div>
-                                <dt>Time</dt>
-                                <dd>10:00 AM – 12:00 PM</dd>
+                        <?php else: ?>
+
+                            <h2 id="next-visit-title">
+                                No upcoming bookings
+                            </h2>
+
+                            <p class="next-visit-customer">
+                                Keep your services active and add available
+                                appointments so customers can book.
+                            </p>
+
+                            <div class="next-visit-bottom">
+                                <p>Get ready for your next customer.</p>
+
+                                <a
+                                    class="btn btn-white btn-small"
+                                    href="slots.php"
+                                >
+                                    Manage appointments
+                                    <span aria-hidden="true">↗</span>
+                                </a>
                             </div>
 
-                            <div>
-                                <dt>Location</dt>
-                                <dd>Amman</dd>
-                            </div>
-
-                        </dl>
-
-                        <div class="next-visit-bottom">
-                            <p>All times are in Jordan local time.</p>
-
-                            <a
-                                class="btn btn-white btn-small"
-                                href="bookings.php"
-                            >
-                                View bookings
-                                <span aria-hidden="true">↗</span>
-                            </a>
-                        </div>
+                        <?php endif; ?>
 
                     </section>
 
@@ -178,50 +338,37 @@
                         </div>
 
                         <a class="quick-action" href="services.php">
-                            <span class="quick-action-icon" aria-hidden="true">
-                                ✦
-                            </span>
+                            <span class="quick-action-icon" aria-hidden="true">✦</span>
 
                             <span class="quick-action-text">
                                 <strong>Manage services</strong>
                                 <small>Update your offers and prices</small>
                             </span>
 
-                            <span class="quick-action-arrow" aria-hidden="true">
-                                ↗
-                            </span>
+                            <span class="quick-action-arrow" aria-hidden="true">↗</span>
                         </a>
 
                         <a class="quick-action" href="slots.php">
-                            <span class="quick-action-icon" aria-hidden="true">
-                                ▤
-                            </span>
+                            <span class="quick-action-icon" aria-hidden="true">▤</span>
 
                             <span class="quick-action-text">
                                 <strong>Manage availability</strong>
                                 <small>Add or update appointments</small>
                             </span>
 
-                            <span class="quick-action-arrow" aria-hidden="true">
-                                ↗
-                            </span>
+                            <span class="quick-action-arrow" aria-hidden="true">↗</span>
                         </a>
 
                         <a class="quick-action" href="../profile.php">
-                            <span class="quick-action-icon" aria-hidden="true">
-                                ◎
-                            </span>
+                            <span class="quick-action-icon" aria-hidden="true">◎</span>
 
                             <span class="quick-action-text">
                                 <strong>Edit your profile</strong>
                                 <small>Refresh your bio and skills</small>
                             </span>
 
-                            <span class="quick-action-arrow" aria-hidden="true">
-                                ↗
-                            </span>
+                            <span class="quick-action-arrow" aria-hidden="true">↗</span>
                         </a>
-
                     </section>
 
                 </div>
@@ -232,7 +379,6 @@
                     aria-labelledby="recent-bookings-title"
                 >
                     <div class="card-heading">
-
                         <div>
                             <h2 id="recent-bookings-title">Recent bookings</h2>
                             <p>Your most recently created reservations.</p>
@@ -242,7 +388,6 @@
                             View all
                             <span aria-hidden="true">↗</span>
                         </a>
-
                     </div>
 
                     <div
@@ -254,8 +399,7 @@
                         <table class="dashboard-table">
 
                             <caption class="visually-hidden">
-                                Sample recent bookings showing customer,
-                                service, appointment, price, and status.
+                                Your latest bookings and their current status.
                             </caption>
 
                             <thead>
@@ -271,105 +415,83 @@
 
                             <tbody>
 
-                                <tr>
-                                    <th scope="row">#1042</th>
-                                    <td>Muhammad Sami</td>
-                                    <td>Regular home cleaning</td>
+                                <?php if (!$recentBookings): ?>
+                                    <tr>
+                                        <td colspan="6">
+                                            You have no bookings yet.
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
 
-                                    <td>
-                                        <time datetime="2026-10-25">
-                                            25 Oct 2026
-                                        </time>
-                                        <span class="table-secondary">
-                                            10:00 AM – 12:00 PM
-                                        </span>
-                                    </td>
+                                <?php foreach ($recentBookings as $item): ?>
+                                    <?php
+                                    $start = new DateTimeImmutable(
+                                        $item["starts_at"]
+                                    );
 
-                                    <td class="table-price">JOD 25.000</td>
+                                    $end = new DateTimeImmutable(
+                                        $item["ends_at"]
+                                    );
 
-                                    <td>
-                                        <span class="status-badge status-confirmed">
-                                            Confirmed
-                                        </span>
-                                    </td>
-                                </tr>
+                                    $statusClass =
+                                        $statusClasses[$item["status"]] ?? "";
+                                    ?>
 
-                                <tr>
-                                    <th scope="row">#1041</th>
-                                    <td>Layla Omar</td>
-                                    <td>Deep cleaning</td>
+                                    <tr>
+                                        <th scope="row">
+                                            #<?= (int) $item["id"] ?>
+                                        </th>
 
-                                    <td>
-                                        <time datetime="2026-10-26">
-                                            26 Oct 2026
-                                        </time>
-                                        <span class="table-secondary">
-                                            9:00 AM – 12:00 PM
-                                        </span>
-                                    </td>
+                                        <td>
+                                            <?= $escape($item["customer_name"]) ?>
+                                        </td>
 
-                                    <td class="table-price">JOD 45.000</td>
+                                        <td>
+                                            <?= $escape($item["service_name"]) ?>
+                                        </td>
 
-                                    <td>
-                                        <span class="status-badge status-confirmed">
-                                            Confirmed
-                                        </span>
-                                    </td>
-                                </tr>
+                                        <td>
+                                            <time datetime="<?= $start->format("Y-m-d") ?>">
+                                                <?= $start->format("d M Y") ?>
+                                            </time>
 
-                                <tr>
-                                    <th scope="row">#1040</th>
-                                    <td>Zaid Ahmad</td>
-                                    <td>Regular home cleaning</td>
+                                            <span class="table-secondary">
+                                                <?= $start->format("h:i A") ?>
+                                                –
+                                                <?= $end->format("h:i A") ?>
 
-                                    <td>
-                                        <time datetime="2026-10-27">
-                                            27 Oct 2026
-                                        </time>
-                                        <span class="table-secondary">
-                                            1:00 PM – 3:00 PM
-                                        </span>
-                                    </td>
+                                                <?php if (
+                                                    $start->format("Y-m-d") !==
+                                                    $end->format("Y-m-d")
+                                                ): ?>
+                                                    <br>
+                                                    Ends <?= $end->format("d M Y") ?>
+                                                <?php endif; ?>
+                                            </span>
+                                        </td>
 
-                                    <td class="table-price">JOD 25.000</td>
+                                        <td class="table-price">
+                                            JOD <?= number_format(
+                                                (float) $item["total_price"],
+                                                3
+                                            ) ?>
+                                        </td>
 
-                                    <td>
-                                        <span class="status-badge status-cancelled">
-                                            Cancelled
-                                        </span>
-                                    </td>
-                                </tr>
+                                        <td>
+                                            <span class="status-badge <?= $escape($statusClass) ?>">
+                                                <?= $escape(ucfirst($item["status"])) ?>
+                                            </span>
+                                        </td>
+                                    </tr>
 
-                                <tr>
-                                    <th scope="row">#1039</th>
-                                    <td>Dina Khalil</td>
-                                    <td>Deep cleaning</td>
-
-                                    <td>
-                                        <time datetime="2026-10-20">
-                                            20 Oct 2026
-                                        </time>
-                                        <span class="table-secondary">
-                                            9:00 AM – 12:00 PM
-                                        </span>
-                                    </td>
-
-                                    <td class="table-price">JOD 45.000</td>
-
-                                    <td>
-                                        <span class="status-badge status-completed">
-                                            Completed
-                                        </span>
-                                    </td>
-                                </tr>
+                                <?php endforeach; ?>
 
                             </tbody>
                         </table>
                     </div>
-
                 </section>
 
-                <!-- SERVICES + CUSTOMER FEEDBACK -->
+                <!-- SERVICES + FEEDBACK -->
                 <div class="dashboard-content-grid">
 
                     <section
@@ -377,60 +499,63 @@
                         aria-labelledby="services-overview-title"
                     >
                         <div class="card-heading">
-
                             <div>
                                 <h2 id="services-overview-title">Your services</h2>
-                                <p>A quick look at your current offers.</p>
+                                <p>Your most recently added services.</p>
                             </div>
 
                             <a class="text-link" href="services.php">
                                 Manage
                                 <span aria-hidden="true">↗</span>
                             </a>
-
                         </div>
 
                         <div class="service-overview-list">
 
-                            <article class="service-overview-item">
+                            <?php if (!$services): ?>
+                                <p class="dashboard-empty">
+                                    No services yet.
+                                    <a href="services.php">Add your first service ↗</a>
+                                </p>
+                            <?php endif; ?>
 
-                                <span
-                                    class="service-overview-icon"
-                                    aria-hidden="true"
-                                >
-                                    ✦
-                                </span>
+                            <?php foreach ($services as $service): ?>
 
-                                <div class="service-overview-info">
-                                    <h3>Regular home cleaning</h3>
-                                    <p>120 minutes · JOD 25.000</p>
-                                </div>
+                                <article class="service-overview-item">
 
-                                <span class="status-badge status-completed">
-                                    Active
-                                </span>
+                                    <span
+                                        class="service-overview-icon"
+                                        aria-hidden="true"
+                                    >
+                                        ✦
+                                    </span>
 
-                            </article>
+                                    <div class="service-overview-info">
+                                        <h3>
+                                            <?= $escape($service["name"]) ?>
+                                        </h3>
 
-                            <article class="service-overview-item">
+                                        <p>
+                                            <?= (int) $service["duration_minutes"] ?>
+                                            minutes · JOD
+                                            <?= number_format(
+                                                (float) $service["price"],
+                                                3
+                                            ) ?>
+                                        </p>
+                                    </div>
 
-                                <span
-                                    class="service-overview-icon"
-                                    aria-hidden="true"
-                                >
-                                    ✧
-                                </span>
+                                    <span class="status-badge <?= (int) $service["is_active"]
+                                        ? "status-completed"
+                                        : "dashboard-status-inactive" ?>">
+                                        <?= (int) $service["is_active"]
+                                            ? "Active"
+                                            : "Inactive" ?>
+                                    </span>
 
-                                <div class="service-overview-info">
-                                    <h3>Deep cleaning</h3>
-                                    <p>180 minutes · JOD 45.000</p>
-                                </div>
+                                </article>
 
-                                <span class="status-badge status-completed">
-                                    Active
-                                </span>
-
-                            </article>
+                            <?php endforeach; ?>
 
                         </div>
                     </section>
@@ -440,7 +565,6 @@
                         aria-labelledby="reviews-title"
                     >
                         <div class="card-heading">
-
                             <div>
                                 <h2 id="reviews-title">Customer feedback</h2>
                                 <p>From completed bookings.</p>
@@ -449,50 +573,88 @@
                             <span class="review-heading-icon" aria-hidden="true">
                                 ☆
                             </span>
-
                         </div>
 
-                        <div class="rating-summary">
+                        <?php if ((int) $rating["review_count"] > 0): ?>
 
-                            <strong>
-                                4.8<span>/ 5</span>
-                            </strong>
+                            <div class="rating-summary">
 
-                            <div>
-                                <span class="rating-stars" aria-hidden="true">
-                                    ★★★★★
-                                </span>
-                                <p>Based on 12 reviews</p>
-                            </div>
-
-                        </div>
-
-                        <blockquote class="review-quote">
-                            <p>
-                                “Excellent service and punctual arrival.
-                                The home was cleaned thoroughly.”
-                            </p>
-
-                            <footer>
-                                <span class="review-avatar" aria-hidden="true">
-                                    DS
-                                </span>
+                                <strong>
+                                    <?= number_format(
+                                        (float) $rating["average_rating"],
+                                        1
+                                    ) ?><span>/ 5</span>
+                                </strong>
 
                                 <div>
-                                    <strong>Demo customer</strong>
-                                    <span>Sample review</span>
+                                    <span class="rating-stars" aria-hidden="true">
+                                        ★
+                                    </span>
+
+                                    <p>
+                                        Based on <?= (int) $rating["review_count"] ?>
+                                        review(s)
+                                    </p>
                                 </div>
-                            </footer>
-                        </blockquote>
+
+                            </div>
+
+                            <?php if ($latestReview): ?>
+                                <blockquote class="review-quote">
+
+                                    <p>
+                                        <?= $escape(
+                                            trim($latestReview["comment"] ?? "") !== ""
+                                                ? $latestReview["comment"]
+                                                : "The customer left a rating without a comment."
+                                        ) ?>
+                                    </p>
+
+                                    <footer>
+                                        <span class="review-avatar" aria-hidden="true">
+                                            ☆
+                                        </span>
+
+                                        <div>
+                                            <strong>
+                                                <?= $escape($latestReview["customer_name"]) ?>
+                                            </strong>
+
+                                            <span>
+                                                Rated <?= (int) $latestReview["rating"] ?>/5
+                                                ·
+                                                <?= (
+                                                    new DateTimeImmutable(
+                                                        $latestReview["created_at"]
+                                                    )
+                                                )->format("d M Y") ?>
+                                            </span>
+                                        </div>
+                                    </footer>
+
+                                </blockquote>
+                            <?php endif; ?>
+
+                        <?php else: ?>
+
+                            <div class="dashboard-empty">
+                                <strong>No reviews yet</strong>
+
+                                <p>
+                                    Customer ratings will appear here
+                                    after completed bookings are reviewed.
+                                </p>
+                            </div>
+
+                        <?php endif; ?>
 
                     </section>
 
                 </div>
 
             </main>
-            <!-- ================= PAGE CONTENT END ================= -->
 
-             <?php require_once __DIR__ . "/../includes/footer.php"?>
+            <?php require_once __DIR__ . "/../includes/footer.php"; ?>
 
         </div>
     </div>

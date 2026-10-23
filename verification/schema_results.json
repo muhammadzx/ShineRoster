@@ -1,0 +1,19 @@
+[
+  {
+    "name": "clean installation has 10 tables, two views, no demo users",
+    "pass": true,
+    "detail": [
+      "0",
+      "10",
+      "2"
+    ]
+  },
+  {
+    "name": "security upgrade preserves existing users, profiles, bookings",
+    "pass": true
+  },
+  {
+    "name": "security migration safely repeatable",
+    "pass": true
+  }
+]
