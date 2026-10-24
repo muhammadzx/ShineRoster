@@ -1,11 +1,4 @@
--- ShineRoster marketplace - initial installation (not a migration).
--- Target: MySQL 8.0.16+ or MariaDB 10.4+ (including recent XAMPP).
--- Import once using phpMyAdmin > Import. UTF-8; prices in JOD.
--- No existing tables or databases are dropped. Reimport into a fresh database.
--- Local DATETIME values: Asia/Amman. Configure PHP to the same timezone.
--- Passwords: PHP password_hash()/password_verify(); never store plain text.
--- Clean installation without demo users.
-
+-- Fresh installation without demo accounts.
 SET NAMES utf8mb4;
 
 CREATE DATABASE IF NOT EXISTS shineroster
@@ -127,8 +120,6 @@ CREATE TABLE reviews (
   CONSTRAINT chk_review_rating CHECK (rating BETWEEN 1 AND 5),
   CONSTRAINT chk_review_visible CHECK (is_visible IN (0,1))
 ) ENGINE=InnoDB;
-
--- Initial selectable skills, not verified certifications.
 INSERT INTO skills (name) VALUES
 ('التنظيف المنزلي العادي'),
 ('التنظيف العميق'),
@@ -138,8 +129,6 @@ INSERT INTO skills (name) VALUES
 ('تنظيف السجاد'),
 ('تنظيف الكنب والمفروشات'),
 ('تنظيف المنازل بعد الانتقال');
-
--- Public rating summary: NULL average and count=0 means no reviews yet.
 CREATE VIEW provider_rating_summary AS
 SELECT p.id AS provider_id,
        ROUND(AVG(r.rating),2) AS average_rating,
@@ -150,8 +139,6 @@ LEFT JOIN appointment_slots a ON a.service_id=s.id
 LEFT JOIN bookings b ON b.slot_id=a.id AND b.status='completed'
 LEFT JOIN reviews r ON r.booking_id=b.id AND r.is_visible=1
 GROUP BY p.id;
-
--- Available slots; also recheck these conditions inside the booking transaction.
 CREATE VIEW available_appointment_slots AS
 SELECT a.id AS slot_id, s.id AS service_id, s.provider_id,
        s.name AS service_name, s.price, s.duration_minutes,
@@ -166,41 +153,6 @@ WHERE a.is_open=1 AND s.is_active=1 AND u.is_active=1 AND u.role='provider'
     SELECT 1 FROM bookings b
     WHERE b.slot_id=a.id AND b.status IN ('confirmed','completed')
   );
-
--- APPLICATION CONTRACT (PHP/PDO; essential cross-table rules):
--- 1. Register only customer/provider; create provider + profile in one transaction.
---    Admin is provisioned privately; role changes with related history are forbidden.
--- 2. Check session, is_active, role, ownership and CSRF on every mutation.
--- 3. Serialize provider operations: BEGIN; SELECT id FROM provider_profiles
---    WHERE id=:provider_id FOR UPDATE; then lock needed service/slot rows.
---    All slot additions/edits, bookings, cancellations and service changes must
---    take this same provider lock FIRST, in the same order, and COMMIT/ROLLBACK.
--- 4. When adding/editing a slot, require future start and duration matching service.
---    Reject overlap with ANY other slot for that provider (including closed slots):
---      existing.starts_at < new_end AND existing.ends_at > new_start
---    across ALL their services; exclude the edited slot itself. Adjacent is allowed.
---    Delete unused closed slots if that reserved interval must be reused.
--- 5. Before booking, verify active customer, active provider, active service,
---    open future slot and no occupied booking. Read price from services inside
---    the transaction; never trust a posted price. Catch duplicate-key error.
--- 6. Only confirmed -> cancelled (before start) or confirmed -> completed
---    (after end, by owner-provider/admin). Set matching timestamp in SAME UPDATE.
---    Customer can cancel only own booking. Terminal states cannot be reopened.
--- 7. Insert review only for current customer's completed booking; rating 1..5.
---    Provider cannot edit reviews. Admin may hide via is_visible.
--- 8. Do not change service ownership, booking user/slot or booked slot times.
---    Do not delete services/slots with ANY booking history, even cancelled ones.
---    Deactivate service/account instead. Delete unused child slots before service.
--- 9. Existing slots keep their duration when service duration changes. Apply the
---    new duration to new slots only; display actual booked start/end times.
--- 10. Validate nonempty names/address/city, normalize email, validate phone/email,
---     escape output, use prepared statements, regenerate session after login.
--- 11. Dashboard totals must exclude cancelled bookings where appropriate.
---     Sum completed total_price = completed service value, NOT collected revenue.
--- 12. The database enforces FKs, checks and uniqueness; PHP enforces rules above.
-
-
--- Run this once on an existing ShineRoster database; does not remove data.
 USE shineroster;
 CREATE TABLE IF NOT EXISTS auth_limits (
  account_key CHAR(64) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,

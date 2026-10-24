@@ -9,7 +9,9 @@ $prefix = $prefix ?? '';
 <link rel="stylesheet" href="<?= $prefix ?>css/auth.css"></head>
 <body class="logout-page"><main class="logout-card">
 <a href="<?= $prefix ?>index.php"><img src="<?= $prefix ?>images/ShineRoster_Logo.png" alt="ShineRoster" width="220" height="74"></a>
-<h1>This area is coming soon</h1><p>The customer and administrator areas are planned for a later stage.</p>
+<h1>This area is coming soon</h1><p>The administrator area is planned for a later stage.</p>
 <a class="btn btn-primary" href="<?= $prefix ?>index.php">Back to home</a>
-<?php if (isset($_SESSION['user_id'])): ?><a href="<?= $prefix ?>logout.php">Log out</a><?php endif; ?>
+<?php if (
+    isset($_SESSION['user_id'])
+): ?><a href="<?= $prefix ?>logout.php">Log out</a><?php endif; ?>
 </main></body></html>

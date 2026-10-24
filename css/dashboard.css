@@ -1,6 +1,4 @@
-/* ==================================================
-   SHARED LAYOUT
-================================================== */
+/* Shared provider workspace, sidebar, and responsive navigation. */
 
 .dashboard-page {
     background: #f5f7f9;
@@ -45,10 +43,6 @@
     white-space: nowrap;
     border: 0;
 }
-
-/* ==================================================
-   SHARED SIDEBAR
-================================================== */
 
 .dashboard-sidebar {
     position: sticky;
@@ -210,10 +204,6 @@
     background: #fef2f2;
 }
 
-/* ==================================================
-   SHARED HEADER
-================================================== */
-
 .dashboard-header {
     position: sticky;
     top: 0;
@@ -306,10 +296,6 @@
     color: var(--color-primary);
 }
 
-/* ==================================================
-   MOBILE MENU CONTROLS
-================================================== */
-
 .sidebar-toggle,
 .sidebar-toggle-button,
 .sidebar-close,
@@ -330,10 +316,6 @@
     border-radius: 2px;
     background: currentColor;
 }
-
-/* ==================================================
-   PAGE HEADING
-================================================== */
 
 .dashboard-page-heading {
     display: flex;
@@ -369,21 +351,6 @@
     padding: 12px 17px;
     font-size: 0.8rem;
 }
-
-.dashboard-demo-note {
-    margin-bottom: 24px;
-    padding: 11px 14px;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    color: var(--color-muted);
-    background: var(--color-white);
-    font-size: 0.75rem;
-    line-height: 1.7;
-}
-
-/* ==================================================
-   STATISTICS
-================================================== */
 
 .stats-grid {
     display: grid;
@@ -440,10 +407,6 @@
     font-size: 0.7rem;
 }
 
-/* ==================================================
-   CONTENT GRID AND CARDS
-================================================== */
-
 .dashboard-content-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
@@ -483,21 +446,13 @@
     font-size: 0.76rem;
 }
 
-/* ==================================================
-   NEXT VISIT
-================================================== */
-
 .next-visit {
     min-width: 0;
     padding: 27px;
     border-radius: 16px;
     color: var(--color-white);
     background:
-        radial-gradient(
-            circle at 100% 0,
-            rgb(204 251 241 / 12%),
-            transparent 60%
-        ),
+        radial-gradient(circle at 100% 0, rgb(204 251 241 / 12%), transparent 60%),
         var(--color-primary-dark);
 }
 
@@ -572,10 +527,6 @@
     font-size: 0.72rem;
 }
 
-/* ==================================================
-   STATUS BADGES
-================================================== */
-
 .status-badge {
     display: inline-flex;
     align-items: center;
@@ -606,10 +557,6 @@
     border-color: #fee2e2;
     background: #fef2f2;
 }
-
-/* ==================================================
-   QUICK ACTIONS
-================================================== */
 
 .quick-actions .card-heading {
     margin-bottom: 12px;
@@ -665,10 +612,6 @@
 .quick-action:hover .quick-action-arrow {
     color: var(--color-primary);
 }
-
-/* ==================================================
-   BOOKINGS TABLE
-================================================== */
 
 .bookings-card {
     margin-bottom: 25px;
@@ -739,10 +682,6 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* ==================================================
-   SERVICES OVERVIEW
-================================================== */
-
 .service-overview-list {
     display: grid;
 }
@@ -785,10 +724,6 @@
     color: var(--color-muted);
     font-size: 0.72rem;
 }
-
-/* ==================================================
-   CUSTOMER REVIEWS
-================================================== */
 
 .review-heading-icon {
     color: var(--color-primary);
@@ -870,10 +805,6 @@
     font-size: 0.65rem;
 }
 
-/* ==================================================
-   SHARED FOOTER — OUTSIDE MAIN
-================================================== */
-
 .dashboard-footer {
     display: flex;
     align-items: center;
@@ -898,10 +829,6 @@
     text-decoration: underline;
     text-underline-offset: 4px;
 }
-
-/* ==================================================
-   RESPONSIVE — 1200PX
-================================================== */
 
 @media (max-width: 1200px) {
     .dashboard-layout {
@@ -947,10 +874,6 @@
     }
 }
 
-/* ==================================================
-   RESPONSIVE — MOBILE MENU AT 800PX
-================================================== */
-
 @media (max-width: 800px) {
     .dashboard-layout {
         grid-template-columns: minmax(0, 1fr);
@@ -959,8 +882,6 @@
     .dashboard-workspace {
         grid-column: 1;
     }
-
-    /* Hidden visually, available to keyboard users. */
 
     .sidebar-toggle {
         position: fixed;
@@ -976,8 +897,6 @@
         white-space: nowrap;
         border: 0;
     }
-
-    /* Burger control */
 
     .sidebar-toggle-button {
         display: inline-flex;
@@ -997,14 +916,10 @@
         background: #edf7f2;
     }
 
-    .sidebar-toggle:focus-visible
-    ~ .dashboard-workspace
-    .sidebar-toggle-button {
+    .sidebar-toggle:focus-visible ~ .dashboard-workspace .sidebar-toggle-button {
         outline: 3px solid var(--color-primary);
         outline-offset: 4px;
     }
-
-    /* Off-canvas sidebar */
 
     .dashboard-sidebar {
         position: fixed;
@@ -1030,8 +945,6 @@
         width: 190px;
     }
 
-    /* Close control */
-
     .sidebar-close {
         display: grid;
         place-items: center;
@@ -1054,8 +967,6 @@
         background: #edf7f2;
     }
 
-    /* Backdrop */
-
     .sidebar-overlay {
         position: fixed;
         inset: 0;
@@ -1072,8 +983,6 @@
         pointer-events: none;
         user-select: none;
     }
-
-    /* Shared spacing */
 
     .dashboard-header {
         min-height: 76px;
@@ -1092,10 +1001,6 @@
         margin-inline: 20px;
     }
 }
-
-/* ==================================================
-   RESPONSIVE — 500PX
-================================================== */
 
 @media (max-width: 500px) {
     .dashboard-header {
@@ -1250,10 +1155,6 @@
     }
 }
 
-/* ==================================================
-   RESPONSIVE — 400PX
-================================================== */
-
 @media (max-width: 400px) {
     .dashboard-header-start {
         gap: 8px;
@@ -1268,10 +1169,6 @@
     }
 }
 
-/* ==================================================
-   RESPONSIVE — 350PX
-================================================== */
-
 @media (max-width: 350px) {
     .stats-grid {
         grid-template-columns: 1fr;
@@ -1281,7 +1178,6 @@
         margin-left: 54px;
     }
 }
-/* ================= DASHBOARD LIVE DATA ================= */
 
 .dashboard-status-inactive {
     color: #475569;

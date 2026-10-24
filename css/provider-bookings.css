@@ -1,5 +1,3 @@
-/* ================= MESSAGES ================= */
-
 .booking-alert {
     margin-bottom: 22px;
     padding: 15px 18px;
@@ -21,8 +19,6 @@
     border-color: #fecaca;
     background: #fef2f2;
 }
-
-/* ================= FILTERS ================= */
 
 .booking-filter-panel {
     margin-bottom: 28px;
@@ -94,8 +90,6 @@
     font-size: 0.78rem;
 }
 
-/* ================= RESULTS ================= */
-
 .booking-results-heading {
     display: flex;
     align-items: center;
@@ -118,8 +112,6 @@
     gap: 20px;
     margin-bottom: 25px;
 }
-
-/* ================= BOOKING CARD ================= */
 
 .booking-card {
     overflow-wrap: anywhere;
@@ -190,8 +182,6 @@
     font-weight: 400;
 }
 
-/* ================= EXPANDABLE DETAILS ================= */
-
 .booking-details {
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
@@ -253,8 +243,6 @@
     font-size: 0.74rem;
     line-height: 1.8;
 }
-
-/* ================= BOOKING ACTIONS ================= */
 
 .booking-card-bottom {
     display: flex;
@@ -330,8 +318,6 @@
     line-height: 1.8;
 }
 
-/* ================= EMPTY STATE ================= */
-
 .booking-empty {
     padding-block: 45px;
     text-align: center;
@@ -359,8 +345,6 @@
 .booking-empty .btn {
     margin-top: 25px;
 }
-
-/* ================= RESPONSIVE ================= */
 
 @media (max-width: 1200px) {
     .booking-filters {

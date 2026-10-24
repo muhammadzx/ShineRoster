@@ -1,4 +1,4 @@
--- Run this once on an existing ShineRoster database; does not remove data.
+-- Add security and contact tables without removing existing data.
 USE shineroster;
 CREATE TABLE IF NOT EXISTS auth_limits (
  account_key CHAR(64) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/User.php";
+require_once __DIR__ . '/User.php';
 
 class Provider
 {
@@ -47,80 +47,58 @@ class Provider
 
         $stmt->execute([$providerId]);
 
-        return array_map(
-            "intval",
-            $stmt->fetchAll(PDO::FETCH_COLUMN)
-        );
+        return array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN));
     }
 
     public function saveAccountProfile(int $userId, array $data): void
     {
-        $name = $this->getText($data, "full_name");
-        $email = strtolower($this->getText($data, "email"));
-        $phone = $this->getText($data, "phone");
-        $city = $this->getText($data, "city");
-        $bio = $this->getText($data, "bio");
+        $name = $this->getText($data, 'full_name');
+        $email = strtolower($this->getText($data, 'email'));
+        $phone = $this->getText($data, 'phone');
+        $city = $this->getText($data, 'city');
+        $bio = $this->getText($data, 'bio');
 
         foreach ([$name, $email, $phone, $city, $bio] as $text) {
-            if (!mb_check_encoding($text, 'UTF-8')) throw new RuntimeException('Invalid text encoding.');
+            if (!mb_check_encoding($text, 'UTF-8')) {
+                throw new RuntimeException('Invalid text encoding.');
+            }
         }
-        if (
-            $this->textLength($name) < 2 ||
-            $this->textLength($name) > 100
-        ) {
-            throw new RuntimeException(
-                "Full name must contain between 2 and 100 characters."
-            );
+        if ($this->textLength($name) < 2 || $this->textLength($name) > 100) {
+            throw new RuntimeException('Full name must contain between 2 and 100 characters.');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 190) {
+            throw new RuntimeException('Enter a valid email address.');
         }
 
         if (
-            !filter_var($email, FILTER_VALIDATE_EMAIL) ||
-            strlen($email) > 190
+            !preg_match('/^\+?[0-9 ()-]{7,20}$/D', $phone) ||
+            strlen(preg_replace('/\D/', '', $phone)) < 7
         ) {
-            throw new RuntimeException(
-                "Enter a valid email address."
-            );
+            throw new RuntimeException('Enter a valid phone number.');
         }
 
-        if (!preg_match('/^\+?[0-9 ()-]{7,20}$/D', $phone) || strlen(preg_replace('/\D/', '', $phone)) < 7) {
-            throw new RuntimeException(
-                "Enter a valid phone number."
-            );
-        }
-
-        if ($city === "" || $this->textLength($city) > 100) {
-            throw new RuntimeException(
-                "Enter a city of up to 100 characters."
-            );
+        if ($city === '' || $this->textLength($city) > 100) {
+            throw new RuntimeException('Enter a city of up to 100 characters.');
         }
 
         if ($this->textLength($bio) > 3000) {
-            throw new RuntimeException(
-                "Your description must not exceed 3,000 characters."
-            );
+            throw new RuntimeException('Your description must not exceed 3,000 characters.');
         }
 
-        $rawSkills = $data["skills"] ?? [];
+        $rawSkills = $data['skills'] ?? [];
 
         if (!is_array($rawSkills)) {
-            throw new RuntimeException(
-                "Invalid skill selection."
-            );
+            throw new RuntimeException('Invalid skill selection.');
         }
 
         $skillIds = [];
 
         foreach ($rawSkills as $value) {
-            $skillId = filter_var(
-                $value,
-                FILTER_VALIDATE_INT,
-                ["options" => ["min_range" => 1]]
-            );
+            $skillId = filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
 
             if ($skillId === false) {
-                throw new RuntimeException(
-                    "Invalid skill selection."
-                );
+                throw new RuntimeException('Invalid skill selection.');
             }
 
             $skillIds[] = (int) $skillId;
@@ -154,9 +132,7 @@ class Provider
             $stmt->execute([$userId]);
 
             if (!$stmt->fetchColumn()) {
-                throw new RuntimeException(
-                    "This provider account is unavailable."
-                );
+                throw new RuntimeException('This provider account is unavailable.');
             }
 
             $stmt = $this->db->prepare(
@@ -169,16 +145,11 @@ class Provider
             $stmt->execute([$email, $userId]);
 
             if ($stmt->fetchColumn()) {
-                throw new RuntimeException(
-                    "This email address is already registered."
-                );
+                throw new RuntimeException('This email address is already registered.');
             }
 
             if ($skillIds) {
-                $placeholders = implode(
-                    ",",
-                    array_fill(0, count($skillIds), "?")
-                );
+                $placeholders = implode(',', array_fill(0, count($skillIds), '?'));
 
                 $stmt = $this->db->prepare(
                     "SELECT COUNT(*)
@@ -190,19 +161,14 @@ class Provider
 
                 if ((int) $stmt->fetchColumn() !== count($skillIds)) {
                     throw new RuntimeException(
-                        "One of the selected skills is no longer available."
+                        'One of the selected skills is no longer available.'
                     );
                 }
             }
 
             $user = new User($this->db);
 
-            $user->updateProfileAccount(
-                $userId,
-                $name,
-                $email,
-                $phone
-            );
+            $user->updateProfileAccount($userId, $name, $email, $phone);
 
             if ($providerId) {
                 $providerId = (int) $providerId;
@@ -213,11 +179,7 @@ class Provider
                      WHERE id = ?"
                 );
 
-                $stmt->execute([
-                    $city,
-                    $bio,
-                    $providerId
-                ]);
+                $stmt->execute([$city, $bio, $providerId]);
             } else {
                 $stmt = $this->db->prepare(
                     "INSERT INTO provider_profiles
@@ -225,11 +187,7 @@ class Provider
                      VALUES (?, ?, ?)"
                 );
 
-                $stmt->execute([
-                    $userId,
-                    $city,
-                    $bio
-                ]);
+                $stmt->execute([$userId, $city, $bio]);
 
                 $providerId = (int) $this->db->lastInsertId();
             }
@@ -248,14 +206,10 @@ class Provider
             );
 
             foreach ($skillIds as $skillId) {
-                $stmt->execute([
-                    $providerId,
-                    $skillId
-                ]);
+                $stmt->execute([$providerId, $skillId]);
             }
 
             $this->db->commit();
-
         } catch (Throwable $e) {
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
@@ -267,29 +221,24 @@ class Provider
 
     private function getText(array $data, string $key): string
     {
-        return isset($data[$key]) && is_string($data[$key])
-            ? trim($data[$key])
-            : "";
+        return isset($data[$key]) && is_string($data[$key]) ? trim($data[$key]) : '';
     }
 
     private function textLength(string $text): int
     {
-        return function_exists("mb_strlen")
-            ? mb_strlen($text, "UTF-8")
-            : strlen($text);
+        return function_exists('mb_strlen') ? mb_strlen($text, 'UTF-8') : strlen($text);
     }
 
     public function getDashboardData(int $providerId): array
-{
-    require_once __DIR__ . "/Booking.php";
+    {
+        require_once __DIR__ . '/Booking.php';
 
-    $booking = new Booking($this->db);
+        $booking = new Booking($this->db);
 
-    $stats = $booking->getStats($providerId);
+        $stats = $booking->getStats($providerId);
 
-    // أقرب حجز قادم.
-    $stmt = $this->db->prepare(
-        "SELECT
+        $stmt = $this->db->prepare(
+            "SELECT
             b.id,
             b.city,
             a.starts_at,
@@ -308,15 +257,14 @@ class Provider
 
          ORDER BY a.starts_at ASC, b.id ASC
          LIMIT 1"
-    );
+        );
 
-    $stmt->execute([$providerId]);
+        $stmt->execute([$providerId]);
 
-    $nextBooking = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        $nextBooking = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 
-    // أحدث أربعة حجوزات حسب وقت إنشاء الحجز.
-    $stmt = $this->db->prepare(
-        "SELECT
+        $stmt = $this->db->prepare(
+            "SELECT
             b.id,
             b.status,
             b.total_price,
@@ -334,28 +282,26 @@ class Provider
 
          ORDER BY b.created_at DESC, b.id DESC
          LIMIT 4"
-    );
+        );
 
-    $stmt->execute([$providerId]);
+        $stmt->execute([$providerId]);
 
-    $recentBookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $recentBookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // أحدث ثلاث خدمات.
-    $stmt = $this->db->prepare(
-        "SELECT id, name, price, duration_minutes, is_active
+        $stmt = $this->db->prepare(
+            "SELECT id, name, price, duration_minutes, is_active
          FROM services
          WHERE provider_id = ?
          ORDER BY created_at DESC, id DESC
          LIMIT 3"
-    );
+        );
 
-    $stmt->execute([$providerId]);
+        $stmt->execute([$providerId]);
 
-    $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // متوسط التقييم وعدده: فقط التقييمات الظاهرة لحجوزات مكتملة.
-    $stmt = $this->db->prepare(
-        "SELECT
+        $stmt = $this->db->prepare(
+            "SELECT
             AVG(r.rating) AS average_rating,
             COUNT(r.id) AS review_count
 
@@ -367,15 +313,14 @@ class Provider
          WHERE s.provider_id = ?
            AND b.status = 'completed'
            AND r.is_visible = 1"
-    );
+        );
 
-    $stmt->execute([$providerId]);
+        $stmt->execute([$providerId]);
 
-    $rating = $stmt->fetch(PDO::FETCH_ASSOC);
+        $rating = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // أحدث تقييم ظاهر.
-    $stmt = $this->db->prepare(
-        "SELECT
+        $stmt = $this->db->prepare(
+            "SELECT
             r.rating,
             r.comment,
             r.created_at,
@@ -393,19 +338,19 @@ class Provider
 
          ORDER BY r.created_at DESC, r.id DESC
          LIMIT 1"
-    );
+        );
 
-    $stmt->execute([$providerId]);
+        $stmt->execute([$providerId]);
 
-    $latestReview = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        $latestReview = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 
-    return [
-        "stats" => $stats,
-        "next_booking" => $nextBooking,
-        "recent_bookings" => $recentBookings,
-        "services" => $services,
-        "rating" => $rating,
-        "latest_review" => $latestReview
-    ];
-}
+        return [
+            'stats' => $stats,
+            'next_booking' => $nextBooking,
+            'recent_bookings' => $recentBookings,
+            'services' => $services,
+            'rating' => $rating,
+            'latest_review' => $latestReview
+        ];
+    }
 }

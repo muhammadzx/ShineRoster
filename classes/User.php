@@ -45,11 +45,6 @@ class User
              WHERE id = ?"
         );
 
-        $stmt->execute([
-            $name,
-            $email,
-            $phone,
-            $userId
-        ]);
+        $stmt->execute([$name, $email, $phone, $userId]);
     }
 }

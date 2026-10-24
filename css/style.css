@@ -1,4 +1,4 @@
-/* ================= VARIABLES ================= */
+/* Shared colors, typography, and landing-page layout. */
 
 :root {
     --color-primary: #0f766e;
@@ -19,8 +19,6 @@
 
     --container-width: 1180px;
 }
-
-/* ================= RESET ================= */
 
 *,
 *::before,
@@ -86,8 +84,6 @@ svg {
     outline-offset: 5px;
 }
 
-/* ================= SHARED LAYOUT ================= */
-
 .container {
     width: min(var(--container-width), calc(100% - 40px));
     margin-inline: auto;
@@ -108,8 +104,6 @@ svg {
     letter-spacing: 0.09em;
     text-transform: uppercase;
 }
-
-/* ================= BUTTONS ================= */
 
 .btn {
     display: inline-flex;
@@ -172,8 +166,6 @@ svg {
     font-size: 0.82rem;
 }
 
-/* ================= LINKS ================= */
-
 .text-link {
     display: inline-flex;
     align-items: center;
@@ -188,8 +180,6 @@ svg {
     text-decoration: underline;
     text-underline-offset: 5px;
 }
-
-/* ================= SECTION HEADINGS ================= */
 
 .section-heading {
     margin-bottom: 36px;
@@ -232,8 +222,6 @@ svg {
     text-align: center;
 }
 
-/* ================= ACCESSIBILITY ================= */
-
 .skip-link {
     position: fixed;
     top: 10px;
@@ -249,8 +237,6 @@ svg {
 .skip-link:focus {
     transform: translateY(0);
 }
-
-/* ================= HEADER ================= */
 
 .site-header {
     position: sticky;
@@ -315,8 +301,6 @@ svg {
 .login-link:hover {
     color: var(--color-primary);
 }
-
-/* ================= FOOTER ================= */
 
 .site-footer {
     padding-top: 55px;
@@ -398,8 +382,6 @@ svg {
     color: var(--color-primary);
 }
 
-/* ================= RESPONSIVE: 1100PX ================= */
-
 @media (max-width: 1100px) {
     .site-nav {
         gap: 16px;
@@ -417,8 +399,6 @@ svg {
         gap: 25px;
     }
 }
-
-/* ================= RESPONSIVE: 900PX ================= */
 
 @media (max-width: 900px) {
     html {
@@ -443,8 +423,6 @@ svg {
         gap: 35px;
     }
 }
-
-/* ================= RESPONSIVE: 650PX ================= */
 
 @media (max-width: 650px) {
     .container {
@@ -532,8 +510,6 @@ svg {
     }
 }
 
-/* ================= RESPONSIVE: 360PX ================= */
-
 @media (max-width: 360px) {
     .brand img {
         width: 125px;
@@ -555,8 +531,6 @@ svg {
         font-size: 0.67rem;
     }
 }
-
-/* ================= REDUCED MOTION ================= */
 
 @media (prefers-reduced-motion: reduce) {
     html {
