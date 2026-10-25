@@ -1,99 +1,32 @@
 <?php
-
 require_once __DIR__ . '/includes/init.php';
-
 $currentAccount = $auth->requireRole('customer', 'login.php');
 $customerId = (int) $currentAccount['id'];
-
-$bookingId = filter_var($_GET['booking_id'] ?? null, FILTER_VALIDATE_INT, [
-    'options' => ['min_range' => 1]
-]);
-
-$bookingId = $bookingId === false ? 0 : (int) $bookingId;
-
+$bookingId = positiveId($_GET, 'booking_id');
 $reviewObject = new Review($db);
-
-$booking = $bookingId > 0 ? $reviewObject->getBooking($customerId, $bookingId) : null;
-
+$booking = $reviewObject->getBooking($customerId, $bookingId);
 $error = '';
 $rating = 0;
-
-$comment = isset($_POST['comment']) && is_string($_POST['comment']) ? trim($_POST['comment']) : '';
-
-$ratingLabels = [
-    1 => 'Poor',
-    2 => 'Fair',
-    3 => 'Good',
-    4 => 'Very good',
-    5 => 'Excellent'
-];
-
+$comment = inputText($_POST, 'comment');
+$ratingLabels = [1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Very good', 5 => 'Excellent'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (!validCsrf($_POST['csrf_token'] ?? null)) {
-            http_response_code(403);
-
-            throw new RuntimeException('The form expired. Reload the page and try again.');
-        }
-
-        if (!$booking) {
-            http_response_code(404);
-
-            throw new RuntimeException('Booking not found.');
-        }
-
-        if ($booking['status'] !== 'completed') {
-            throw new RuntimeException('You can review completed bookings only.');
-        }
-
-        if ($booking['review_id'] !== null) {
-            throw new RuntimeException('You have already reviewed this booking.');
-        }
-
-        $submittedRating = filter_var($_POST['rating'] ?? null, FILTER_VALIDATE_INT, [
-            'options' => [
-                'min_range' => 1,
-                'max_range' => 5
-            ]
-        ]);
-
-        if ($submittedRating === false) {
-            throw new RuntimeException('Please choose a rating between 1 and 5 stars.');
-        }
-
-        $rating = (int) $submittedRating;
-
-        if (isset($_POST['comment']) && !is_string($_POST['comment'])) {
-            throw new RuntimeException('Please enter a valid comment.');
-        }
-
-        $reviewObject->create($customerId, $bookingId, $rating, $comment);
-
-        $_SESSION['booking_success'] =
-            'Thank you! Your review for booking #' . $bookingId . ' has been submitted.';
-
+    $rating = positiveId($_POST, 'rating');
+    if ($reviewObject->create($customerId, $bookingId, $rating, $comment)) {
+        $_SESSION['booking_success'] = 'Thank you! Your review has been submitted.';
         header('Location: my-bookings.php', true, 303);
         exit();
-    } catch (PDOException $e) {
-        error_log((string) $e);
-
-        $error = 'Your review could not be saved. Please try again.';
-    } catch (RuntimeException $e) {
-        $error = $e->getMessage();
     }
-
-    $booking = $bookingId > 0 ? $reviewObject->getBooking($customerId, $bookingId) : null;
+    $error = $reviewObject->getError();
 }
-
 if (!$booking) {
     http_response_code(404);
 }
-
 $canReview = $booking && $booking['status'] === 'completed' && $booking['review_id'] === null;
-
 $hasReview = $booking && $booking['review_id'] !== null;
-
-$startsAt = $booking ? new DateTimeImmutable($booking['starts_at']) : null;
+$startsAt = null;
+if ($booking) {
+    $startsAt = strtotime($booking['starts_at']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -234,7 +167,9 @@ $startsAt = $booking ? new DateTimeImmutable($booking['starts_at']) : null;
                             <div class="review-existing">
                                 <div
                                     class="review-existing-stars"
-                                    aria-label="<?= (int) $booking[ 'review_rating' ] ?> out of 5 stars"
+                                    aria-label="<?= (int) $booking[
+                                        'review_rating'
+                                    ] ?> out of 5 stars"
                                 >
                                     <span aria-hidden="true">
                                         <?= str_repeat('★', (int) $booking['review_rating']) ?>
@@ -247,7 +182,9 @@ $startsAt = $booking ? new DateTimeImmutable($booking['starts_at']) : null;
 
                                     ·
 
-                                    <?= escapeHtml( $ratingLabels[(int) $booking['review_rating']] ) ?>
+                                    <?= escapeHtml(
+                                        $ratingLabels[(int) $booking['review_rating']]
+                                    ) ?>
                                 </strong>
 
                                 <?php if (trim((string) $booking['review_comment']) !== ''): ?>
@@ -270,7 +207,9 @@ $startsAt = $booking ? new DateTimeImmutable($booking['starts_at']) : null;
                                 <p class="review-submitted-date">
                                     Submitted on
 
-                                    <?= escapeHtml( (new DateTimeImmutable( $booking['review_created_at'] ))->format('d M Y') ) ?>
+                                    <?= escapeHtml(
+                                        date('d M Y', strtotime($booking['review_created_at']))
+                                    ) ?>
                                 </p>
                             </div>
                             <a
@@ -308,11 +247,7 @@ $startsAt = $booking ? new DateTimeImmutable($booking['starts_at']) : null;
                                 action="review.php?booking_id=<?= $bookingId ?>"
                                 method="post"
                             >
-                                <input
-                                    type="hidden"
-                                    name="csrf_token"
-                                    value="<?= escapeHtml(csrfToken()) ?>"
-                                >
+                                
                                 <fieldset class="review-rating-fieldset">
                                     <legend>
                                         How was your cleaning visit?
@@ -327,8 +262,14 @@ $startsAt = $booking ? new DateTimeImmutable($booking['starts_at']) : null;
                                                     type="radio"
                                                     name="rating"
                                                     value="<?= $value ?>"
-                                                    aria-label="<?= $value ?> out of 5 stars: <?= escapeHtml( $ratingLabels[$value] ) ?>"
-                                                    <?= $rating === $value ? 'checked' : '' ?>
+                                                    aria-label="<?= $value ?> out of 5 stars: <?= escapeHtml(
+     $ratingLabels[$value]
+ ) ?>"
+                                                    <?php if ($rating === $value) {
+                                                        echo 'checked';
+                                                    } else {
+                                                        echo '';
+                                                    } ?>
                                                     required
                                                 >
                                                 <span class="review-rating-face">
@@ -439,13 +380,13 @@ $startsAt = $booking ? new DateTimeImmutable($booking['starts_at']) : null;
                             <div>
                                 <dt>Visit date</dt>
                                 <dd>
-                                    <?= escapeHtml($startsAt->format('d M Y')) ?>
+                                    <?= escapeHtml(date('d M Y', $startsAt)) ?>
                                 </dd>
                             </div>
                             <div>
                                 <dt>Start time</dt>
                                 <dd>
-                                    <?= escapeHtml($startsAt->format('g:i A')) ?>
+                                    <?= escapeHtml(date('g:i A', $startsAt)) ?>
                                 </dd>
                             </div>
                             <div>

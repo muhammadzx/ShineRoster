@@ -1,182 +1,158 @@
 <?php
 class Service
 {
-    private int $providerId;
-
-    public function __construct(private PDO $db, int $userId)
+    private $db;
+    private $providerId = 0;
+    private $error = '';
+    public function __construct($db, $userId)
     {
-        $stmt = $this->db->prepare('SELECT id FROM provider_profiles WHERE user_id = ?');
+        $this->db = $db;
+        $stmt = $db->prepare('SELECT id FROM provider_profiles WHERE user_id = ?');
         $stmt->execute([$userId]);
-        $providerId = $stmt->fetchColumn();
-        if (!$providerId) {
-            throw new RuntimeException('Complete your provider profile first.');
+        $profile = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($profile) {
+            $this->providerId = (int) $profile['id'];
         }
-        $this->providerId = (int) $providerId;
     }
-
-    public function getStats(): array
+    public function getError()
     {
-        $stmt = $this->db->prepare(
-            'SELECT COUNT(*) AS total,
-                COALESCE(SUM(is_active = 1), 0) AS active,
-                COALESCE(SUM(is_active = 0), 0) AS inactive
-             FROM services WHERE provider_id = ?'
-        );
+        return $this->error;
+    }
+    private function fail($message)
+    {
+        $this->error = $message;
+        return false;
+    }
+    public function getStats()
+    {
+        $rows = $this->getServices();
+        $stats = ['total' => 0, 'active' => 0, 'inactive' => 0];
+        foreach ($rows as $row) {
+            $stats['total']++;
+            if ($row['is_active']) {
+                $stats['active']++;
+            } else {
+                $stats['inactive']++;
+            }
+        }
+        return $stats;
+    }
+    public function getServices($search = '', $status = '')
+    {
+        $stmt = $this->db->prepare('SELECT * FROM services WHERE provider_id = ? ORDER BY id DESC');
         $stmt->execute([$this->providerId]);
-        return array_map('intval', $stmt->fetch(PDO::FETCH_ASSOC));
-    }
-
-    public function getServices(string $search = '', string $status = ''): array
-    {
-        $sql = 'SELECT id, name, description, price, duration_minutes, is_active
-                FROM services WHERE provider_id = ?';
-        $params = [$this->providerId];
-        if ($search !== '') {
-            $sql .= ' AND name LIKE ?';
-            $params[] = '%' . $search . '%';
-        }
-        if (in_array($status, ['active', 'inactive'], true)) {
-            $sql .= ' AND is_active = ?';
-            $params[] = $status === 'active' ? 1 : 0;
-        }
-        $stmt = $this->db->prepare($sql . ' ORDER BY id DESC');
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function addService($name, $description, $price, $duration, $status): bool
-    {
-        $this->validateService($name, $description, $price, $duration);
-        $this->validateStatus($status);
-        return $this->mutate(function () use (
-            $name,
-            $description,
-            $price,
-            $duration,
-            $status
-        ): bool {
-            $stmt = $this->db->prepare(
-                'INSERT INTO services (provider_id, name, description, price, duration_minutes, is_active)
-                 VALUES (?, ?, ?, ?, ?, ?)'
-            );
-            return $stmt->execute([
-                $this->providerId,
-                trim($name),
-                trim($description),
-                $price,
-                $duration,
-                $status
-            ]);
-        });
-    }
-
-    public function updateService($serviceId, $name, $description, $price, $duration): bool
-    {
-        $this->validateService($name, $description, $price, $duration);
-        return $this->mutate(function () use (
-            $serviceId,
-            $name,
-            $description,
-            $price,
-            $duration
-        ): bool {
-            if (!$this->ownsService($serviceId)) {
-                return false;
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = [];
+        foreach ($rows as $row) {
+            if ($search !== '' && mb_stripos($row['name'], $search) === false) {
+                continue;
             }
-            $stmt = $this->db->prepare(
-                'UPDATE services SET name = ?, description = ?, price = ?, duration_minutes = ?
-                 WHERE id = ? AND provider_id = ?'
-            );
-            return $stmt->execute([
-                trim($name),
-                trim($description),
-                $price,
-                $duration,
-                $serviceId,
-                $this->providerId
-            ]);
-        });
-    }
-
-    public function changeStatus($serviceId, $status): bool
-    {
-        $this->validateStatus($status);
-        return $this->mutate(function () use ($serviceId, $status): bool {
-            if (!$this->ownsService($serviceId)) {
-                return false;
+            if ($status === 'active' && !$row['is_active']) {
+                continue;
             }
-            $stmt = $this->db->prepare(
-                'UPDATE services SET is_active = ? WHERE id = ? AND provider_id = ?'
-            );
-            return $stmt->execute([$status, $serviceId, $this->providerId]);
-        });
+            if ($status === 'inactive' && $row['is_active']) {
+                continue;
+            }
+            $result[] = $row;
+        }
+        return $result;
     }
-
-    private function ownsService($id): bool
+    private function validService($name, $description, $price, $duration)
     {
-        if (!filter_var($id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])) {
-            return false;
+        if (!$this->providerId) {
+            return $this->fail('Complete your provider profile first.');
         }
-        $stmt = $this->db->prepare('SELECT id FROM services WHERE id = ? AND provider_id = ?');
-        $stmt->execute([$id, $this->providerId]);
-        return (bool) $stmt->fetchColumn();
-    }
-
-    private function validateStatus($status): void
-    {
-        if (!in_array($status, [0, 1, '0', '1'], true)) {
-            throw new RuntimeException('Invalid status.');
+        if (trim($name) === '' || mb_strlen($name) > 120) {
+            return $this->fail('Enter a service name of 1 to 120 characters.');
         }
-    }
-
-    private function validateService($name, $description, $price, $duration): void
-    {
-        if (
-            !is_string($name) ||
-            trim($name) === '' ||
-            !mb_check_encoding($name, 'UTF-8') ||
-            mb_strlen($name) > 120
-        ) {
-            throw new RuntimeException('Enter a service name of 1 to 120 characters.');
+        if (trim($description) === '' || strlen($description) > 65535) {
+            return $this->fail('Enter a description up to 65535 bytes.');
         }
-        if (
-            !is_string($description) ||
-            trim($description) === '' ||
-            !mb_check_encoding($description, 'UTF-8') ||
-            strlen($description) > 65535
-        ) {
-            throw new RuntimeException('Enter a description up to 65535 bytes.');
-        }
-        if (!is_scalar($price) || !preg_match('/^\d{1,7}(?:\.\d{1,3})?$/D', (string) $price)) {
-            throw new RuntimeException('Enter a valid price with up to 3 decimal places.');
+        if (!validPrice($price)) {
+            return $this->fail('Enter a valid price with up to 3 decimal places.');
         }
         if (
             !filter_var($duration, FILTER_VALIDATE_INT, [
                 'options' => ['min_range' => 1, 'max_range' => 65535]
             ])
         ) {
-            throw new RuntimeException('Enter a valid duration.');
+            return $this->fail('Enter a valid duration.');
         }
+        return true;
     }
-
-    // Share the provider lock used by appointment and booking mutations.
-    private function mutate(callable $operation): bool
+    public function addService($name, $description, $price, $duration, $status)
     {
-        $this->db->beginTransaction();
-        try {
-            $stmt = $this->db->prepare('SELECT id FROM provider_profiles WHERE id = ? FOR UPDATE');
-            $stmt->execute([$this->providerId]);
-            if (!$stmt->fetchColumn()) {
-                throw new RuntimeException('Provider profile not found.');
-            }
-            $result = $operation();
-            $this->db->commit();
-            return $result;
-        } catch (Throwable $e) {
-            if ($this->db->inTransaction()) {
-                $this->db->rollBack();
-            }
-            throw $e;
+        if (!$this->validService($name, $description, $price, $duration)) {
+            return false;
         }
+        if ($status != '0' && $status != '1') {
+            return $this->fail('Invalid status.');
+        }
+        $stmt = $this->db->prepare(
+            'INSERT INTO services (provider_id, name, description, price, duration_minutes, is_active) VALUES (?, ?, ?, ?, ?, ?)'
+        );
+        if (
+            !$stmt->execute([
+                $this->providerId,
+                trim($name),
+                trim($description),
+                $price,
+                $duration,
+                $status
+            ])
+        ) {
+            return $this->fail('Could not save this service.');
+        }
+        return true;
+    }
+    private function ownsService($id)
+    {
+        $stmt = $this->db->prepare('SELECT id FROM services WHERE id = ? AND provider_id = ?');
+        $stmt->execute([$id, $this->providerId]);
+        if ($stmt->fetch(PDO::FETCH_ASSOC)) {
+            return true;
+        }
+        return false;
+    }
+    public function updateService($id, $name, $description, $price, $duration)
+    {
+        if (!$this->ownsService($id)) {
+            return $this->fail('Service not found.');
+        }
+        if (!$this->validService($name, $description, $price, $duration)) {
+            return false;
+        }
+        $stmt = $this->db->prepare(
+            'UPDATE services SET name = ?, description = ?, price = ?, duration_minutes = ? WHERE id = ? AND provider_id = ?'
+        );
+        if (
+            !$stmt->execute([
+                trim($name),
+                trim($description),
+                $price,
+                $duration,
+                $id,
+                $this->providerId
+            ])
+        ) {
+            return $this->fail('Could not save this service.');
+        }
+        return true;
+    }
+    public function changeStatus($id, $status)
+    {
+        if (!$this->ownsService($id)) {
+            return $this->fail('Service not found.');
+        }
+        if ($status != '0' && $status != '1') {
+            return $this->fail('Invalid status.');
+        }
+        $stmt = $this->db->prepare(
+            'UPDATE services SET is_active = ? WHERE id = ? AND provider_id = ?'
+        );
+        if (!$stmt->execute([$status, $id, $this->providerId])) {
+            return $this->fail('Could not update this service.');
+        }
+        return true;
     }
 }

@@ -3,35 +3,32 @@
 require_once __DIR__ . '/init.php';
 
 if (!isset($currentUser)) {
-    throw new RuntimeException('Missing provider authorization.');
+    exit('Access denied.');
 }
 
 $headerName = $currentUser['full_name'];
-$headerTitle = $pageTitle ?? 'Overview';
-
-$nameParts = preg_split('/\s+/u', trim($headerName), -1, PREG_SPLIT_NO_EMPTY);
-
-$nameParts = $nameParts ?: [];
-
-$initials = '';
-
-if ($nameParts) {
-    $initialWords = [$nameParts[0]];
-
-    if (count($nameParts) > 1) {
-        $initialWords[] = $nameParts[count($nameParts) - 1];
-    }
-
-    foreach ($initialWords as $word) {
-        if (preg_match('/^./us', $word, $match)) {
-            $initials .= $match[0];
-        }
-    }
+if (isset($pageTitle)) {
+    $headerTitle = $pageTitle;
+} else {
+    $headerTitle = 'Overview';
 }
 
-$initials = function_exists('mb_strtoupper')
-    ? mb_strtoupper($initials, 'UTF-8')
-    : strtoupper($initials);
+$nameParts = explode(' ', trim($headerName));
+$words = [];
+foreach ($nameParts as $word) {
+    if ($word !== '') {
+        $words[] = $word;
+    }
+}
+$initials = '';
+if (count($words) > 0) {
+    $initials = mb_substr($words[0], 0, 1, 'UTF-8');
+    if (count($words) > 1) {
+        $lastWord = $words[count($words) - 1];
+        $initials .= mb_substr($lastWord, 0, 1, 'UTF-8');
+    }
+}
+$initials = mb_strtoupper($initials, 'UTF-8');
 ?>
 
 <header class="dashboard-header">

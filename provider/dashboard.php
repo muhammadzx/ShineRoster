@@ -28,9 +28,13 @@ $latestReview = $data['latest_review'];
 $pageTitle = 'Overview';
 $activePage = 'dashboard';
 
-$nameParts = preg_split('/\s+/u', trim($account['full_name']), -1, PREG_SPLIT_NO_EMPTY);
+$nameParts = explode(' ', trim($account['full_name']));
 
-$firstName = $nameParts[0] ?? $account['full_name'];
+if (isset($nameParts[0])) {
+    $firstName = $nameParts[0];
+} else {
+    $firstName = $account['full_name'];
+}
 
 $statusClasses = [
     'confirmed' => 'status-confirmed',
@@ -152,9 +156,9 @@ $statusClasses = [
 
                         <?php if ($nextBooking): ?>
                             <?php
-                            $nextStart = new DateTimeImmutable($nextBooking['starts_at']);
+                            $nextStart = strtotime($nextBooking['starts_at']);
 
-                            $nextEnd = new DateTimeImmutable($nextBooking['ends_at']);
+                            $nextEnd = strtotime($nextBooking['ends_at']);
                             ?>
 
                             <h2 id="next-visit-title">
@@ -168,24 +172,23 @@ $statusClasses = [
                                 <div>
                                     <dt>Date</dt>
                                     <dd>
-                                        <time datetime="<?= $nextStart->format('Y-m-d') ?>">
-                                            <?= $nextStart->format('d M Y') ?>
+                                        <time datetime="<?= date('Y-m-d', $nextStart) ?>">
+                                            <?= date('d M Y', $nextStart) ?>
                                         </time>
                                     </dd>
                                 </div>
                                 <div>
                                     <dt>Time</dt>
                                     <dd>
-                                        <?= $nextStart->format('h:i A') ?>
+                                        <?= date('h:i A', $nextStart) ?>
                                         –
-                                        <?= $nextEnd->format('h:i A') ?>
+                                        <?= date('h:i A', $nextEnd) ?>
 
                                         <?php if (
-                                            $nextStart->format('Y-m-d') !==
-                                            $nextEnd->format('Y-m-d')
+                                            date('Y-m-d', $nextStart) !== date('Y-m-d', $nextEnd)
                                         ): ?>
                                             <br>
-                                            Ends <?= $nextEnd->format('d M Y') ?>
+                                            Ends <?= date('d M Y', $nextEnd) ?>
                                         <?php endif; ?>
                                     </dd>
                                 </div>
@@ -312,11 +315,15 @@ $statusClasses = [
 
                                 <?php foreach ($recentBookings as $item): ?>
                                     <?php
-                                    $start = new DateTimeImmutable($item['starts_at']);
+                                    $start = strtotime($item['starts_at']);
 
-                                    $end = new DateTimeImmutable($item['ends_at']);
+                                    $end = strtotime($item['ends_at']);
 
-                                    $statusClass = $statusClasses[$item['status']] ?? '';
+                                    if (isset($statusClasses[$item['status']])) {
+                                        $statusClass = $statusClasses[$item['status']];
+                                    } else {
+                                        $statusClass = '';
+                                    }
                                     ?>
 
                                     <tr>
@@ -330,28 +337,32 @@ $statusClasses = [
                                             <?= escapeHtml($item['service_name']) ?>
                                         </td>
                                         <td>
-                                            <time datetime="<?= $start->format('Y-m-d') ?>">
-                                                <?= $start->format('d M Y') ?>
+                                            <time datetime="<?= date('Y-m-d', $start) ?>">
+                                                <?= date('d M Y', $start) ?>
                                             </time>
                                             <span class="table-secondary">
-                                                <?= $start->format('h:i A') ?>
+                                                <?= date('h:i A', $start) ?>
                                                 –
-                                                <?= $end->format('h:i A') ?>
+                                                <?= date('h:i A', $end) ?>
 
                                                 <?php if (
-                                                    $start->format('Y-m-d') !==
-                                                    $end->format('Y-m-d')
+                                                    date('Y-m-d', $start) !== date('Y-m-d', $end)
                                                 ): ?>
                                                     <br>
-                                                    Ends <?= $end->format('d M Y') ?>
+                                                    Ends <?= date('d M Y', $end) ?>
                                                 <?php endif; ?>
                                             </span>
                                         </td>
                                         <td class="table-price">
-                                            JOD <?= number_format( (float) $item['total_price'], 3 ) ?>
+                                            JOD <?= number_format(
+                                                (float) $item['total_price'],
+                                                3
+                                            ) ?>
                                         </td>
                                         <td>
-                                            <span class="status-badge <?= escapeHtml( $statusClass ) ?>">
+                                            <span class="status-badge <?= escapeHtml(
+                                                $statusClass
+                                            ) ?>">
                                                 <?= escapeHtml(ucfirst($item['status'])) ?>
                                             </span>
                                         </td>
@@ -406,8 +417,18 @@ $statusClasses = [
                                             <?= number_format((float) $service['price'], 3) ?>
                                         </p>
                                     </div>
-                                    <span class="status-badge <?= (int) $service['is_active'] ? 'status-completed' : 'dashboard-status-inactive' ?>">
-                                        <?= (int) $service['is_active'] ? 'Active' : 'Inactive' ?>
+                                    <span class="status-badge <?php if (
+                                        (int) $service['is_active']
+                                    ) {
+                                        echo 'status-completed';
+                                    } else {
+                                        echo 'dashboard-status-inactive';
+                                    } ?>">
+                                        <?php if ((int) $service['is_active']) {
+                                            echo 'Active';
+                                        } else {
+                                            echo 'Inactive';
+                                        } ?>
                                     </span>
                                 </article>
 
@@ -433,7 +454,10 @@ $statusClasses = [
 
                             <div class="rating-summary">
                                 <strong>
-                                    <?= number_format( (float) $rating['average_rating'], 1 ) ?><span>/ 5</span>
+                                    <?= number_format(
+                                        (float) $rating['average_rating'],
+                                        1
+                                    ) ?><span>/ 5</span>
                                 </strong>
                                 <div>
                                     <span class="rating-stars" aria-hidden="true">
@@ -449,7 +473,13 @@ $statusClasses = [
                             <?php if ($latestReview): ?>
                                 <blockquote class="review-quote">
                                     <p>
-                                        <?= escapeHtml( trim($latestReview['comment'] ?? '') !== '' ? $latestReview['comment'] : 'The customer left a rating without a comment.' ) ?>
+                                        <?php if (inputText($latestReview, 'comment') !== '') {
+                                            echo escapeHtml($latestReview['comment']);
+                                        } else {
+                                            echo escapeHtml(
+                                                'The customer left a rating without a comment.'
+                                            );
+                                        } ?>
                                     </p>
                                     <footer>
                                         <span class="review-avatar" aria-hidden="true">
@@ -462,7 +492,10 @@ $statusClasses = [
                                             <span>
                                                 Rated <?= (int) $latestReview['rating'] ?>/5
                                                 ·
-                                                <?= (new DateTimeImmutable( $latestReview['created_at'] ))->format('d M Y') ?>
+                                                <?= date(
+                                                    'd M Y',
+                                                    strtotime($latestReview['created_at'])
+                                                ) ?>
                                             </span>
                                         </div>
                                     </footer>

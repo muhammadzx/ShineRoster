@@ -1,93 +1,53 @@
 <?php
-
 require_once __DIR__ . '/../includes/init.php';
 $currentUser = $auth->requireRole('provider', '../login.php');
-
 $userId = (int) $currentUser['id'];
-$providerProfile = (new Provider($db))->getProfileByUserId($userId);
+$providerObject = new Provider($db);
+$providerProfile = $providerObject->getProfileByUserId($userId);
 if (!$providerProfile) {
     header('Location: ../profile.php');
     exit();
 }
 $providerId = (int) $providerProfile['id'];
 $booking = new Booking($db);
-
 $pageTitle = 'Bookings';
 $activePage = 'bookings';
-
 $error = '';
-
-$success = $_SESSION['bookings_success'] ?? '';
+$success = inputText($_SESSION, 'bookings_success');
 unset($_SESSION['bookings_success']);
-
-if (empty($_SESSION['bookings_csrf'])) {
-    $_SESSION['bookings_csrf'] = bin2hex(random_bytes(32));
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $token = inputText($_POST, 'csrf_token');
-
-        if (!hash_equals($_SESSION['bookings_csrf'], $token)) {
-            throw new RuntimeException('Your form has expired. Refresh the page and try again.');
-        }
-
-        $bookingId = filter_var($_POST['booking_id'] ?? null, FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1]
-        ]);
-
-        if (!$bookingId) {
-            throw new RuntimeException('Invalid booking.');
-        }
-
-        $action = inputText($_POST, 'action');
-
-        if ($action === 'complete') {
-            $booking->complete((int) $bookingId, $providerId);
-
-            $_SESSION['bookings_success'] = 'Booking marked as completed successfully.';
-        } elseif ($action === 'cancel') {
-            $booking->cancel((int) $bookingId, $providerId);
-
-            $_SESSION['bookings_success'] = 'Booking cancelled successfully.';
-        } else {
-            throw new RuntimeException('Invalid action.');
-        }
-
+    $id = positiveId($_POST, 'booking_id');
+    $action = inputText($_POST, 'action');
+    $saved = false;
+    if ($action === 'complete') {
+        $saved = $booking->complete($id, $providerId);
+    } elseif ($action === 'cancel') {
+        $saved = $booking->cancel($id, $providerId);
+    } else {
+        $error = 'Invalid action.';
+    }
+    if ($saved) {
+        $_SESSION['bookings_success'] = 'Booking updated successfully.';
         header('Location: bookings.php', true, 303);
         exit();
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-
-        $error = 'The booking could not be updated. Please try again.';
-    } catch (RuntimeException $e) {
-        $error = $e->getMessage();
+    }
+    if ($error === '') {
+        $error = $booking->getError();
     }
 }
-
 $search = inputText($_GET, 'search');
 $status = inputText($_GET, 'status');
 $date = inputText($_GET, 'date');
-
-if (!in_array($status, ['', 'confirmed', 'completed', 'cancelled'], true)) {
+if (!in_array($status, ['', 'confirmed', 'completed', 'cancelled'])) {
     $status = '';
 }
-
-if ($date !== '') {
-    $parsedDate = DateTimeImmutable::createFromFormat('!Y-m-d', $date);
-
-    if (!$parsedDate || $parsedDate->format('Y-m-d') !== $date) {
-        $date = '';
-        $error = 'Please choose a valid appointment date.';
-    }
+if ($date !== '' && (!strtotime($date) || date('Y-m-d', strtotime($date)) !== $date)) {
+    $date = '';
+    $error = 'Please choose a valid appointment date.';
 }
-
 $stats = $booking->getStats($providerId);
-
 $bookings = $booking->getByProvider($providerId, $search, $status, $date);
-
-$now = new DateTimeImmutable();
-
+$now = time();
 $statusClasses = [
     'confirmed' => 'status-confirmed',
     'completed' => 'status-completed',
@@ -207,20 +167,34 @@ $statusClasses = [
                             <label for="booking-status">Status</label>
                             <select id="booking-status" name="status">
                                 <option value="">All statuses</option>
-                                <option value="confirmed" <?= $status === 'confirmed' ? 'selected' : '' ?>>
+                                <option value="confirmed" <?php if ($status === 'confirmed') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>>
                                     Confirmed
                                 </option>
-                                <option value="completed" <?= $status === 'completed' ? 'selected' : '' ?>>
+                                <option value="completed" <?php if ($status === 'completed') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>>
                                     Completed
                                 </option>
-                                <option value="cancelled" <?= $status === 'cancelled' ? 'selected' : '' ?>>
+                                <option value="cancelled" <?php if ($status === 'cancelled') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>>
                                     Cancelled
                                 </option>
                             </select>
                         </div>
                         <div class="booking-field">
                             <label for="booking-date">Appointment date</label>
-                            <input type="date" id="booking-date" name="date" value="<?= escapeHtml( $date ) ?>">
+                            <input type="date" id="booking-date" name="date" value="<?= escapeHtml(
+                                $date
+                            ) ?>">
                         </div>
                         <div class="booking-filter-actions">
                             <button class="btn btn-primary" type="submit">
@@ -257,15 +231,19 @@ $statusClasses = [
 
                         <?php foreach ($bookings as $item): ?>
                             <?php
-                            $start = new DateTimeImmutable($item['starts_at']);
-                            $end = new DateTimeImmutable($item['ends_at']);
+                            $start = strtotime($item['starts_at']);
+                            $end = strtotime($item['ends_at']);
 
                             $confirmed = $item['status'] === 'confirmed';
 
                             $canCancel = $confirmed && $start > $now;
                             $canComplete = $confirmed && $end <= $now;
 
-                            $statusClass = $statusClasses[$item['status']] ?? '';
+                            if (isset($statusClasses[$item['status']])) {
+                                $statusClass = $statusClasses[$item['status']];
+                            } else {
+                                $statusClass = '';
+                            }
 
                             $bookingNumber = (int) $item['id'];
                             ?>
@@ -291,21 +269,21 @@ $statusClasses = [
                                     <div>
                                         <dt>Appointment</dt>
                                         <dd>
-                                            <?= escapeHtml($start->format('d M Y')) ?>
+                                            <?= escapeHtml(date('d M Y', $start)) ?>
                                         </dd>
                                     </div>
                                     <div>
                                         <dt>Time · Jordan</dt>
                                         <dd>
-                                            <?= escapeHtml($start->format('h:i A')) ?>
+                                            <?= escapeHtml(date('h:i A', $start)) ?>
                                             –
-                                            <?= escapeHtml($end->format('h:i A')) ?>
+                                            <?= escapeHtml(date('h:i A', $end)) ?>
 
                                             <?php if (
-                                                $start->format('Y-m-d') !== $end->format('Y-m-d')
+                                                date('Y-m-d', $start) !== date('Y-m-d', $end)
                                             ): ?>
                                                 <span class="booking-small">
-                                                    Ends <?= escapeHtml($end->format('d M Y')) ?>
+                                                    Ends <?= escapeHtml(date('d M Y', $end)) ?>
                                                 </span>
                                             <?php endif; ?>
                                         </dd>
@@ -317,7 +295,10 @@ $statusClasses = [
                                     <div>
                                         <dt>Booked price</dt>
                                         <dd>
-                                            JOD <?= number_format( (float) $item['total_price'], 3 ) ?>
+                                            JOD <?= number_format(
+                                                (float) $item['total_price'],
+                                                3
+                                            ) ?>
                                         </dd>
                                     </div>
                                 </dl>
@@ -349,7 +330,12 @@ $statusClasses = [
                                             <div>
                                                 <dt>Booking created</dt>
                                                 <dd>
-                                                    <?= escapeHtml( (new DateTimeImmutable( $item['created_at'] ))->format('d M Y, h:i A') ) ?>
+                                                    <?= escapeHtml(
+                                                        date(
+                                                            'd M Y, h:i A',
+                                                            strtotime($item['created_at'])
+                                                        )
+                                                    ) ?>
                                                 </dd>
                                             </div>
                                             <div class="booking-detail-wide">
@@ -360,21 +346,37 @@ $statusClasses = [
                                             </div>
                                             <div class="booking-detail-wide">
                                                 <dt>Customer notes</dt>
-                                                <dd class="booking-notes"><?= escapeHtml( trim($item['notes'] ?? '') !== '' ? $item['notes'] : 'No additional notes.' ) ?></dd>
+                                                <dd class="booking-notes"><?php if (
+                                                    inputText($item, 'notes') !== ''
+                                                ) {
+                                                    echo escapeHtml($item['notes']);
+                                                } else {
+                                                    echo escapeHtml('No additional notes.');
+                                                } ?></dd>
                                             </div>
                                         </dl>
 
                                         <?php if ($item['completed_at']): ?>
                                             <p class="booking-record">
                                                 Completed:
-                                                <?= escapeHtml( (new DateTimeImmutable( $item['completed_at'] ))->format('d M Y, h:i A') ) ?>
+                                                <?= escapeHtml(
+                                                    date(
+                                                        'd M Y, h:i A',
+                                                        strtotime($item['completed_at'])
+                                                    )
+                                                ) ?>
                                             </p>
                                         <?php endif; ?>
 
                                         <?php if ($item['cancelled_at']): ?>
                                             <p class="booking-record">
                                                 Cancelled:
-                                                <?= escapeHtml( (new DateTimeImmutable( $item['cancelled_at'] ))->format('d M Y, h:i A') ) ?>
+                                                <?= escapeHtml(
+                                                    date(
+                                                        'd M Y, h:i A',
+                                                        strtotime($item['cancelled_at'])
+                                                    )
+                                                ) ?>
                                             </p>
                                         <?php endif; ?>
 
@@ -402,13 +404,29 @@ $statusClasses = [
                                     <?php if ($canComplete || $canCancel): ?>
 
                                         <details class="booking-confirm">
-                                            <summary class="booking-action-button <?= $canCancel ? 'booking-action-danger' : '' ?>">
-                                                <?= $canComplete ? 'Mark completed' : 'Cancel booking' ?>
+                                            <summary class="booking-action-button <?php if (
+                                                $canCancel
+                                            ) {
+                                                echo 'booking-action-danger';
+                                            } else {
+                                                echo '';
+                                            } ?>">
+                                                <?php if ($canComplete) {
+                                                    echo 'Mark completed';
+                                                } else {
+                                                    echo 'Cancel booking';
+                                                } ?>
                                             </summary>
                                             <form class="booking-confirm-form" action="bookings.php" method="post">
-                                                <input type="hidden" name="csrf_token" value="<?= escapeHtml( $_SESSION['bookings_csrf'] ) ?>">
+                                                
                                                 <input type="hidden" name="booking_id" value="<?= $bookingNumber ?>">
-                                                <input type="hidden" name="action" value="<?= $canComplete ? 'complete' : 'cancel' ?>">
+                                                <input type="hidden" name="action" value="<?php if (
+                                                    $canComplete
+                                                ) {
+                                                    echo 'complete';
+                                                } else {
+                                                    echo 'cancel';
+                                                } ?>">
                                                 <p>
                                                     <?php if ($canComplete): ?>
                                                         Confirm that this cleaning
@@ -418,8 +436,18 @@ $statusClasses = [
                                                         This action cannot be undone.
                                                     <?php endif; ?>
                                                 </p>
-                                                <button class="booking-action-button <?= $canCancel ? 'booking-action-danger' : '' ?>" type="submit">
-                                                    <?= $canComplete ? 'Confirm completion' : 'Confirm cancellation' ?>
+                                                <button class="booking-action-button <?php if (
+                                                    $canCancel
+                                                ) {
+                                                    echo 'booking-action-danger';
+                                                } else {
+                                                    echo '';
+                                                } ?>" type="submit">
+                                                    <?php if ($canComplete) {
+                                                        echo 'Confirm completion';
+                                                    } else {
+                                                        echo 'Confirm cancellation';
+                                                    } ?>
                                                 </button>
                                             </form>
                                         </details>

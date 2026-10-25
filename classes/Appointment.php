@@ -1,270 +1,169 @@
 <?php
-
 class Appointment
 {
-    private PDO $db;
+    private $db;
+    private $error = '';
 
-    public function __construct(PDO $db)
+    public function __construct($db)
     {
         $this->db = $db;
     }
 
-    public function getServices(int $providerId): array
+    public function getError()
     {
-        $stmt = $this->db->prepare(
-            "SELECT id, name, duration_minutes, is_active
-             FROM services
-             WHERE provider_id = ?
-             ORDER BY name"
-        );
+        return $this->error;
+    }
 
+    private function fail($message)
+    {
+        $this->error = $message;
+        return false;
+    }
+
+    public function getServices($providerId)
+    {
+        $stmt = $this->db->prepare('SELECT * FROM services WHERE provider_id = ? ORDER BY name');
         $stmt->execute([$providerId]);
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    public function getById(int $slotId, int $providerId): ?array
+    public function getById($slotId, $providerId)
     {
-        $stmt = $this->db->prepare(
-            "SELECT a.*, s.name AS service_name
-             FROM appointment_slots a
-             JOIN services s ON s.id = a.service_id
-             WHERE a.id = ? AND s.provider_id = ?"
-        );
-
-        $stmt->execute([$slotId, $providerId]);
-
-        $slot = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $slot ?: null;
-    }
-
-    public function getAll(int $providerId, int $serviceId = 0, string $date = ''): array
-    {
-        $sql = "
-            SELECT
-                a.*,
-                s.name AS service_name,
-
-                EXISTS (
-                    SELECT 1
-                    FROM bookings b
-                    WHERE b.slot_id = a.id
-                ) AS has_history,
-
-                EXISTS (
-                    SELECT 1
-                    FROM bookings b
-                    WHERE b.slot_id = a.id
-                    AND b.status IN ('confirmed', 'completed')
-                ) AS is_reserved
-
-            FROM appointment_slots a
-            JOIN services s ON s.id = a.service_id
-            WHERE s.provider_id = ?
-        ";
-
-        $params = [$providerId];
-
-        if ($serviceId > 0) {
-            $sql .= ' AND a.service_id = ?';
-            $params[] = $serviceId;
+        $data = new SiteData($this->db);
+        $slot = $data->getSlot($slotId);
+        if ($slot && $slot['provider_id'] == $providerId) {
+            return $slot;
         }
-
-        if ($date !== '') {
-            $sql .= ' AND a.starts_at >= ? AND a.starts_at < ?';
-            $params[] = $date . ' 00:00:00';
-
-            $nextDate = new DateTimeImmutable($date);
-            $params[] = $nextDate->modify('+1 day')->format('Y-m-d 00:00:00');
-        }
-
-        $sql .= ' ORDER BY a.starts_at DESC, a.id DESC';
-
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($params);
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return null;
     }
-
-    // All appointment and booking mutations acquire the provider lock first.
-    private function transaction(int $providerId, callable $operation)
+    public function getAll($providerId, $serviceId = 0, $date = '')
     {
-        $this->db->beginTransaction();
-
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT id
-                 FROM provider_profiles
-                 WHERE id = ?
-                 FOR UPDATE"
-            );
-
-            $stmt->execute([$providerId]);
-
-            if (!$stmt->fetchColumn()) {
-                throw new RuntimeException('Provider profile not found.');
+        $data = new SiteData($this->db);
+        $result = [];
+        for ($i = count($data->slots) - 1; $i >= 0; $i--) {
+            $slot = $data->getSlot($data->slots[$i]['id']);
+            if (!$slot || $slot['provider_id'] != $providerId) {
+                continue;
             }
-
-            $result = $operation();
-
-            $this->db->commit();
-
-            return $result;
-        } catch (Throwable $e) {
-            if ($this->db->inTransaction()) {
-                $this->db->rollBack();
+            if ($serviceId > 0 && $slot['service_id'] != $serviceId) {
+                continue;
             }
-
-            throw $e;
+            if ($date !== '' && substr($slot['starts_at'], 0, 10) !== $date) {
+                continue;
+            }
+            $slot['has_history'] = false;
+            $slot['is_reserved'] = false;
+            foreach ($data->bookings as $booking) {
+                if ($booking['slot_id'] == $slot['id']) {
+                    $slot['has_history'] = true;
+                    if ($booking['status'] === 'confirmed' || $booking['status'] === 'completed') {
+                        $slot['is_reserved'] = true;
+                    }
+                }
+            }
+            $result[] = $slot;
         }
+        return $result;
     }
-
-    private function hasHistory(int $slotId): bool
+    public function save($providerId, $serviceId, $date, $time, $slotId = 0)
     {
-        $stmt = $this->db->prepare(
-            "SELECT EXISTS(
-                SELECT 1 FROM bookings WHERE slot_id = ?
-             )"
-        );
-
-        $stmt->execute([$slotId]);
-
-        return (bool) $stmt->fetchColumn();
-    }
-
-    public function save(
-        int $providerId,
-        int $serviceId,
-        string $date,
-        string $time,
-        int $slotId = 0
-    ): void {
-        $this->transaction($providerId, function () use (
-            $providerId,
-            $serviceId,
-            $date,
-            $time,
-            $slotId
+        $this->error = '';
+        $data = new SiteData($this->db);
+        $provider = $data->getProvider($providerId);
+        if (
+            !$provider ||
+            !$provider['provider_active'] ||
+            $provider['provider_role'] !== 'provider'
         ) {
-            if ($slotId > 0) {
-                $existing = $this->getById($slotId, $providerId);
-
-                if (!$existing) {
-                    throw new RuntimeException('Appointment not found.');
+            return $this->fail('Provider account unavailable.');
+        }
+        $service = $data->getService($serviceId);
+        if (!$service || $service['provider_id'] != $providerId || !$service['is_active']) {
+            return $this->fail('Please select one of your active services.');
+        }
+        if ($slotId > 0) {
+            $slot = $data->getSlot($slotId);
+            if (!$slot || $slot['provider_id'] != $providerId) {
+                return $this->fail('Appointment not found.');
+            }
+            foreach ($data->bookings as $booking) {
+                if ($booking['slot_id'] == $slotId) {
+                    return $this->fail('Appointments with booking history cannot be edited.');
                 }
-
-                if ($this->hasHistory($slotId)) {
-                    throw new RuntimeException(
-                        'Appointments with booking history cannot be edited.'
-                    );
-                }
             }
-
-            $stmt = $this->db->prepare(
-                "SELECT id, duration_minutes
-                     FROM services
-                     WHERE id = ?
-                       AND provider_id = ?
-                       AND is_active = 1"
-            );
-
-            $stmt->execute([$serviceId, $providerId]);
-            $service = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (!$service) {
-                throw new RuntimeException('Please select one of your active services.');
-            }
-
-            $start = DateTimeImmutable::createFromFormat('!Y-m-d H:i', $date . ' ' . $time);
-
-            if (!$start || $start->format('Y-m-d H:i') !== $date . ' ' . $time) {
-                throw new RuntimeException('Enter a valid date and time.');
-            }
-
-            if ($start <= new DateTimeImmutable()) {
-                throw new RuntimeException('The appointment must start in the future.');
-            }
-
-            $end = $start->modify('+' . (int) $service['duration_minutes'] . ' minutes');
-
-            $startsAt = $start->format('Y-m-d H:i:s');
-            $endsAt = $end->format('Y-m-d H:i:s');
-
-            $stmt = $this->db->prepare(
-                "SELECT a.id
-                     FROM appointment_slots a
-                     JOIN services s ON s.id = a.service_id
-                     WHERE s.provider_id = ?
-                       AND a.id <> ?
-                       AND a.starts_at < ?
-                       AND a.ends_at > ?
-                     LIMIT 1"
-            );
-
-            $stmt->execute([$providerId, $slotId, $endsAt, $startsAt]);
-
-            if ($stmt->fetchColumn()) {
-                throw new RuntimeException(
+        }
+        $start = strtotime($date . ' ' . $time);
+        if (!$start || date('Y-m-d H:i', $start) !== $date . ' ' . $time) {
+            return $this->fail('Enter a valid date and time.');
+        }
+        if ($start <= time()) {
+            return $this->fail('The appointment must start in the future.');
+        }
+        $end = $start + (int) $service['duration_minutes'] * 60;
+        foreach ($data->slots as $row) {
+            $other = $data->getSlot($row['id']);
+            if (
+                $other &&
+                $other['provider_id'] == $providerId &&
+                $other['id'] != $slotId &&
+                strtotime($other['starts_at']) < $end &&
+                strtotime($other['ends_at']) > $start
+            ) {
+                return $this->fail(
                     'This time overlaps another appointment, including closed appointments.'
                 );
             }
-
-            if ($slotId > 0) {
-                $stmt = $this->db->prepare(
-                    "UPDATE appointment_slots
-                         SET service_id = ?, starts_at = ?, ends_at = ?
-                         WHERE id = ?"
-                );
-
-                $stmt->execute([$serviceId, $startsAt, $endsAt, $slotId]);
-            } else {
-                $stmt = $this->db->prepare(
-                    "INSERT INTO appointment_slots
-                            (service_id, starts_at, ends_at, is_open)
-                         VALUES (?, ?, ?, 1)"
-                );
-
-                $stmt->execute([$serviceId, $startsAt, $endsAt]);
-            }
-        });
+        }
+        $startsAt = date('Y-m-d H:i:s', $start);
+        $endsAt = date('Y-m-d H:i:s', $end);
+        if ($slotId > 0) {
+            $stmt = $this->db->prepare(
+                'UPDATE appointment_slots SET service_id = ?, starts_at = ?, ends_at = ? WHERE id = ?'
+            );
+            $saved = $stmt->execute([$serviceId, $startsAt, $endsAt, $slotId]);
+        } else {
+            $stmt = $this->db->prepare(
+                'INSERT INTO appointment_slots (service_id, starts_at, ends_at, is_open) VALUES (?, ?, ?, 1)'
+            );
+            $saved = $stmt->execute([$serviceId, $startsAt, $endsAt]);
+        }
+        if (!$saved) {
+            return $this->fail('The appointment could not be saved.');
+        }
+        return true;
     }
-
-    public function setOpen(int $slotId, int $providerId, bool $isOpen): void
+    public function setOpen($slotId, $providerId, $isOpen)
     {
-        $this->transaction($providerId, function () use ($slotId, $providerId, $isOpen) {
-            $slot = $this->getById($slotId, $providerId);
-
-            if (!$slot) {
-                throw new RuntimeException('Appointment not found.');
-            }
-
-            if (new DateTimeImmutable($slot['starts_at']) <= new DateTimeImmutable()) {
-                throw new RuntimeException(
-                    'Past or started appointments cannot be opened or closed.'
-                );
-            }
-
-            $stmt = $this->db->prepare('UPDATE appointment_slots SET is_open = ? WHERE id = ?');
-
-            $stmt->execute([(int) $isOpen, $slotId]);
-        });
+        $slot = $this->getById($slotId, $providerId);
+        if (!$slot) {
+            return $this->fail('Appointment not found.');
+        }
+        if (strtotime($slot['starts_at']) <= time()) {
+            return $this->fail('Past or started appointments cannot be opened or closed.');
+        }
+        $value = 0;
+        if ($isOpen) {
+            $value = 1;
+        }
+        $stmt = $this->db->prepare('UPDATE appointment_slots SET is_open = ? WHERE id = ?');
+        if (!$stmt->execute([$value, $slotId])) {
+            return $this->fail('Could not update this appointment.');
+        }
+        return true;
     }
-
-    public function delete(int $slotId, int $providerId): void
+    public function delete($slotId, $providerId)
     {
-        $this->transaction($providerId, function () use ($slotId, $providerId) {
-            if (!$this->getById($slotId, $providerId)) {
-                throw new RuntimeException('Appointment not found.');
-            }
-
-            if ($this->hasHistory($slotId)) {
-                throw new RuntimeException('Appointments with booking history cannot be deleted.');
-            }
-
-            $stmt = $this->db->prepare('DELETE FROM appointment_slots WHERE id = ?');
-
-            $stmt->execute([$slotId]);
-        });
+        if (!$this->getById($slotId, $providerId)) {
+            return $this->fail('Appointment not found.');
+        }
+        $stmt = $this->db->prepare('SELECT id FROM bookings WHERE slot_id = ?');
+        $stmt->execute([$slotId]);
+        if ($stmt->fetch(PDO::FETCH_ASSOC)) {
+            return $this->fail('Appointments with booking history cannot be deleted.');
+        }
+        $stmt = $this->db->prepare('DELETE FROM appointment_slots WHERE id = ?');
+        if (!$stmt->execute([$slotId])) {
+            return $this->fail('Could not delete this appointment.');
+        }
+        return true;
     }
 }

@@ -13,11 +13,20 @@ if (!in_array($status, ['', 'confirmed', 'completed', 'cancelled'], true)) {
     $status = '';
 }
 
-$page = filter_var($_GET['page'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+if (isset($_GET['page'])) {
+    $page = filter_var($_GET['page'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+} else {
+    $page = filter_var(null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+}
 
-$page = $page === false ? 1 : max(1, (int) $page);
+if ($page === false) {
+    $page = 1;
+} else {
+    $page = max(1, (int) $page);
+}
 
-$pageUrl = static function (int $targetPage) use ($search, $status): string {
+function pageUrl($targetPage, $search, $status)
+{
     $query = ['page' => $targetPage];
 
     if ($search !== '') {
@@ -29,47 +38,28 @@ $pageUrl = static function (int $targetPage) use ($search, $status): string {
     }
 
     return 'my-bookings.php?' . http_build_query($query);
-};
+}
 
 $customerBookings = new CustomerBookings($db);
 
 $error = '';
-$success = $_SESSION['booking_success'] ?? '';
+if (isset($_SESSION['booking_success'])) {
+    $success = $_SESSION['booking_success'];
+} else {
+    $success = '';
+}
 
 unset($_SESSION['booking_success']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (!validCsrf($_POST['csrf_token'] ?? null)) {
-            http_response_code(403);
-
-            throw new RuntimeException('The form expired. Reload the page and try again.');
-        }
-
-        if (inputText($_POST, 'action') !== 'cancel') {
-            throw new RuntimeException('Invalid action.');
-        }
-
-        $bookingId = filter_var($_POST['booking_id'] ?? null, FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1]
-        ]);
-
-        if (!$bookingId) {
-            throw new RuntimeException('Invalid booking.');
-        }
-
-        $customerBookings->cancel($customerId, (int) $bookingId);
-
-        $_SESSION['booking_success'] = 'Booking #' . $bookingId . ' has been cancelled.';
-
-        header('Location: ' . $pageUrl($page), true, 303);
+    if (inputText($_POST, 'action') !== 'cancel') {
+        $error = 'Invalid action.';
+    } elseif ($customerBookings->cancel($customerId, positiveId($_POST, 'booking_id'))) {
+        $_SESSION['booking_success'] = 'Your booking has been cancelled.';
+        header('Location: my-bookings.php', true, 303);
         exit();
-    } catch (PDOException $e) {
-        error_log((string) $e);
-
-        $error = 'Your booking could not be updated. Please try again.';
-    } catch (RuntimeException $e) {
-        $error = $e->getMessage();
+    } else {
+        $error = $customerBookings->getError();
     }
 }
 
@@ -83,7 +73,11 @@ $page = $result['page'];
 $pages = $result['pages'];
 $perPage = $result['per_page'];
 
-$firstResult = $total > 0 ? ($page - 1) * $perPage + 1 : 0;
+if ($total > 0) {
+    $firstResult = ($page - 1) * $perPage + 1;
+} else {
+    $firstResult = 0;
+}
 
 $lastResult = min($page * $perPage, $total);
 
@@ -240,19 +234,31 @@ $statusLabels = [
                         </option>
                         <option
                             value="confirmed"
-                            <?= $status === 'confirmed' ? 'selected' : '' ?>
+                            <?php if ($status === 'confirmed') {
+                                echo 'selected';
+                            } else {
+                                echo '';
+                            } ?>
                         >
                             Confirmed
                         </option>
                         <option
                             value="completed"
-                            <?= $status === 'completed' ? 'selected' : '' ?>
+                            <?php if ($status === 'completed') {
+                                echo 'selected';
+                            } else {
+                                echo '';
+                            } ?>
                         >
                             Completed
                         </option>
                         <option
                             value="cancelled"
-                            <?= $status === 'cancelled' ? 'selected' : '' ?>
+                            <?php if ($status === 'cancelled') {
+                                echo 'selected';
+                            } else {
+                                echo '';
+                            } ?>
                         >
                             Cancelled
                         </option>
@@ -280,7 +286,11 @@ $statusLabels = [
 
                             Showing <?= $firstResult ?>–<?= $lastResult ?>
                             of <?= $total ?>
-                            <?= $total === 1 ? 'booking' : 'bookings' ?>.
+                            <?php if ($total === 1) {
+                                echo 'booking';
+                            } else {
+                                echo 'bookings';
+                            } ?>.
 
                         <?php else: ?>
 
@@ -291,7 +301,11 @@ $statusLabels = [
                 </div>
                 <span class="catalog-results-count">
                     <?= $total ?>
-                    <?= $total === 1 ? 'booking' : 'bookings' ?>
+                    <?php if ($total === 1) {
+                        echo 'booking';
+                    } else {
+                        echo 'bookings';
+                    } ?>
                 </span>
             </div>
 
@@ -303,11 +317,11 @@ $statusLabels = [
                         <?php
                         $bookingId = (int) $booking['id'];
 
-                        $startsAt = new DateTimeImmutable($booking['starts_at']);
+                        $startsAt = strtotime($booking['starts_at']);
 
-                        $endsAt = new DateTimeImmutable($booking['ends_at']);
+                        $endsAt = strtotime($booking['ends_at']);
 
-                        $createdAt = new DateTimeImmutable($booking['created_at']);
+                        $createdAt = strtotime($booking['created_at']);
 
                         $canCancel = (int) $booking['can_cancel'] === 1;
                         $hasReview = $booking['review_id'] !== null;
@@ -335,7 +349,9 @@ $statusLabels = [
                                     </p>
                                 </div>
                                 <span
-                                    class="my-booking-badge my-booking-badge-<?= escapeHtml( $bookingStatus ) ?>"
+                                    class="my-booking-badge my-booking-badge-<?= escapeHtml(
+                                        $bookingStatus
+                                    ) ?>"
                                 >
                                     <?= escapeHtml($statusLabels[$bookingStatus]) ?>
                                 </span>
@@ -344,23 +360,23 @@ $statusLabels = [
                                 <div>
                                     <dt>Appointment</dt>
                                     <dd>
-                                        <?= escapeHtml($startsAt->format('d M Y')) ?>
+                                        <?= escapeHtml(date('d M Y', $startsAt)) ?>
                                     </dd>
                                 </div>
                                 <div>
                                     <dt>Time · Jordan</dt>
                                     <dd>
-                                        <?= escapeHtml($startsAt->format('g:i A')) ?>
+                                        <?= escapeHtml(date('g:i A', $startsAt)) ?>
 
                                         –
 
-                                        <?= escapeHtml($endsAt->format('g:i A')) ?>
+                                        <?= escapeHtml(date('g:i A', $endsAt)) ?>
 
                                         <?php if (
-                                            $startsAt->format('Y-m-d') !== $endsAt->format('Y-m-d')
+                                            date('Y-m-d', $startsAt) !== date('Y-m-d', $endsAt)
                                         ): ?>
                                             <small>
-                                                Ends <?= escapeHtml($endsAt->format('d M Y')) ?>
+                                                Ends <?= escapeHtml(date('d M Y', $endsAt)) ?>
                                             </small>
                                         <?php endif; ?>
                                     </dd>
@@ -403,7 +419,7 @@ $statusLabels = [
                                     <div>
                                         <h4>Booked on</h4>
                                         <p>
-                                            <?= escapeHtml($createdAt->format('d M Y · g:i A')) ?>
+                                            <?= escapeHtml(date('d M Y · g:i A', $createdAt)) ?>
                                         </p>
                                     </div>
 
@@ -411,7 +427,12 @@ $statusLabels = [
                                         <div>
                                             <h4>Cancelled on</h4>
                                             <p>
-                                                <?= escapeHtml( (new DateTimeImmutable( $booking['cancelled_at'] ))->format('d M Y · g:i A') ) ?>
+                                                <?= escapeHtml(
+                                                    date(
+                                                        'd M Y · g:i A',
+                                                        strtotime($booking['cancelled_at'])
+                                                    )
+                                                ) ?>
                                             </p>
                                         </div>
                                     <?php endif; ?>
@@ -420,7 +441,12 @@ $statusLabels = [
                                         <div>
                                             <h4>Marked as completed</h4>
                                             <p>
-                                                <?= escapeHtml( (new DateTimeImmutable( $booking['completed_at'] ))->format('d M Y · g:i A') ) ?>
+                                                <?= escapeHtml(
+                                                    date(
+                                                        'd M Y · g:i A',
+                                                        strtotime($booking['completed_at'])
+                                                    )
+                                                ) ?>
                                             </p>
                                         </div>
                                     <?php endif; ?>
@@ -443,14 +469,12 @@ $statusLabels = [
                                             </summary>
                                             <form
                                                 class="my-booking-cancel-form"
-                                                action="<?= escapeHtml($pageUrl($page)) ?>"
+                                                action="<?= escapeHtml(
+                                                    pageUrl($page, $search, $status)
+                                                ) ?>"
                                                 method="post"
                                             >
-                                                <input
-                                                    type="hidden"
-                                                    name="csrf_token"
-                                                    value="<?= escapeHtml(csrfToken()) ?>"
-                                                >
+                                                
                                                 <input
                                                     type="hidden"
                                                     name="action"
@@ -544,7 +568,7 @@ $statusLabels = [
                     >
 
                         <?php if ($page > 1): ?>
-                            <a href="<?= escapeHtml($pageUrl($page - 1)) ?>">
+                            <a href="<?= escapeHtml(pageUrl($page - 1, $search, $status)) ?>">
                                 <span aria-hidden="true">←</span>
                                 Previous
                             </a>
@@ -558,7 +582,7 @@ $statusLabels = [
                         </span>
 
                         <?php if ($page < $pages): ?>
-                            <a href="<?= escapeHtml($pageUrl($page + 1)) ?>">
+                            <a href="<?= escapeHtml(pageUrl($page + 1, $search, $status)) ?>">
                                 Next
                                 <span aria-hidden="true">→</span>
                             </a>

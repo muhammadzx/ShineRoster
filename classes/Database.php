@@ -1,33 +1,23 @@
 <?php
 class Database
 {
-    private PDO $db;
+    private $db;
+
     public function __construct()
     {
-        $host = getenv('DB_HOST') ?: 'localhost';
-        $name = getenv('DB_NAME') ?: 'shineroster';
-        $port = getenv('DB_PORT') ?: '3306';
-        if (
-            !preg_match('/^[a-zA-Z0-9_.-]+$/D', $host) ||
-            !preg_match('/^[a-zA-Z0-9_]+$/D', $name) ||
-            !ctype_digit($port)
-        ) {
-            throw new RuntimeException('Invalid database configuration.');
-        }
-        $this->db = new PDO(
-            "mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4",
-            getenv('DB_USER') !== false ? getenv('DB_USER') : 'root',
-            getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : '',
-            [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false
-            ]
-        );
-        $this->db->exec("SET time_zone = '+03:00'");
+        // Edit these values to match your local database.
+        $host = '127.0.0.1';
+        $name = 'shineroster';
+        $user = 'root';
+        $password = '';
+
+        $this->db = new PDO("mysql:host=$host;dbname=$name;charset=utf8mb4", $user, $password);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+        $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
-    public function getConnection(): PDO
+    public function getConnection()
     {
         return $this->db;
     }

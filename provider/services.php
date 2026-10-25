@@ -1,101 +1,53 @@
 <?php
 require_once __DIR__ . '/../includes/init.php';
 $currentUser = $auth->requireRole('provider', '../login.php');
-
-$stmt = $db->prepare('SELECT id FROM provider_profiles WHERE user_id=?');
-$stmt->execute([$currentUser['id']]);
-if (!$stmt->fetchColumn()) {
+$providerObject = new Provider($db);
+$profile = $providerObject->getProfileByUserId($currentUser['id']);
+if (!$profile) {
     header('Location: ../profile.php');
     exit();
 }
 $service = new Service($db, $currentUser['id']);
-
 $error = '';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (!validCsrf($_POST['csrf_token'] ?? null)) {
-            http_response_code(403);
-            throw new RuntimeException('The form expired. Reload and try again.');
-        }
-        $action = inputText($_POST, 'action');
-
-        $service_id = filter_var($_POST['service_id'] ?? '', FILTER_VALIDATE_INT, [
-            'options' => ['min_range' => 1]
-        ]);
-
-        $result = false;
-
-        if ($action === 'create' || $action === 'update') {
-            $name = inputText($_POST, 'name');
-            $description = inputText($_POST, 'description');
-            $price = inputText($_POST, 'price');
-
-            $duration = filter_var($_POST['duration_minutes'] ?? '', FILTER_VALIDATE_INT, [
-                'options' => [
-                    'min_range' => 1,
-                    'max_range' => 65535
-                ]
-            ]);
-
-            if ($name === '' || $description === '') {
-                $error = 'Please fill in all fields.';
-            } elseif (!is_numeric($price) || $price < 0 || $price > 9999999.999) {
-                $error = 'Please enter a valid price.';
-            } elseif ($duration === false) {
-                $error = 'Please enter a valid duration.';
-            } elseif ($action === 'create') {
-                $status = inputText($_POST, 'is_active');
-
-                if (!in_array($status, ['0', '1'], true)) {
-                    $error = 'Please select a valid status.';
-                } else {
-                    $result = $service->addService($name, $description, $price, $duration, $status);
-                }
-            } elseif ($service_id === false) {
-                $error = 'Invalid service ID.';
-            } else {
-                $result = $service->updateService(
-                    $service_id,
-                    $name,
-                    $description,
-                    $price,
-                    $duration
-                );
-            }
-        } elseif ($action === 'activate' || $action === 'deactivate') {
-            if ($service_id === false) {
-                $error = 'Invalid service ID.';
-            } else {
-                $status = $action === 'activate' ? 1 : 0;
-
-                $result = $service->changeStatus($service_id, $status);
-            }
-        } else {
-            $error = 'Invalid action.';
-        }
-
-        if ($result === true) {
-            $_SESSION['service_success'] = 'Your changes have been saved successfully.';
-
-            header('Location: services.php', true, 303);
-            exit();
-        }
-
-        if ($error === '') {
-            $error = 'Service not found or could not be saved.';
-        }
-    } catch (PDOException $e) {
-        error_log((string) $e);
-        $error = 'Could not save your changes. Please try again.';
-    } catch (RuntimeException $e) {
-        $error = $e->getMessage();
+    $action = inputText($_POST, 'action');
+    $id = positiveId($_POST, 'service_id');
+    $saved = false;
+    if ($action === 'create') {
+        $saved = $service->addService(
+            inputText($_POST, 'name'),
+            inputText($_POST, 'description'),
+            inputText($_POST, 'price'),
+            inputText($_POST, 'duration_minutes'),
+            inputText($_POST, 'is_active')
+        );
+    } elseif ($action === 'update') {
+        $saved = $service->updateService(
+            $id,
+            inputText($_POST, 'name'),
+            inputText($_POST, 'description'),
+            inputText($_POST, 'price'),
+            inputText($_POST, 'duration_minutes')
+        );
+    } elseif ($action === 'activate') {
+        $saved = $service->changeStatus($id, 1);
+    } elseif ($action === 'deactivate') {
+        $saved = $service->changeStatus($id, 0);
+    } else {
+        $error = 'Invalid action.';
+    }
+    if ($saved) {
+        $_SESSION['service_success'] = 'Your changes have been saved successfully.';
+        header('Location: services.php', true, 303);
+        exit();
+    }
+    if ($error === '') {
+        $error = $service->getError();
     }
 }
-
-$success = $_SESSION['service_success'] ?? '';
+$success = inputText($_SESSION, 'service_success');
 unset($_SESSION['service_success']);
-$search = mb_substr(inputText($_GET, 'search'), 0, 120);
+$search = inputText($_GET, 'search', 120);
 $status = inputText($_GET, 'status');
 $pageTitle = 'My services';
 $serviceStats = $service->getStats();
@@ -189,7 +141,9 @@ $serviceRows = $service->getServices($search, $status);
                         <article class="stat-card">
                             <div class="stat-card-top">
                                 <span><?= escapeHtml($label) ?></span>
-                                <span class="stat-icon" aria-hidden="true"><?= escapeHtml( $icon ) ?></span>
+                                <span class="stat-icon" aria-hidden="true"><?= escapeHtml(
+                                    $icon
+                                ) ?></span>
                             </div>
                             <strong class="stat-value"><?= $value ?></strong>
                             <p><?= escapeHtml($description) ?></p>
@@ -221,11 +175,19 @@ $serviceRows = $service->getServices($search, $status);
         <select id="service-status-filter" name="status">
             <option value="">All services</option>
             <option value="active"
-                <?= $status === 'active' ? 'selected' : '' ?>>
+                <?php if ($status === 'active') {
+                    echo 'selected';
+                } else {
+                    echo '';
+                } ?>>
                 Active
             </option>
             <option value="inactive"
-                <?= $status === 'inactive' ? 'selected' : '' ?>>
+                <?php if ($status === 'inactive') {
+                    echo 'selected';
+                } else {
+                    echo '';
+                } ?>>
                 Inactive
             </option>
         </select>
@@ -249,15 +211,29 @@ $serviceRows = $service->getServices($search, $status);
                             <article class="provider-service-card">
                                 <div class="provider-service-top">
                                     <span class="provider-service-icon" aria-hidden="true">✦</span>
-                                    <span class="status-badge <?= $isActive ? 'status-completed' : 'status-inactive' ?>">
-                                        <?= $isActive ? 'Active' : 'Inactive' ?>
+                                    <span class="status-badge <?php if ($isActive) {
+                                        echo 'status-completed';
+                                    } else {
+                                        echo 'status-inactive';
+                                    } ?>">
+                                        <?php if ($isActive) {
+                                            echo 'Active';
+                                        } else {
+                                            echo 'Inactive';
+                                        } ?>
                                     </span>
                                 </div>
                                 <h3><?= escapeHtml($serviceRow['name']) ?></h3>
-                                <p class="provider-service-description"><?= escapeHtml( $serviceRow['description'] ) ?></p>
+                                <p class="provider-service-description"><?= escapeHtml(
+                                    $serviceRow['description']
+                                ) ?></p>
                                 <dl class="provider-service-details">
-                                    <div><dt>Price per visit</dt><dd>JOD <?= escapeHtml( $serviceRow['price'] ) ?></dd></div>
-                                    <div><dt>Duration</dt><dd><?= (int) $serviceRow[ 'duration_minutes' ] ?> minutes</dd></div>
+                                    <div><dt>Price per visit</dt><dd>JOD <?= escapeHtml(
+                                        $serviceRow['price']
+                                    ) ?></dd></div>
+                                    <div><dt>Duration</dt><dd><?= (int) $serviceRow[
+                                        'duration_minutes'
+                                    ] ?> minutes</dd></div>
                                 </dl>
                                 <a class="service-appointments-link" href="slots.php?service_id=<?= $serviceId ?>">
                                     Manage appointments <span aria-hidden="true">↗</span>
@@ -266,42 +242,66 @@ $serviceRows = $service->getServices($search, $status);
                                     <details class="service-edit">
                                         <summary>Edit service</summary>
                                         <form class="service-edit-form" action="services.php" method="post">
-                                            <input type="hidden" name="csrf_token" value="<?= escapeHtml( csrfToken() ) ?>">
+                                            
                                             <input type="hidden" name="action" value="update">
                                             <input type="hidden" name="service_id" value="<?= $serviceId ?>">
                                             <div class="service-field">
                                                 <label for="edit-name-<?= $serviceId ?>">Service name</label>
-                                                <input type="text" id="edit-name-<?= $serviceId ?>" name="name" value="<?= escapeHtml( $serviceRow['name'] ) ?>" maxlength="120" required>
+                                                <input type="text" id="edit-name-<?= $serviceId ?>" name="name" value="<?= escapeHtml(
+    $serviceRow['name']
+) ?>" maxlength="120" required>
                                             </div>
                                             <div class="service-field">
                                                 <label for="edit-description-<?= $serviceId ?>">Description</label>
-                                                <textarea id="edit-description-<?= $serviceId ?>" name="description" rows="4" required><?= escapeHtml( $serviceRow['description'] ) ?></textarea>
+                                                <textarea id="edit-description-<?= $serviceId ?>" name="description" rows="4" required><?= escapeHtml(
+    $serviceRow['description']
+) ?></textarea>
                                             </div>
                                             <div class="service-form-row">
                                                 <div class="service-field">
                                                     <label for="edit-price-<?= $serviceId ?>">Price (JOD)</label>
-                                                    <input type="number" id="edit-price-<?= $serviceId ?>" name="price" value="<?= escapeHtml( $serviceRow['price'] ) ?>" min="0" max="9999999.999" step="0.001" required>
+                                                    <input type="number" id="edit-price-<?= $serviceId ?>" name="price" value="<?= escapeHtml(
+    $serviceRow['price']
+) ?>" min="0" max="9999999.999" step="0.001" required>
                                                 </div>
                                                 <div class="service-field">
                                                     <label for="edit-duration-<?= $serviceId ?>">Minutes</label>
-                                                    <input type="number" id="edit-duration-<?= $serviceId ?>" name="duration_minutes" value="<?= (int) $serviceRow[ 'duration_minutes' ] ?>" min="1" max="65535" step="1" required>
+                                                    <input type="number" id="edit-duration-<?= $serviceId ?>" name="duration_minutes" value="<?= (int) $serviceRow[
+    'duration_minutes'
+] ?>" min="1" max="65535" step="1" required>
                                                 </div>
                                             </div>
                                             <button class="btn btn-primary" type="submit">Save changes</button>
                                         </form>
                                     </details>
                                     <form action="services.php" method="post">
-                                        <input type="hidden" name="csrf_token" value="<?= escapeHtml( csrfToken() ) ?>">
-                                        <input type="hidden" name="action" value="<?= $isActive ? 'deactivate' : 'activate' ?>">
+                                        
+                                        <input type="hidden" name="action" value="<?php if (
+                                            $isActive
+                                        ) {
+                                            echo 'deactivate';
+                                        } else {
+                                            echo 'activate';
+                                        } ?>">
                                         <input type="hidden" name="service_id" value="<?= $serviceId ?>">
-                                        <button class="service-action-button" type="submit"><?= $isActive ? 'Deactivate' : 'Activate' ?></button>
+                                        <button class="service-action-button" type="submit"><?php if (
+                                            $isActive
+                                        ) {
+                                            echo 'Deactivate';
+                                        } else {
+                                            echo 'Activate';
+                                        } ?></button>
                                     </form>
                                 </div>
                             </article>
                         <?php endforeach; ?>
 
                     </div>
-                    <div class="service-empty" <?= count($serviceRows) > 0 ? 'hidden' : '' ?>>
+                    <div class="service-empty" <?php if (count($serviceRows) > 0) {
+                        echo 'hidden';
+                    } else {
+                        echo '';
+                    } ?>>
                         <span aria-hidden="true">✦</span>
                         <h3>No services found</h3>
                         <p>
@@ -325,7 +325,7 @@ $serviceRows = $service->getServices($search, $status);
                     </div>
                     <form class="service-create-form" action="services.php" method="post">
                         <input type="hidden" name="action" value="create">
-                        <input type="hidden" name="csrf_token" value="<?= escapeHtml( csrfToken() ) ?>">
+                        
                         <div class="service-field">
                             <label for="new-service-name">Service name</label>
                             <input type="text" id="new-service-name" name="name"

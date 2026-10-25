@@ -2,14 +2,14 @@
 
 class User
 {
-    private PDO $db;
+    private $db;
 
-    public function __construct(PDO $db)
+    public function __construct($db)
     {
         $this->db = $db;
     }
 
-    public function getProfileAccount(int $userId): ?array
+    public function getProfileAccount($userId)
     {
         $stmt = $this->db->prepare(
             "SELECT
@@ -28,15 +28,15 @@ class User
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $user ?: null;
+        if ($user) {
+            return $user;
+        } else {
+            return null;
+        }
     }
 
-    public function updateProfileAccount(
-        int $userId,
-        string $name,
-        string $email,
-        string $phone
-    ): void {
+    public function updateProfileAccount($userId, $name, $email, $phone)
+    {
         $stmt = $this->db->prepare(
             "UPDATE users
              SET full_name = ?,
@@ -45,6 +45,6 @@ class User
              WHERE id = ?"
         );
 
-        $stmt->execute([$name, $email, $phone, $userId]);
+        return $stmt->execute([$name, $email, $phone, $userId]);
     }
 }

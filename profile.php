@@ -1,41 +1,33 @@
 <?php
-
 require_once __DIR__ . '/includes/init.php';
 $currentUser = $auth->requireRole('provider', 'login.php');
-
 $userId = (int) $currentUser['id'];
 $account = $currentUser;
 $providerObject = new Provider($db);
-
-$profile = $providerObject->getProfileByUserId((int) $userId);
+$profile = $providerObject->getProfileByUserId($userId);
 $skills = $providerObject->getSkills();
-
-$selectedSkills = $profile ? $providerObject->getSkillIds((int) $profile['id']) : [];
-
+$selectedSkills = [];
+$city = '';
+$bio = '';
+if ($profile) {
+    $selectedSkills = $providerObject->getSkillIds($profile['id']);
+    $city = $profile['city'];
+    $bio = $profile['bio'];
+}
 $form = [
     'full_name' => $account['full_name'],
     'email' => $account['email'],
     'phone' => $account['phone'],
-    'city' => $profile['city'] ?? '',
-    'bio' => $profile['bio'] ?? '',
+    'city' => $city,
+    'bio' => $bio,
     'skills' => $selectedSkills
 ];
-
 $pageTitle = 'My profile';
 $activePage = 'profile';
-
 $error = '';
-$success = $_SESSION['profile_success'] ?? '';
-
+$success = inputText($_SESSION, 'profile_success');
 unset($_SESSION['profile_success']);
-
-if (empty($_SESSION['profile_csrf'])) {
-    $_SESSION['profile_csrf'] = bin2hex(random_bytes(32));
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $rawSkills = $_POST['skills'] ?? [];
-
     $form = [
         'full_name' => inputText($_POST, 'full_name'),
         'email' => inputText($_POST, 'email'),
@@ -44,43 +36,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'bio' => inputText($_POST, 'bio'),
         'skills' => []
     ];
-
-    try {
-        if (!hash_equals($_SESSION['profile_csrf'], inputText($_POST, 'csrf_token'))) {
-            throw new RuntimeException('Your form has expired. Refresh the page and try again.');
-        }
-
-        if (!is_array($rawSkills)) {
-            throw new RuntimeException('Invalid skill selection.');
-        }
-
-        foreach ($rawSkills as $value) {
-            $skillId = filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-
-            if ($skillId === false) {
-                throw new RuntimeException('Invalid skill selection.');
-            }
-
-            $form['skills'][] = (int) $skillId;
-        }
-
-        $providerObject->saveAccountProfile((int) $userId, $form);
-
+    if (isset($_POST['skills']) && is_array($_POST['skills'])) {
+        $form['skills'] = $_POST['skills'];
+    }
+    if (isset($_POST['skills']) && !is_array($_POST['skills'])) {
+        $error = 'Invalid skill selection.';
+    } elseif ($providerObject->saveAccountProfile($userId, $form)) {
         $_SESSION['full_name'] = $form['full_name'];
-
         $_SESSION['profile_success'] = 'Your profile has been updated successfully.';
-
         header('Location: profile.php', true, 303);
         exit();
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-
-        $error =
-            (int) ($e->errorInfo[1] ?? 0) === 1062
-                ? 'This email address is already registered.'
-                : 'Your profile could not be saved. Please try again.';
-    } catch (RuntimeException $e) {
-        $error = $e->getMessage();
+    } else {
+        $error = $providerObject->getError();
     }
 }
 ?>
@@ -167,7 +134,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div>
                                 <dt>City</dt>
                                 <dd>
-                                    <?= escapeHtml($profile['city'] ?? '' ?: 'Not added yet') ?>
+                                    <?php
+                                    if (isset($profile['city'])) {
+                                        $conditionalValue = $profile['city'];
+                                    } else {
+                                        $conditionalValue = '';
+                                    }
+                                    if ($conditionalValue) {
+                                        echo escapeHtml($conditionalValue);
+                                    } else {
+                                        echo escapeHtml('Not added yet');
+                                    }
+                                    ?>
                                 </dd>
                             </div>
                             <div>
@@ -184,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </aside>
                     <form class="profile-form" action="../profile.php" method="post">
-                        <input type="hidden" name="csrf_token" value="<?= escapeHtml( $_SESSION['profile_csrf'] ) ?>">
+                        
                         <section class="dashboard-card" aria-labelledby="account-details-title">
                             <div class="card-heading">
                                 <div>
@@ -200,7 +178,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="profile-field">
                                     <label for="profile-name">Full name</label>
                                     <input type="text" id="profile-name" name="full_name"
-                                        value="<?= escapeHtml( $form['full_name'] ) ?>" autocomplete="name" minlength="2"
+                                        value="<?= escapeHtml(
+                                            $form['full_name']
+                                        ) ?>" autocomplete="name" minlength="2"
                                         maxlength="100" required>
                                 </div>
                                 <div class="profile-form-row">
@@ -209,7 +189,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             Email address
                                         </label>
                                         <input type="email" id="profile-email" name="email"
-                                            value="<?= escapeHtml( $form['email'] ) ?>" autocomplete="email" maxlength="190"
+                                            value="<?= escapeHtml(
+                                                $form['email']
+                                            ) ?>" autocomplete="email" maxlength="190"
                                             required>
                                     </div>
                                     <div class="profile-field">
@@ -217,7 +199,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             Phone number
                                         </label>
                                         <input type="tel" id="profile-phone" name="phone"
-                                            value="<?= escapeHtml( $form['phone'] ) ?>" placeholder="e.g. 0791234567"
+                                            value="<?= escapeHtml(
+                                                $form['phone']
+                                            ) ?>" placeholder="e.g. 0791234567"
                                             autocomplete="tel" maxlength="20" required>
                                     </div>
                                 </div>
@@ -238,7 +222,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="profile-field">
                                     <label for="profile-city">City</label>
                                     <input type="text" id="profile-city" name="city"
-                                        value="<?= escapeHtml( $form['city'] ) ?>" placeholder="e.g. Amman"
+                                        value="<?= escapeHtml(
+                                            $form['city']
+                                        ) ?>" placeholder="e.g. Amman"
                                         autocomplete="address-level2" maxlength="100" required>
                                 </div>
                                 <div class="profile-field">
@@ -250,7 +236,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </label>
                                     <textarea id="profile-bio" name="bio" rows="6" maxlength="3000"
                                         placeholder="Describe your experience, approach, and the cleaning services you provide."
-                                        aria-describedby="profile-bio-hint"><?= escapeHtml( $form['bio'] ) ?></textarea>
+                                        aria-describedby="profile-bio-hint"><?= escapeHtml(
+                                            $form['bio']
+                                        ) ?></textarea>
                                     <p class="profile-field-hint" id="profile-bio-hint">
                                         Up to 3,000 characters.
                                         Avoid sharing private information here.
@@ -277,8 +265,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                 <?php foreach ($skills as $skill): ?>
                                     <label class="profile-skill-option">
-                                        <input type="checkbox" name="skills[]" value="<?= (int) $skill[ 'id' ] ?>"
-                                            <?= in_array((int) $skill['id'], $form['skills'], true) ? 'checked' : '' ?>>
+                                        <input type="checkbox" name="skills[]" value="<?= (int) $skill[
+                                            'id'
+                                        ] ?>"
+                                            <?php if (
+                                                in_array((int) $skill['id'], $form['skills'], true)
+                                            ) {
+                                                echo 'checked';
+                                            } else {
+                                                echo '';
+                                            } ?>>
                                         <span dir="auto">
                                             <?= escapeHtml($skill['name']) ?>
                                         </span>

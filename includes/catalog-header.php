@@ -1,14 +1,32 @@
 <?php
-$accountName = $currentAccount['full_name'] ?? '';
-$accountRole = $currentAccount['role'] ?? '';
-$accountInitial =
-    $accountName !== '' ? mb_strtoupper(mb_substr($accountName, 0, 1, 'UTF-8'), 'UTF-8') : '';
-$workspaceUrl = match ($accountRole) {
-    'provider' => 'provider/dashboard.php',
-    'admin' => 'admin/dashboard.php',
-    default => ''
-};
-$catalogPage = basename($_SERVER['SCRIPT_NAME'] ?? '');
+if (isset($currentAccount['full_name'])) {
+    $accountName = $currentAccount['full_name'];
+} else {
+    $accountName = '';
+}
+if (isset($currentAccount['role'])) {
+    $accountRole = $currentAccount['role'];
+} else {
+    $accountRole = '';
+}
+if ($accountName !== '') {
+    $accountInitial = mb_strtoupper(mb_substr($accountName, 0, 1, 'UTF-8'), 'UTF-8');
+} else {
+    $accountInitial = '';
+}
+if ($accountRole === 'provider') {
+    $workspaceUrl = 'provider/dashboard.php';
+} elseif ($accountRole === 'admin') {
+    $workspaceUrl = 'admin/dashboard.php';
+} else {
+    $workspaceUrl = '';
+}
+
+if (isset($_SERVER['SCRIPT_NAME'])) {
+    $catalogPage = basename($_SERVER['SCRIPT_NAME']);
+} else {
+    $catalogPage = basename('');
+}
 ?>
 <header class="catalog-header">
     <div class="catalog-container catalog-header-inner">
@@ -25,18 +43,34 @@ $catalogPage = basename($_SERVER['SCRIPT_NAME'] ?? '');
             >
         </a>
         <nav class="catalog-nav" aria-label="Main navigation">
-            <a href="index.php" <?= $catalogPage === 'index.php' ? 'aria-current="page"' : '' ?>>
+            <a href="index.php" <?php if ($catalogPage === 'index.php') {
+                echo 'aria-current="page"';
+            } else {
+                echo '';
+            } ?>>
                 Home
             </a>
-            <a href="services.php" <?= $catalogPage === 'services.php' ? 'aria-current="page"' : '' ?>>
+            <a href="services.php" <?php if ($catalogPage === 'services.php') {
+                echo 'aria-current="page"';
+            } else {
+                echo '';
+            } ?>>
                 Services
             </a>
-            <a href="providers.php" <?= $catalogPage === 'providers.php' ? 'aria-current="page"' : '' ?>>
+            <a href="providers.php" <?php if ($catalogPage === 'providers.php') {
+                echo 'aria-current="page"';
+            } else {
+                echo '';
+            } ?>>
                 Find a cleaner
             </a>
 
             <?php if ($accountRole === 'customer'): ?>
-                <a href="my-bookings.php" <?= $catalogPage === 'my-bookings.php' ? 'aria-current="page"' : '' ?>>
+                <a href="my-bookings.php" <?php if ($catalogPage === 'my-bookings.php') {
+                    echo 'aria-current="page"';
+                } else {
+                    echo '';
+                } ?>>
                     My bookings
                 </a>
             <?php else: ?>

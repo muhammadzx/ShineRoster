@@ -1,6 +1,10 @@
 <?php
 
-$currentPage = basename($_SERVER['SCRIPT_NAME'] ?? ''); ?>
+if (isset($_SERVER['SCRIPT_NAME'])) {
+    $currentPage = basename($_SERVER['SCRIPT_NAME']);
+} else {
+    $currentPage = basename('');
+} ?>
 
 <aside class="dashboard-sidebar" id="provider-sidebar">
     <label
@@ -26,35 +30,55 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'] ?? ''); ?>
     <nav class="sidebar-nav" aria-label="Provider navigation">
         <a
             href="dashboard.php"
-            <?= $currentPage === 'dashboard.php' ? 'aria-current="page"' : '' ?>
+            <?php if ($currentPage === 'dashboard.php') {
+                echo 'aria-current="page"';
+            } else {
+                echo '';
+            } ?>
         >
             <span class="nav-icon" aria-hidden="true">▦</span>
             Overview
         </a>
         <a
             href="services.php"
-            <?= $currentPage === 'services.php' ? 'aria-current="page"' : '' ?>
+            <?php if ($currentPage === 'services.php') {
+                echo 'aria-current="page"';
+            } else {
+                echo '';
+            } ?>
         >
             <span class="nav-icon" aria-hidden="true">✦</span>
             My services
         </a>
         <a
             href="slots.php"
-            <?= $currentPage === 'slots.php' ? 'aria-current="page"' : '' ?>
+            <?php if ($currentPage === 'slots.php') {
+                echo 'aria-current="page"';
+            } else {
+                echo '';
+            } ?>
         >
             <span class="nav-icon" aria-hidden="true">▤</span>
             My appointments
         </a>
         <a
             href="bookings.php"
-            <?= $currentPage === 'bookings.php' ? 'aria-current="page"' : '' ?>
+            <?php if ($currentPage === 'bookings.php') {
+                echo 'aria-current="page"';
+            } else {
+                echo '';
+            } ?>
         >
             <span class="nav-icon" aria-hidden="true">▣</span>
             Bookings
         </a>
         <a
             href="../profile.php"
-            <?= $currentPage === 'profile.php' ? 'aria-current="page"' : '' ?>
+            <?php if ($currentPage === 'profile.php') {
+                echo 'aria-current="page"';
+            } else {
+                echo '';
+            } ?>
         >
             <span class="nav-icon" aria-hidden="true">◎</span>
             My profile

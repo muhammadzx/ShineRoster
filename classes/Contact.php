@@ -1,53 +1,53 @@
 <?php
 class Contact
 {
-    public function __construct(private PDO $db) {}
-    public function send(array $data): void
+    private $db;
+    private $error = '';
+
+    public function __construct($db)
     {
-        foreach (['full_name', 'email', 'phone', 'subject', 'message'] as $field) {
-            if (!isset($data[$field]) || !is_string($data[$field])) {
-                throw new RuntimeException('Please complete the form.');
-            }
-            $data[$field] = trim($data[$field]);
-            if (!mb_check_encoding($data[$field], 'UTF-8')) {
-                throw new RuntimeException('Invalid text.');
-            }
+        $this->db = $db;
+    }
+
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    private function fail($message)
+    {
+        $this->error = $message;
+        return false;
+    }
+
+    public function send($form)
+    {
+        $name = inputText($form, 'full_name');
+        $email = inputText($form, 'email');
+        $phone = inputText($form, 'phone');
+        $subject = inputText($form, 'subject');
+        $message = inputText($form, 'message');
+        if ($name === '' || mb_strlen($name) > 100) {
+            return $this->fail('Enter your name (up to 100 characters).');
         }
-        if ($data['full_name'] === '' || mb_strlen($data['full_name']) > 100) {
-            throw new RuntimeException('Enter your name (up to 100 characters).');
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 190) {
+            return $this->fail('Enter a valid email address.');
         }
-        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL) || strlen($data['email']) > 190) {
-            throw new RuntimeException('Enter a valid email address.');
+        if ($phone !== '' && !validPhone($phone)) {
+            return $this->fail('Enter a valid phone number.');
         }
-        if (
-            $data['phone'] !== '' &&
-            (!preg_match('/^\+?[0-9 ()-]{7,20}$/D', $data['phone']) ||
-                strlen(preg_replace('/\D/', '', $data['phone'])) < 7)
-        ) {
-            throw new RuntimeException('Enter a valid phone number.');
+        if (!in_array($subject, ['booking', 'account', 'provider', 'feedback', 'other'])) {
+            return $this->fail('Choose a subject.');
         }
-        if (
-            !in_array(
-                $data['subject'],
-                ['booking', 'account', 'provider', 'feedback', 'other'],
-                true
-            )
-        ) {
-            throw new RuntimeException('Choose a subject.');
+        if (mb_strlen($message) < 10 || mb_strlen($message) > 3000) {
+            return $this->fail('Enter a message between 10 and 3,000 characters.');
         }
-        if (mb_strlen($data['message']) < 10 || mb_strlen($data['message']) > 3000) {
-            throw new RuntimeException('Enter a message between 10 and 3,000 characters.');
+        $stmt = $this->db->prepare(
+            'INSERT INTO contact_messages (full_name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)'
+        );
+        if (!$stmt->execute([$name, $email, $phone, $subject, $message])) {
+            return $this->fail('Could not save your message.');
         }
-        $this->db
-            ->prepare(
-                'INSERT INTO contact_messages (full_name,email,phone,subject,message) VALUES (?,?,?,?,?)'
-            )
-            ->execute([
-                $data['full_name'],
-                $data['email'],
-                $data['phone'],
-                $data['subject'],
-                $data['message']
-            ]);
+        return true;
     }
 }

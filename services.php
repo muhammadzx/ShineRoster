@@ -12,15 +12,33 @@ if (!in_array($sort, $allowedSorts, true)) {
     $sort = 'recommended';
 }
 
-$skillId = filter_var($_GET['skill_id'] ?? null, FILTER_VALIDATE_INT, [
-    'options' => ['min_range' => 1]
-]);
+if (isset($_GET['skill_id'])) {
+    $skillId = filter_var($_GET['skill_id'], FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+} else {
+    $skillId = filter_var(null, FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+}
 
-$skillId = $skillId === false ? 0 : (int) $skillId;
+if ($skillId === false) {
+    $skillId = 0;
+} else {
+    $skillId = (int) $skillId;
+}
 
-$page = filter_var($_GET['page'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+if (isset($_GET['page'])) {
+    $page = filter_var($_GET['page'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+} else {
+    $page = filter_var(null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+}
 
-$page = $page === false ? 1 : max(1, (int) $page);
+if ($page === false) {
+    $page = 1;
+} else {
+    $page = max(1, (int) $page);
+}
 
 $catalog = new ServiceCatalog($db);
 
@@ -35,15 +53,24 @@ $page = $result['page'];
 $pages = $result['pages'];
 $perPage = $result['per_page'];
 
-$firstResult = $total > 0 ? ($page - 1) * $perPage + 1 : 0;
+if ($total > 0) {
+    $firstResult = ($page - 1) * $perPage + 1;
+} else {
+    $firstResult = 0;
+}
 $lastResult = min($page * $perPage, $total);
 
 $hasFilters = $search !== '' || $city !== '' || $skillId > 0;
 
 $currentAccount = $auth->currentUser();
-$accountRole = $currentAccount['role'] ?? '';
+if (isset($currentAccount['role'])) {
+    $accountRole = $currentAccount['role'];
+} else {
+    $accountRole = '';
+}
 
-$pageUrl = static function (int $targetPage) use ($search, $city, $skillId, $sort): string {
+function pageUrl($targetPage, $search, $city, $skillId, $sort)
+{
     $query = [
         'sort' => $sort,
         'page' => $targetPage
@@ -62,7 +89,7 @@ $pageUrl = static function (int $targetPage) use ($search, $city, $skillId, $sor
     }
 
     return 'services.php?' . http_build_query($query);
-};
+}
 
 $startPage = max(1, $page - 2);
 $endPage = min($pages, $page + 2);
@@ -169,7 +196,11 @@ $endPage = min($pages, $page + 2);
                             <?php foreach ($cities as $availableCity): ?>
                                 <option
                                     value="<?= escapeHtml($availableCity) ?>"
-                                    <?= $city === $availableCity ? 'selected' : '' ?>
+                                    <?php if ($city === $availableCity) {
+                                        echo 'selected';
+                                    } else {
+                                        echo '';
+                                    } ?>
                                 >
                                     <?= escapeHtml($availableCity) ?>
                                 </option>
@@ -184,7 +215,11 @@ $endPage = min($pages, $page + 2);
                             <?php foreach ($skills as $skill): ?>
                                 <option
                                     value="<?= (int) $skill['id'] ?>"
-                                    <?= $skillId === (int) $skill['id'] ? 'selected' : '' ?>
+                                    <?php if ($skillId === (int) $skill['id']) {
+                                        echo 'selected';
+                                    } else {
+                                        echo '';
+                                    } ?>
                                 >
                                     <?= escapeHtml($skill['name']) ?>
                                 </option>
@@ -196,31 +231,51 @@ $endPage = min($pages, $page + 2);
                         <select id="catalog-sort" name="sort">
                             <option
                                 value="recommended"
-                                <?= $sort === 'recommended' ? 'selected' : '' ?>
+                                <?php if ($sort === 'recommended') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Recommended
                             </option>
                             <option
                                 value="rating"
-                                <?= $sort === 'rating' ? 'selected' : '' ?>
+                                <?php if ($sort === 'rating') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Highest provider rating
                             </option>
                             <option
                                 value="price_low"
-                                <?= $sort === 'price_low' ? 'selected' : '' ?>
+                                <?php if ($sort === 'price_low') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Price: low to high
                             </option>
                             <option
                                 value="price_high"
-                                <?= $sort === 'price_high' ? 'selected' : '' ?>
+                                <?php if ($sort === 'price_high') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Price: high to low
                             </option>
                             <option
                                 value="newest"
-                                <?= $sort === 'newest' ? 'selected' : '' ?>
+                                <?php if ($sort === 'newest') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Newest services
                             </option>
@@ -242,7 +297,11 @@ $endPage = min($pages, $page + 2);
                             <?php if ($total > 0): ?>
                                 Showing <?= $firstResult ?>–<?= $lastResult ?>
                                 of <?= $total ?>
-                                <?= $total === 1 ? 'service' : 'services' ?>.
+                                <?php if ($total === 1) {
+                                    echo 'service';
+                                } else {
+                                    echo 'services';
+                                } ?>.
                             <?php else: ?>
                                 No services match your current search.
                             <?php endif; ?>
@@ -250,7 +309,11 @@ $endPage = min($pages, $page + 2);
                     </div>
                     <span class="catalog-results-count">
                         <?= $total ?>
-                        <?= $total === 1 ? 'service' : 'services' ?>
+                        <?php if ($total === 1) {
+                            echo 'service';
+                        } else {
+                            echo 'services';
+                        } ?>
                     </span>
                 </div>
 
@@ -342,11 +405,18 @@ $endPage = min($pages, $page + 2);
                                             <strong>
                                                 <span aria-hidden="true">★</span>
 
-                                                <?= number_format( (float) $service['average_rating'], 1 ) ?>
+                                                <?= number_format(
+                                                    (float) $service['average_rating'],
+                                                    1
+                                                ) ?>
                                             </strong>
                                             <span>
                                                 <?= $reviewCount ?>
-                                                <?= $reviewCount === 1 ? 'review' : 'reviews' ?>
+                                                <?php if ($reviewCount === 1) {
+                                                    echo 'review';
+                                                } else {
+                                                    echo 'reviews';
+                                                } ?>
                                             </span>
                                         <?php else: ?>
                                             <strong>New</strong>
@@ -405,7 +475,12 @@ $endPage = min($pages, $page + 2);
                                     <a
                                         class="catalog-button catalog-button-secondary"
                                         href="<?= escapeHtml($detailsUrl) ?>"
-                                        aria-label="<?= escapeHtml( 'View ' . $service['name'] . ' by ' . $service['provider_name'] ) ?>"
+                                        aria-label="<?= escapeHtml(
+                                            'View ' .
+                                                $service['name'] .
+                                                ' by ' .
+                                                $service['provider_name']
+                                        ) ?>"
                                     >
                                         View service
                                         <span aria-hidden="true">↗</span>
@@ -421,14 +496,18 @@ $endPage = min($pages, $page + 2);
                         <nav class="catalog-pagination" aria-label="Services pagination">
 
                             <?php if ($page > 1): ?>
-                                <a href="<?= escapeHtml($pageUrl($page - 1)) ?>">
+                                <a href="<?= escapeHtml(
+                                    pageUrl($page - 1, $search, $city, $skillId, $sort)
+                                ) ?>">
                                     <span aria-hidden="true">←</span>
                                     Previous
                                 </a>
                             <?php endif; ?>
 
                             <?php if ($startPage > 1): ?>
-                                <a href="<?= escapeHtml($pageUrl(1)) ?>" aria-label="Page 1">
+                                <a href="<?= escapeHtml(
+                                    pageUrl(1, $search, $city, $skillId, $sort)
+                                ) ?>" aria-label="Page 1">
                                     1
                                 </a>
 
@@ -449,7 +528,9 @@ $endPage = min($pages, $page + 2);
                                     </span>
                                 <?php else: ?>
                                     <a
-                                        href="<?= escapeHtml($pageUrl($number)) ?>"
+                                        href="<?= escapeHtml(
+                                            pageUrl($number, $search, $city, $skillId, $sort)
+                                        ) ?>"
                                         aria-label="Page <?= $number ?>"
                                     >
                                         <?= $number ?>
@@ -464,7 +545,9 @@ $endPage = min($pages, $page + 2);
                                 <?php endif; ?>
 
                                 <a
-                                    href="<?= escapeHtml($pageUrl($pages)) ?>"
+                                    href="<?= escapeHtml(
+                                        pageUrl($pages, $search, $city, $skillId, $sort)
+                                    ) ?>"
                                     aria-label="Page <?= $pages ?>"
                                 >
                                     <?= $pages ?>
@@ -472,7 +555,9 @@ $endPage = min($pages, $page + 2);
                             <?php endif; ?>
 
                             <?php if ($page < $pages): ?>
-                                <a href="<?= escapeHtml($pageUrl($page + 1)) ?>">
+                                <a href="<?= escapeHtml(
+                                    pageUrl($page + 1, $search, $city, $skillId, $sort)
+                                ) ?>">
                                     Next
                                     <span aria-hidden="true">→</span>
                                 </a>

@@ -3,15 +3,29 @@
 require_once __DIR__ . '/includes/init.php';
 
 $currentAccount = $auth->currentUser();
-$accountRole = $currentAccount['role'] ?? '';
+if (isset($currentAccount['role'])) {
+    $accountRole = $currentAccount['role'];
+} else {
+    $accountRole = '';
+}
 
-$serviceId = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT, [
-    'options' => ['min_range' => 1]
-]);
+if (isset($_GET['id'])) {
+    $serviceId = filter_var($_GET['id'], FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+} else {
+    $serviceId = filter_var(null, FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+}
 
 $details = new ServiceDetails($db);
 
-$service = $serviceId ? $details->getService((int) $serviceId) : null;
+if ($serviceId) {
+    $service = $details->getService((int) $serviceId);
+} else {
+    $service = null;
+}
 
 $skills = [];
 $appointments = [];
@@ -27,13 +41,23 @@ if ($service) {
     http_response_code(404);
 }
 
-$pageTitle = $service ? $service['name'] . ' | ShineRoster' : 'Service not found | ShineRoster';
+if ($service) {
+    $pageTitle = $service['name'] . ' | ShineRoster';
+} else {
+    $pageTitle = 'Service not found | ShineRoster';
+}
 
-$providerInitial = $service
-    ? mb_strtoupper(mb_substr($service['provider_name'], 0, 1, 'UTF-8'), 'UTF-8')
-    : '';
+if ($service) {
+    $providerInitial = mb_strtoupper(mb_substr($service['provider_name'], 0, 1, 'UTF-8'), 'UTF-8');
+} else {
+    $providerInitial = '';
+}
 
-$providerReviewCount = $service ? (int) $service['review_count'] : 0;
+if ($service) {
+    $providerReviewCount = (int) $service['review_count'];
+} else {
+    $providerReviewCount = 0;
+}
 
 $canBook = $accountRole === 'customer';
 ?>
@@ -48,7 +72,17 @@ $canBook = $accountRole === 'customer';
     <title><?= escapeHtml($pageTitle) ?></title>
     <meta
         name="description"
-        content="<?= escapeHtml( $service ? 'Explore ' . $service['name'] . ' by ' . $service['provider_name'] . '. View service details, reviews and available appointments.' : 'The requested cleaning service could not be found.' ) ?>"
+        content="<?php if ($service) {
+            echo escapeHtml(
+                'Explore ' .
+                    $service['name'] .
+                    ' by ' .
+                    $service['provider_name'] .
+                    '. View service details, reviews and available appointments.'
+            );
+        } else {
+            echo escapeHtml('The requested cleaning service could not be found.');
+        } ?>"
     >
 
     <?php if (!$service): ?>
@@ -240,7 +274,11 @@ $canBook = $accountRole === 'customer';
                                 </strong>
                                 <span>
                                     Based on <?= $providerReviewCount ?>
-                                    <?= $providerReviewCount === 1 ? 'provider review' : 'provider reviews' ?>
+                                    <?php if ($providerReviewCount === 1) {
+                                        echo 'provider review';
+                                    } else {
+                                        echo 'provider reviews';
+                                    } ?>
                                 </span>
 
                             <?php else: ?>
@@ -331,13 +369,9 @@ $canBook = $accountRole === 'customer';
                                             <?php
                                             $slotId = (int) $appointment['slot_id'];
 
-                                            $startsAt = new DateTimeImmutable(
-                                                $appointment['starts_at']
-                                            );
+                                            $startsAt = strtotime($appointment['starts_at']);
 
-                                            $endsAt = new DateTimeImmutable(
-                                                $appointment['ends_at']
-                                            );
+                                            $endsAt = strtotime($appointment['ends_at']);
                                             ?>
 
                                             <label class="details-slot">
@@ -350,25 +384,27 @@ $canBook = $accountRole === 'customer';
                                                 >
                                                 <span class="details-slot-body">
                                                     <span class="details-slot-day">
-                                                        <?= escapeHtml($startsAt->format('l')) ?>
+                                                        <?= escapeHtml(date('l', $startsAt)) ?>
                                                     </span>
                                                     <strong class="details-slot-date">
-                                                        <?= escapeHtml( $startsAt->format('d M Y') ) ?>
+                                                        <?= escapeHtml(date('d M Y', $startsAt)) ?>
                                                     </strong>
                                                     <span class="details-slot-time">
-                                                        <?= escapeHtml( $startsAt->format('g:i A') ) ?>
+                                                        <?= escapeHtml(date('g:i A', $startsAt)) ?>
 
                                                         –
 
-                                                        <?= escapeHtml($endsAt->format('g:i A')) ?>
+                                                        <?= escapeHtml(date('g:i A', $endsAt)) ?>
                                                     </span>
 
                                                     <?php if (
-                                                        $startsAt->format('Y-m-d') !==
-                                                        $endsAt->format('Y-m-d')
+                                                        date('Y-m-d', $startsAt) !==
+                                                        date('Y-m-d', $endsAt)
                                                     ): ?>
                                                         <span class="details-slot-end-date">
-                                                            Ends <?= escapeHtml( $endsAt->format('d M Y') ) ?>
+                                                            Ends <?= escapeHtml(
+                                                                date('d M Y', $endsAt)
+                                                            ) ?>
                                                         </span>
                                                     <?php endif; ?>
 
@@ -488,7 +524,7 @@ $canBook = $accountRole === 'customer';
 
                                 <?php foreach ($reviews as $review): ?>
                                     <?php
-                                    $reviewDate = new DateTimeImmutable($review['created_at']);
+                                    $reviewDate = strtotime($review['created_at']);
 
                                     $reviewInitial = mb_strtoupper(
                                         mb_substr($review['customer_name'], 0, 1, 'UTF-8'),
@@ -509,9 +545,11 @@ $canBook = $accountRole === 'customer';
                                                     <?= escapeHtml($review['customer_name']) ?>
                                                 </h3>
                                                 <time
-                                                    datetime="<?= escapeHtml( $reviewDate->format('Y-m-d') ) ?>"
+                                                    datetime="<?= escapeHtml(
+                                                        date('Y-m-d', $reviewDate)
+                                                    ) ?>"
                                                 >
-                                                    <?= escapeHtml($reviewDate->format('d M Y')) ?>
+                                                    <?= escapeHtml(date('d M Y', $reviewDate)) ?>
                                                 </time>
                                             </div>
                                             <span class="details-review-score">

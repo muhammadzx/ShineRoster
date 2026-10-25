@@ -2,28 +2,19 @@
 require_once __DIR__ . '/includes/init.php';
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!validCsrf($_POST['csrf_token'] ?? null)) {
-        http_response_code(403);
-        $error = 'The form expired. Reload the page and try again.';
-    } elseif (!$auth->allowAttempt('register', 10)) {
-        http_response_code(429);
-        $error = 'Too many attempts. Try again in 15 minutes.';
-    } else {
-        if (
-            $auth->register(
-                inputText($_POST, 'full_name'),
-                inputText($_POST, 'email'),
-                inputText($_POST, 'phone'),
-                $_POST['password'] ?? null,
-                inputText($_POST, 'role'),
-                $_POST['confirm_password'] ?? null
-            )
-        ) {
-            header('Location: login.php?registered=1', true, 303);
-            exit();
-        }
-        $error = $auth->getError();
+    $saved = $auth->register(
+        inputText($_POST, 'full_name'),
+        inputText($_POST, 'email'),
+        inputText($_POST, 'phone'),
+        inputValue($_POST, 'password'),
+        inputText($_POST, 'role'),
+        inputValue($_POST, 'confirm_password')
+    );
+    if ($saved) {
+        header('Location: login.php?registered=1', true, 303);
+        exit();
     }
+    $error = $auth->getError();
 }
 ?>
 <!DOCTYPE html>
@@ -94,15 +85,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               <?php if (
                   $error !== ''
-              ): ?><div class="auth-alert auth-alert-error" role="alert"><p><?= escapeHtml( $error ) ?></p></div><?php endif; ?>
+              ): ?><div class="auth-alert auth-alert-error" role="alert"><p><?= escapeHtml(
+    $error
+) ?></p></div><?php endif; ?>
 
                 <form class="auth-form" action="register.php" method="post">
-                    <input type="hidden" name="csrf_token" value="<?= escapeHtml(csrfToken()) ?>">
+                    
                     <fieldset class="account-types">
                         <legend>I want to join as a</legend>
                         <div class="account-type-grid">
                             <label class="account-option">
-                                <input class="account-radio" type="radio" name="role" value="customer" <?= inputText( $_POST, 'role' ) !== 'provider' ? 'checked' : '' ?> required>
+                                <input class="account-radio" type="radio" name="role" value="customer" <?php if (
+                                    inputText($_POST, 'role') !== 'provider'
+                                ) {
+                                    echo 'checked';
+                                } else {
+                                    echo '';
+                                } ?> required>
                                 <span class="account-card">
                                     <span class="account-card-top" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none">
@@ -119,7 +118,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </span>
                             </label>
                             <label class="account-option">
-                                <input class="account-radio" type="radio" name="role" value="provider" <?= inputText( $_POST, 'role' ) === 'provider' ? 'checked' : '' ?> required>
+                                <input class="account-radio" type="radio" name="role" value="provider" <?php if (
+                                    inputText($_POST, 'role') === 'provider'
+                                ) {
+                                    echo 'checked';
+                                } else {
+                                    echo '';
+                                } ?> required>
                                 <span class="account-card">
                                     <span class="account-card-top" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none">
@@ -146,17 +151,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </fieldset>
                     <div class="auth-field">
                         <label for="register-name">Full name</label>
-                        <input type="text" id="register-name" name="full_name" value="<?= escapeHtml( inputText($_POST, 'full_name') ) ?>" placeholder="Enter your full name"
+                        <input type="text" id="register-name" name="full_name" value="<?= escapeHtml(
+                            inputText($_POST, 'full_name')
+                        ) ?>" placeholder="Enter your full name"
                             autocomplete="name" minlength="2" maxlength="100" required>
                     </div>
                     <div class="auth-field">
                         <label for="register-email">Email address</label>
-                        <input type="email" id="register-email" name="email" value="<?= escapeHtml( inputText($_POST, 'email') ) ?>" placeholder="you@example.com"
+                        <input type="email" id="register-email" name="email" value="<?= escapeHtml(
+                            inputText($_POST, 'email')
+                        ) ?>" placeholder="you@example.com"
                             autocomplete="username" maxlength="190" required>
                     </div>
                     <div class="auth-field">
                         <label for="register-phone">Phone number</label>
-                        <input type="tel" id="register-phone" name="phone" value="<?= escapeHtml( inputText($_POST, 'phone') ) ?>" placeholder="e.g. 0791234567"
+                        <input type="tel" id="register-phone" name="phone" value="<?= escapeHtml(
+                            inputText($_POST, 'phone')
+                        ) ?>" placeholder="e.g. 0791234567"
                             autocomplete="tel" maxlength="20" required>
                     </div>
                     <div class="auth-form-row">

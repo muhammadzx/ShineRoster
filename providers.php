@@ -3,7 +3,11 @@
 require_once __DIR__ . '/includes/init.php';
 
 $currentAccount = $auth->currentUser();
-$accountRole = $currentAccount['role'] ?? '';
+if (isset($currentAccount['role'])) {
+    $accountRole = $currentAccount['role'];
+} else {
+    $accountRole = '';
+}
 
 $search = inputText($_GET, 'search', 120);
 $city = inputText($_GET, 'city', 100);
@@ -24,15 +28,33 @@ if (!in_array($ratingValue, $allowedRatings, true)) {
 
 $minimumRating = (float) $ratingValue;
 
-$skillId = filter_var($_GET['skill_id'] ?? null, FILTER_VALIDATE_INT, [
-    'options' => ['min_range' => 1]
-]);
+if (isset($_GET['skill_id'])) {
+    $skillId = filter_var($_GET['skill_id'], FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+} else {
+    $skillId = filter_var(null, FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+}
 
-$skillId = $skillId === false ? 0 : (int) $skillId;
+if ($skillId === false) {
+    $skillId = 0;
+} else {
+    $skillId = (int) $skillId;
+}
 
-$page = filter_var($_GET['page'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+if (isset($_GET['page'])) {
+    $page = filter_var($_GET['page'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+} else {
+    $page = filter_var(null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+}
 
-$page = $page === false ? 1 : max(1, (int) $page);
+if ($page === false) {
+    $page = 1;
+} else {
+    $page = max(1, (int) $page);
+}
 
 $directory = new ProviderDirectory($db);
 
@@ -47,7 +69,11 @@ $page = $result['page'];
 $pages = $result['pages'];
 $perPage = $result['per_page'];
 
-$firstResult = $total > 0 ? ($page - 1) * $perPage + 1 : 0;
+if ($total > 0) {
+    $firstResult = ($page - 1) * $perPage + 1;
+} else {
+    $firstResult = 0;
+}
 
 $lastResult = min($page * $perPage, $total);
 
@@ -62,13 +88,8 @@ foreach ($skills as $skill) {
     }
 }
 
-$pageUrl = static function (int $targetPage) use (
-    $search,
-    $city,
-    $skillId,
-    $ratingValue,
-    $sort
-): string {
+function pageUrl($targetPage, $search, $city, $skillId, $ratingValue, $sort)
+{
     $query = [
         'sort' => $sort,
         'page' => $targetPage
@@ -91,7 +112,7 @@ $pageUrl = static function (int $targetPage) use (
     }
 
     return 'providers.php?' . http_build_query($query);
-};
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -227,7 +248,11 @@ $pageUrl = static function (int $targetPage) use (
                             <?php foreach ($cities as $availableCity): ?>
                                 <option
                                     value="<?= escapeHtml($availableCity) ?>"
-                                    <?= $city === $availableCity ? 'selected' : '' ?>
+                                    <?php if ($city === $availableCity) {
+                                        echo 'selected';
+                                    } else {
+                                        echo '';
+                                    } ?>
                                 >
                                     <?= escapeHtml($availableCity) ?>
                                 </option>
@@ -247,7 +272,11 @@ $pageUrl = static function (int $targetPage) use (
                             <?php foreach ($skills as $skill): ?>
                                 <option
                                     value="<?= (int) $skill['id'] ?>"
-                                    <?= $skillId === (int) $skill['id'] ? 'selected' : '' ?>
+                                    <?php if ($skillId === (int) $skill['id']) {
+                                        echo 'selected';
+                                    } else {
+                                        echo '';
+                                    } ?>
                                 >
                                     <?= escapeHtml($skill['name']) ?>
                                 </option>
@@ -262,25 +291,41 @@ $pageUrl = static function (int $targetPage) use (
                         <select id="provider-rating" name="rating">
                             <option
                                 value="0"
-                                <?= $ratingValue === '0' ? 'selected' : '' ?>
+                                <?php if ($ratingValue === '0') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Any rating
                             </option>
                             <option
                                 value="3"
-                                <?= $ratingValue === '3' ? 'selected' : '' ?>
+                                <?php if ($ratingValue === '3') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 3.0 and above
                             </option>
                             <option
                                 value="4"
-                                <?= $ratingValue === '4' ? 'selected' : '' ?>
+                                <?php if ($ratingValue === '4') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 4.0 and above
                             </option>
                             <option
                                 value="4.5"
-                                <?= $ratingValue === '4.5' ? 'selected' : '' ?>
+                                <?php if ($ratingValue === '4.5') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 4.5 and above
                             </option>
@@ -293,31 +338,51 @@ $pageUrl = static function (int $targetPage) use (
                         <select id="provider-sort" name="sort">
                             <option
                                 value="recommended"
-                                <?= $sort === 'recommended' ? 'selected' : '' ?>
+                                <?php if ($sort === 'recommended') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Recommended
                             </option>
                             <option
                                 value="rating"
-                                <?= $sort === 'rating' ? 'selected' : '' ?>
+                                <?php if ($sort === 'rating') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Highest rated
                             </option>
                             <option
                                 value="price_low"
-                                <?= $sort === 'price_low' ? 'selected' : '' ?>
+                                <?php if ($sort === 'price_low') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Starting price: low to high
                             </option>
                             <option
                                 value="price_high"
-                                <?= $sort === 'price_high' ? 'selected' : '' ?>
+                                <?php if ($sort === 'price_high') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Starting price: high to low
                             </option>
                             <option
                                 value="newest"
-                                <?= $sort === 'newest' ? 'selected' : '' ?>
+                                <?php if ($sort === 'newest') {
+                                    echo 'selected';
+                                } else {
+                                    echo '';
+                                } ?>
                             >
                                 Newest providers
                             </option>
@@ -349,7 +414,11 @@ $pageUrl = static function (int $targetPage) use (
 
                                 Showing <?= $firstResult ?>–<?= $lastResult ?>
                                 of <?= $total ?>
-                                <?= $total === 1 ? 'provider' : 'providers' ?>.
+                                <?php if ($total === 1) {
+                                    echo 'provider';
+                                } else {
+                                    echo 'providers';
+                                } ?>.
 
                             <?php else: ?>
 
@@ -360,7 +429,11 @@ $pageUrl = static function (int $targetPage) use (
                     </div>
                     <span class="catalog-results-count">
                         <?= $total ?>
-                        <?= $total === 1 ? 'provider' : 'providers' ?>
+                        <?php if ($total === 1) {
+                            echo 'provider';
+                        } else {
+                            echo 'providers';
+                        } ?>
                     </span>
                 </div>
 
@@ -408,12 +481,7 @@ $pageUrl = static function (int $targetPage) use (
 
                         <?php foreach ($providers as $provider): ?>
                             <?php
-                            $nameParts = preg_split(
-                                '/\s+/u',
-                                trim($provider['full_name']),
-                                -1,
-                                PREG_SPLIT_NO_EMPTY
-                            );
+                            $nameParts = explode(' ', trim($provider['full_name']));
 
                             $initials = '';
 
@@ -444,9 +512,11 @@ $pageUrl = static function (int $targetPage) use (
 
                             $profileUrl = 'provider-details.php?id=' . (int) $provider['id'];
 
-                            $nextAppointment = $provider['next_appointment']
-                                ? new DateTimeImmutable($provider['next_appointment'])
-                                : null;
+                            if ($provider['next_appointment']) {
+                                $nextAppointment = strtotime($provider['next_appointment']);
+                            } else {
+                                $nextAppointment = null;
+                            }
                             ?>
 
                             <article class="catalog-card directory-card">
@@ -495,11 +565,18 @@ $pageUrl = static function (int $targetPage) use (
                                         <strong>
                                             <span aria-hidden="true">★</span>
 
-                                            <?= number_format( (float) $provider['average_rating'], 1 ) ?>
+                                            <?= number_format(
+                                                (float) $provider['average_rating'],
+                                                1
+                                            ) ?>
                                         </strong>
                                         <span>
                                             <?= $reviewCount ?>
-                                            <?= $reviewCount === 1 ? 'customer review' : 'customer reviews' ?>
+                                            <?php if ($reviewCount === 1) {
+                                                echo 'customer review';
+                                            } else {
+                                                echo 'customer reviews';
+                                            } ?>
                                         </span>
 
                                     <?php else: ?>
@@ -511,7 +588,13 @@ $pageUrl = static function (int $targetPage) use (
 
                                 </div>
                                 <p class="directory-bio" dir="auto">
-                                    <?= escapeHtml( $bio !== '' ? $bio : 'Explore this provider’s cleaning services and available appointments.' ) ?>
+                                    <?php if ($bio !== '') {
+                                        echo escapeHtml($bio);
+                                    } else {
+                                        echo escapeHtml(
+                                            'Explore this provider’s cleaning services and available appointments.'
+                                        );
+                                    } ?>
                                 </p>
                                 <div class="directory-skills-section">
                                     <span class="directory-section-label">
@@ -547,7 +630,11 @@ $pageUrl = static function (int $targetPage) use (
                                     <div>
                                         <strong><?= $serviceCount ?></strong>
                                         <span>
-                                            <?= $serviceCount === 1 ? 'Service' : 'Services' ?>
+                                            <?php if ($serviceCount === 1) {
+                                                echo 'Service';
+                                            } else {
+                                                echo 'Services';
+                                            } ?>
                                         </span>
                                     </div>
                                     <div>
@@ -563,7 +650,9 @@ $pageUrl = static function (int $targetPage) use (
 
                                             <span>Next available · Jordan time</span>
                                             <strong>
-                                                <?= escapeHtml( $nextAppointment->format('d M Y · g:i A') ) ?>
+                                                <?= escapeHtml(
+                                                    date('d M Y · g:i A', $nextAppointment)
+                                                ) ?>
                                             </strong>
 
                                         <?php else: ?>
@@ -583,13 +672,18 @@ $pageUrl = static function (int $targetPage) use (
                                         <strong>
                                             <small>JOD</small>
 
-                                            <?= number_format( (float) $provider['minimum_price'], 3 ) ?>
+                                            <?= number_format(
+                                                (float) $provider['minimum_price'],
+                                                3
+                                            ) ?>
                                         </strong>
                                     </div>
                                     <a
                                         class="catalog-button catalog-button-secondary"
                                         href="<?= escapeHtml($profileUrl) ?>"
-                                        aria-label="<?= escapeHtml( 'View ' . $provider['full_name'] . ' provider profile' ) ?>"
+                                        aria-label="<?= escapeHtml(
+                                            'View ' . $provider['full_name'] . ' provider profile'
+                                        ) ?>"
                                     >
                                         View profile
                                         <span aria-hidden="true">↗</span>
@@ -610,7 +704,16 @@ $pageUrl = static function (int $targetPage) use (
                         >
 
                             <?php if ($page > 1): ?>
-                                <a href="<?= escapeHtml($pageUrl($page - 1)) ?>">
+                                <a href="<?= escapeHtml(
+                                    pageUrl(
+                                        $page - 1,
+                                        $search,
+                                        $city,
+                                        $skillId,
+                                        $ratingValue,
+                                        $sort
+                                    )
+                                ) ?>">
                                     <span aria-hidden="true">←</span>
                                     Previous
                                 </a>
@@ -624,7 +727,16 @@ $pageUrl = static function (int $targetPage) use (
                             </span>
 
                             <?php if ($page < $pages): ?>
-                                <a href="<?= escapeHtml($pageUrl($page + 1)) ?>">
+                                <a href="<?= escapeHtml(
+                                    pageUrl(
+                                        $page + 1,
+                                        $search,
+                                        $city,
+                                        $skillId,
+                                        $ratingValue,
+                                        $sort
+                                    )
+                                ) ?>">
                                     Next
                                     <span aria-hidden="true">→</span>
                                 </a>

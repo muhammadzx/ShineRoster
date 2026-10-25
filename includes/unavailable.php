@@ -1,6 +1,10 @@
 <?php
 http_response_code(503);
-$prefix = $prefix ?? '';
+if (isset($prefix)) {
+    $prefix = $prefix;
+} else {
+    $prefix = '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">

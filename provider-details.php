@@ -3,23 +3,51 @@
 require_once __DIR__ . '/includes/init.php';
 
 $currentAccount = $auth->currentUser();
-$accountRole = $currentAccount['role'] ?? '';
+if (isset($currentAccount['role'])) {
+    $accountRole = $currentAccount['role'];
+} else {
+    $accountRole = '';
+}
 
-$providerId = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT, [
-    'options' => ['min_range' => 1]
-]);
+if (isset($_GET['id'])) {
+    $providerId = filter_var($_GET['id'], FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+} else {
+    $providerId = filter_var(null, FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+}
 
-$providerId = $providerId === false ? 0 : (int) $providerId;
+if ($providerId === false) {
+    $providerId = 0;
+} else {
+    $providerId = (int) $providerId;
+}
 
-$reviewsPage = filter_var($_GET['reviews_page'] ?? null, FILTER_VALIDATE_INT, [
-    'options' => ['min_range' => 1]
-]);
+if (isset($_GET['reviews_page'])) {
+    $reviewsPage = filter_var($_GET['reviews_page'], FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+} else {
+    $reviewsPage = filter_var(null, FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1]
+    ]);
+}
 
-$reviewsPage = $reviewsPage === false ? 1 : max(1, (int) $reviewsPage);
+if ($reviewsPage === false) {
+    $reviewsPage = 1;
+} else {
+    $reviewsPage = max(1, (int) $reviewsPage);
+}
 
 $providerDetails = new ProviderDetails($db);
 
-$provider = $providerId > 0 ? $providerDetails->getProvider($providerId) : null;
+if ($providerId > 0) {
+    $provider = $providerDetails->getProvider($providerId);
+} else {
+    $provider = null;
+}
 
 $skills = [];
 $services = [];
@@ -44,33 +72,51 @@ if ($provider) {
     http_response_code(404);
 }
 
-$reviewCount = $provider ? (int) $provider['review_count'] : 0;
+if ($provider) {
+    $reviewCount = (int) $provider['review_count'];
+} else {
+    $reviewCount = 0;
+}
 
-$serviceCount = $provider ? (int) $provider['service_count'] : 0;
+if ($provider) {
+    $serviceCount = (int) $provider['service_count'];
+} else {
+    $serviceCount = 0;
+}
 
-$availableCount = $provider ? (int) $provider['available_count'] : 0;
+if ($provider) {
+    $availableCount = (int) $provider['available_count'];
+} else {
+    $availableCount = 0;
+}
 
-$providerInitial = $provider
-    ? mb_strtoupper(mb_substr($provider['full_name'], 0, 1, 'UTF-8'), 'UTF-8')
-    : '';
+if ($provider) {
+    $providerInitial = mb_strtoupper(mb_substr($provider['full_name'], 0, 1, 'UTF-8'), 'UTF-8');
+} else {
+    $providerInitial = '';
+}
 
-$nextAppointment =
-    $provider && $provider['next_appointment']
-        ? new DateTimeImmutable($provider['next_appointment'])
-        : null;
+if ($provider && $provider['next_appointment']) {
+    $nextAppointment = strtotime($provider['next_appointment']);
+} else {
+    $nextAppointment = null;
+}
 
-$reviewPageUrl = static function (int $targetPage) use ($providerId): string {
+function reviewPageUrl($targetPage, $providerId)
+{
     return 'provider-details.php?' .
         http_build_query([
             'id' => $providerId,
             'reviews_page' => $targetPage
         ]) .
         '#provider-reviews';
-};
+}
 
-$pageTitle = $provider
-    ? $provider['full_name'] . ' | ShineRoster'
-    : 'Provider not found | ShineRoster';
+if ($provider) {
+    $pageTitle = $provider['full_name'] . ' | ShineRoster';
+} else {
+    $pageTitle = 'Provider not found | ShineRoster';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +129,16 @@ $pageTitle = $provider
     <title><?= escapeHtml($pageTitle) ?></title>
     <meta
         name="description"
-        content="<?= escapeHtml( $provider ? 'Explore ' . $provider['full_name'] . '’s cleaning services, listed skills, ' . 'customer reviews and available appointments.' : 'The requested cleaning provider could not be found.' ) ?>"
+        content="<?php if ($provider) {
+            echo escapeHtml(
+                'Explore ' .
+                    $provider['full_name'] .
+                    '’s cleaning services, listed skills, ' .
+                    'customer reviews and available appointments.'
+            );
+        } else {
+            echo escapeHtml('The requested cleaning provider could not be found.');
+        } ?>"
     >
 
     <?php if (!$provider): ?>
@@ -183,11 +238,18 @@ $pageTitle = $provider
                                         <span class="profile-rating">
                                             <span aria-hidden="true">★</span>
                                             <strong>
-                                                <?= number_format( (float) $provider['average_rating'], 1 ) ?>
+                                                <?= number_format(
+                                                    (float) $provider['average_rating'],
+                                                    1
+                                                ) ?>
                                             </strong>
                                             <span>
                                                 (<?= $reviewCount ?>
-                                                <?= $reviewCount === 1 ? 'review' : 'reviews' ?>)
+                                                <?php if ($reviewCount === 1) {
+                                                    echo 'review';
+                                                } else {
+                                                    echo 'reviews';
+                                                } ?>)
                                             </span>
                                         </span>
 
@@ -335,10 +397,11 @@ $pageTitle = $provider
 
                                     $serviceUrl = 'service-details.php?id=' . (int) $service['id'];
 
-                                    $appointmentUrl =
-                                        $serviceAvailableCount > 0
-                                            ? $serviceUrl . '#appointments'
-                                            : $serviceUrl;
+                                    if ($serviceAvailableCount > 0) {
+                                        $appointmentUrl = $serviceUrl . '#appointments';
+                                    } else {
+                                        $appointmentUrl = $serviceUrl;
+                                    }
                                     ?>
 
                                     <article class="profile-service-card">
@@ -396,15 +459,26 @@ $pageTitle = $provider
                                                 <strong>
                                                     <small>JOD</small>
 
-                                                    <?= number_format( (float) $service['price'], 3 ) ?>
+                                                    <?= number_format(
+                                                        (float) $service['price'],
+                                                        3
+                                                    ) ?>
                                                 </strong>
                                             </div>
                                             <a
                                                 class="catalog-button catalog-button-secondary"
                                                 href="<?= escapeHtml($appointmentUrl) ?>"
-                                                aria-label="<?= escapeHtml( 'View ' . $service['name'] . ' and its appointments' ) ?>"
+                                                aria-label="<?= escapeHtml(
+                                                    'View ' .
+                                                        $service['name'] .
+                                                        ' and its appointments'
+                                                ) ?>"
                                             >
-                                                <?= $serviceAvailableCount > 0 ? 'Choose a time' : 'View service' ?>
+                                                <?php if ($serviceAvailableCount > 0) {
+                                                    echo 'Choose a time';
+                                                } else {
+                                                    echo 'View service';
+                                                } ?>
 
                                                 <span aria-hidden="true">↗</span>
                                             </a>
@@ -473,7 +547,11 @@ $pageTitle = $provider
                                     </span>
                                     <p>
                                         Based on <?= $reviewCount ?>
-                                        <?= $reviewCount === 1 ? 'customer review' : 'customer reviews' ?>
+                                        <?php if ($reviewCount === 1) {
+                                            echo 'customer review';
+                                        } else {
+                                            echo 'customer reviews';
+                                        } ?>
                                         across completed bookings.
                                     </p>
                                 </div>
@@ -482,7 +560,7 @@ $pageTitle = $provider
 
                                 <?php foreach ($reviews as $review): ?>
                                     <?php
-                                    $reviewDate = new DateTimeImmutable($review['created_at']);
+                                    $reviewDate = strtotime($review['created_at']);
 
                                     $customerInitial = mb_strtoupper(
                                         mb_substr($review['customer_name'], 0, 1, 'UTF-8'),
@@ -503,9 +581,11 @@ $pageTitle = $provider
                                                     <?= escapeHtml($review['customer_name']) ?>
                                                 </h3>
                                                 <time
-                                                    datetime="<?= escapeHtml( $reviewDate->format('Y-m-d') ) ?>"
+                                                    datetime="<?= escapeHtml(
+                                                        date('Y-m-d', $reviewDate)
+                                                    ) ?>"
                                                 >
-                                                    <?= escapeHtml($reviewDate->format('d M Y')) ?>
+                                                    <?= escapeHtml(date('d M Y', $reviewDate)) ?>
                                                 </time>
                                             </div>
                                             <span class="profile-review-score">
@@ -550,7 +630,9 @@ $pageTitle = $provider
 
                                     <?php if ($reviewsPage > 1): ?>
                                         <a
-                                            href="<?= escapeHtml( $reviewPageUrl($reviewsPage - 1) ) ?>"
+                                            href="<?= escapeHtml(
+                                                reviewPageUrl($reviewsPage - 1, $providerId)
+                                            ) ?>"
                                         >
                                             <span aria-hidden="true">←</span>
                                             Previous
@@ -567,7 +649,9 @@ $pageTitle = $provider
 
                                     <?php if ($reviewsPage < $reviewsResult['pages']): ?>
                                         <a
-                                            href="<?= escapeHtml( $reviewPageUrl($reviewsPage + 1) ) ?>"
+                                            href="<?= escapeHtml(
+                                                reviewPageUrl($reviewsPage + 1, $providerId)
+                                            ) ?>"
                                         >
                                             Next
                                             <span aria-hidden="true">→</span>
@@ -641,7 +725,7 @@ $pageTitle = $provider
 
                                 <span>Next available · Jordan time</span>
                                 <strong>
-                                    <?= escapeHtml($nextAppointment->format('d M Y · g:i A')) ?>
+                                    <?= escapeHtml(date('d M Y · g:i A', $nextAppointment)) ?>
                                 </strong>
 
                             <?php else: ?>

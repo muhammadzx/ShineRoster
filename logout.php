@@ -1,35 +1,22 @@
 <?php
-
 require_once __DIR__ . '/includes/init.php';
-
 $currentAccount = $auth->currentUser();
 if (!$currentAccount) {
     header('Location: login.php');
     exit();
 }
-
-$stayUrl = match ($_SESSION['role'] ?? '') {
-    'provider' => 'provider/dashboard.php',
-    'admin' => 'admin/dashboard.php',
-    default => 'services.php'
-};
-$error = '';
-
-if (empty($_SESSION['logout_csrf'])) {
-    $_SESSION['logout_csrf'] = bin2hex(random_bytes(32));
+$stayUrl = 'services.php';
+if ($currentAccount['role'] === 'provider') {
+    $stayUrl = 'provider/dashboard.php';
 }
-
+if ($currentAccount['role'] === 'admin') {
+    $stayUrl = 'admin/dashboard.php';
+}
+$error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $token = $_POST['csrf_token'] ?? '';
-
-    if (!is_string($token) || !hash_equals($_SESSION['logout_csrf'], $token)) {
-        $error = 'Unable to confirm your request. Please try again.';
-    } else {
-        $auth->logout();
-
-        header('Location: login.php', true, 303);
-        exit();
-    }
+    $auth->logout();
+    header('Location: login.php', true, 303);
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -70,11 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="logout.php" method="post">
-            <input
-                type="hidden"
-                name="csrf_token"
-                value="<?= htmlspecialchars($_SESSION['logout_csrf'], ENT_QUOTES, 'UTF-8') ?>"
-            >
+            
             <button class="btn btn-primary" type="submit">
                 Yes, log out
                 <span aria-hidden="true">↗</span>

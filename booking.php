@@ -1,93 +1,42 @@
 <?php
-
 require_once __DIR__ . '/includes/init.php';
-
 $currentAccount = $auth->requireRole('customer', 'login.php');
-
-$slotId = filter_var($_GET['slot_id'] ?? null, FILTER_VALIDATE_INT, [
-    'options' => ['min_range' => 1]
-]);
-
-$slotId = $slotId === false ? 0 : (int) $slotId;
-
+$slotId = positiveId($_GET, 'slot_id');
 $checkout = new BookingCheckout($db);
-
-$appointment = $slotId > 0 ? $checkout->getAppointment($slotId) : null;
-
-$form = [
-    'address' => inputText($_POST, 'address'),
-    'notes' => inputText($_POST, 'notes')
-];
-
+$appointment = $checkout->getAppointment($slotId);
+$form = ['address' => inputText($_POST, 'address'), 'notes' => inputText($_POST, 'notes')];
 $error = '';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (!validCsrf($_POST['csrf_token'] ?? null)) {
-            http_response_code(403);
-
-            throw new RuntimeException(
-                'The form expired. Please review your details and try again.'
-            );
-        }
-
-        if (!$appointment) {
-            http_response_code(409);
-
-            throw new RuntimeException(
-                'This appointment is no longer available. ' . 'Please choose another time.'
-            );
-        }
-
-        $quote = $_SESSION['booking_quotes'][$slotId] ?? [];
-
-        if (!is_array($quote)) {
-            $quote = [];
-        }
-
-        $bookingId = $checkout->confirm(
-            (int) $currentAccount['id'],
-            $slotId,
-            $form['address'],
-            $form['notes'],
-            $quote
-        );
-
+    $quote = [];
+    if (
+        isset($_SESSION['booking_quotes'][$slotId]) &&
+        is_array($_SESSION['booking_quotes'][$slotId])
+    ) {
+        $quote = $_SESSION['booking_quotes'][$slotId];
+    }
+    $id = $checkout->confirm(
+        $currentAccount['id'],
+        $slotId,
+        $form['address'],
+        $form['notes'],
+        $quote
+    );
+    if ($id) {
         unset($_SESSION['booking_quotes'][$slotId]);
-
-        $_SESSION['booking_success'] = 'Booking #' . $bookingId . ' confirmed successfully.';
-
+        $_SESSION['booking_success'] = 'Booking #' . $id . ' confirmed successfully.';
         header('Location: my-bookings.php', true, 303);
         exit();
-    } catch (PDOException $e) {
-        error_log((string) $e);
-
-        http_response_code(500);
-
-        $error = 'Your booking could not be saved. Please try again.';
-    } catch (RuntimeException $e) {
-        $error = $e->getMessage();
     }
-
-    $appointment = $slotId > 0 ? $checkout->getAppointment($slotId) : null;
+    $error = $checkout->getError();
+    $appointment = $checkout->getAppointment($slotId);
 }
-
 if ($appointment) {
-    if (!isset($_SESSION['booking_quotes']) || !is_array($_SESSION['booking_quotes'])) {
-        $_SESSION['booking_quotes'] = [];
-    }
-
     $_SESSION['booking_quotes'][$slotId] = $appointment;
-
-    $_SESSION['booking_quotes'] = array_slice($_SESSION['booking_quotes'], -5, null, true);
-
-    $startsAt = new DateTimeImmutable($appointment['starts_at']);
-    $endsAt = new DateTimeImmutable($appointment['ends_at']);
-
-    $durationMinutes = (int) (($endsAt->getTimestamp() - $startsAt->getTimestamp()) / 60);
+    $startsAt = strtotime($appointment['starts_at']);
+    $endsAt = strtotime($appointment['ends_at']);
+    $durationMinutes = (int) (($endsAt - $startsAt) / 60);
 } else {
     unset($_SESSION['booking_quotes'][$slotId]);
-
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         http_response_code(404);
     }
@@ -231,11 +180,7 @@ if ($appointment) {
                             method="post"
                             aria-labelledby="address-title"
                         >
-                            <input
-                                type="hidden"
-                                name="csrf_token"
-                                value="<?= escapeHtml(csrfToken()) ?>"
-                            >
+                            
                             <div class="booking-panel-heading">
                                 <span
                                     class="booking-panel-icon"
@@ -333,7 +278,9 @@ if ($appointment) {
                             <div class="booking-form-actions">
                                 <a
                                     class="catalog-button catalog-button-secondary"
-                                    href="service-details.php?id=<?= (int) $appointment[ 'service_id' ] ?>"
+                                    href="service-details.php?id=<?= (int) $appointment[
+                                        'service_id'
+                                    ] ?>"
                                 >
                                     <span aria-hidden="true">←</span>
                                     Change appointment
@@ -378,25 +325,25 @@ if ($appointment) {
                             <div>
                                 <dt>Date</dt>
                                 <dd>
-                                    <?= escapeHtml($startsAt->format('l, d M Y')) ?>
+                                    <?= escapeHtml(date('l, d M Y', $startsAt)) ?>
                                 </dd>
                             </div>
                             <div>
                                 <dt>Start time</dt>
                                 <dd>
-                                    <?= escapeHtml($startsAt->format('g:i A')) ?>
+                                    <?= escapeHtml(date('g:i A', $startsAt)) ?>
                                 </dd>
                             </div>
                             <div>
                                 <dt>End time</dt>
                                 <dd>
-                                    <?= escapeHtml($endsAt->format('g:i A')) ?>
+                                    <?= escapeHtml(date('g:i A', $endsAt)) ?>
 
                                     <?php if (
-                                        $startsAt->format('Y-m-d') !== $endsAt->format('Y-m-d')
+                                        date('Y-m-d', $startsAt) !== date('Y-m-d', $endsAt)
                                     ): ?>
                                         <span class="booking-end-date">
-                                            <?= escapeHtml($endsAt->format('d M Y')) ?>
+                                            <?= escapeHtml(date('d M Y', $endsAt)) ?>
                                         </span>
                                     <?php endif; ?>
                                 </dd>

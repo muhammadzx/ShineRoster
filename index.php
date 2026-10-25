@@ -5,16 +5,30 @@ require_once __DIR__ . '/includes/init.php';
 $landingUser = $auth->currentUser();
 
 $isLoggedIn = $landingUser !== null;
-$role = $landingUser['role'] ?? '';
-$displayName = $landingUser['full_name'] ?? '';
+if (isset($landingUser['role'])) {
+    $role = $landingUser['role'];
+} else {
+    $role = '';
+}
+if (isset($landingUser['full_name'])) {
+    $displayName = $landingUser['full_name'];
+} else {
+    $displayName = '';
+}
 
-$accountUrl = match ($role) {
-    'provider' => 'provider/dashboard.php',
-    'admin' => 'admin/dashboard.php',
-    default => 'my-bookings.php'
-};
+if ($role === 'provider') {
+    $accountUrl = 'provider/dashboard.php';
+} elseif ($role === 'admin') {
+    $accountUrl = 'admin/dashboard.php';
+} else {
+    $accountUrl = 'my-bookings.php';
+}
 
-$accountLabel = $role === 'customer' ? 'My bookings' : 'Dashboard';
+if ($role === 'customer') {
+    $accountLabel = 'My bookings';
+} else {
+    $accountLabel = 'Dashboard';
+}
 
 $providerEyebrow = 'For cleaning providers';
 
@@ -68,43 +82,22 @@ if ($role === 'provider') {
 }
 
 $contactError = '';
-$contactSuccess = $_SESSION['contact_success'] ?? '';
+if (isset($_SESSION['contact_success'])) {
+    $contactSuccess = $_SESSION['contact_success'];
+} else {
+    $contactSuccess = '';
+}
 
 unset($_SESSION['contact_success']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (!validCsrf($_POST['csrf_token'] ?? null)) {
-            http_response_code(403);
-
-            throw new RuntimeException('The form expired. Reload and try again.');
-        }
-
-        if (time() - ($_SESSION['contact_sent'] ?? 0) < 60) {
-            throw new RuntimeException('Please wait a minute before sending another message.');
-        }
-
-        if (!$auth->allowAttempt('contact', 5)) {
-            http_response_code(429);
-
-            throw new RuntimeException('Too many messages. Try again in 15 minutes.');
-        }
-
-        (new Contact($db))->send($_POST);
-
-        $_SESSION['contact_sent'] = time();
-
+    $contactObject = new Contact($db);
+    if ($contactObject->send($_POST)) {
         $_SESSION['contact_success'] = 'Your message has been received. Thank you.';
-
         header('Location: index.php#contact', true, 303);
         exit();
-    } catch (PDOException $e) {
-        error_log((string) $e);
-
-        $contactError = 'Your message could not be saved. Please try again later.';
-    } catch (RuntimeException $e) {
-        $contactError = $e->getMessage();
     }
+    $contactError = $contactObject->getError();
 }
 ?>
 <!DOCTYPE html>
@@ -162,7 +155,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </a>
             </nav>
             <div
-                class="header-actions <?= $isLoggedIn ? 'header-actions-authenticated' : '' ?>"
+                class="header-actions <?php if ($isLoggedIn) {
+                    echo 'header-actions-authenticated';
+                } else {
+                    echo '';
+                } ?>"
             >
 
                 <?php if ($isLoggedIn): ?>
@@ -766,11 +763,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         name="form_type"
                         value="contact"
                     >
-                    <input
-                        type="hidden"
-                        name="csrf_token"
-                        value="<?= escapeHtml(csrfToken()) ?>"
-                    >
+                    
 
                     <?php if ($contactError !== ''): ?>
                         <p role="alert">

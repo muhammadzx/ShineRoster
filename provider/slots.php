@@ -1,51 +1,25 @@
 <?php
-
 require_once __DIR__ . '/../includes/init.php';
 $currentUser = $auth->requireRole('provider', '../login.php');
-
 $userId = (int) $currentUser['id'];
-$providerProfile = (new Provider($db))->getProfileByUserId($userId);
+$providerObject = new Provider($db);
+$providerProfile = $providerObject->getProfileByUserId($userId);
 if (!$providerProfile) {
     header('Location: ../profile.php');
     exit();
 }
 $providerId = (int) $providerProfile['id'];
 $appointment = new Appointment($db);
-
 $pageTitle = 'My appointments';
 $activePage = 'slots';
-
-$getId = static function ($value): int {
-    $id = filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-
-    return $id === false ? 0 : (int) $id;
-};
-
-$isValidDate = static function (string $value): bool {
-    $date = DateTimeImmutable::createFromFormat('!Y-m-d', $value);
-
-    return $date && $date->format('Y-m-d') === $value;
-};
-
-if (empty($_SESSION['slots_csrf'])) {
-    $_SESSION['slots_csrf'] = bin2hex(random_bytes(32));
-}
-
 $error = '';
-$success = $_SESSION['slots_success'] ?? '';
+$success = inputText($_SESSION, 'slots_success');
 unset($_SESSION['slots_success']);
-
-$form = [
-    'slot_id' => 0,
-    'service_id' => '',
-    'date' => '',
-    'time' => ''
-];
-
+$form = ['slot_id' => 0, 'service_id' => '', 'date' => '', 'time' => ''];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = inputText($_POST, 'action');
-    $slotId = $getId($_POST['slot_id'] ?? null);
-
+    $slotId = positiveId($_POST, 'slot_id');
+    $saved = false;
     if ($action === 'save') {
         $form = [
             'slot_id' => $slotId,
@@ -53,94 +27,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'date' => inputText($_POST, 'date'),
             'time' => inputText($_POST, 'time')
         ];
+        $saved = $appointment->save(
+            $providerId,
+            positiveId($_POST, 'service_id'),
+            $form['date'],
+            $form['time'],
+            $slotId
+        );
+    } elseif ($action === 'delete') {
+        $saved = $appointment->delete($slotId, $providerId);
+    } elseif ($action === 'open') {
+        $saved = $appointment->setOpen($slotId, $providerId, true);
+    } elseif ($action === 'close') {
+        $saved = $appointment->setOpen($slotId, $providerId, false);
+    } else {
+        $error = 'Invalid action.';
     }
-
-    try {
-        $token = inputText($_POST, 'csrf_token');
-
-        if (!hash_equals($_SESSION['slots_csrf'], $token)) {
-            throw new RuntimeException('Your form has expired. Refresh the page and try again.');
-        }
-
-        if ($action === 'save') {
-            if (inputText($_POST, 'slot_id') !== '' && $slotId === 0) {
-                throw new RuntimeException('Invalid appointment.');
-            }
-
-            $serviceId = $getId($_POST['service_id'] ?? null);
-
-            if (!$serviceId) {
-                throw new RuntimeException('Please select a service.');
-            }
-
-            $appointment->save($providerId, $serviceId, $form['date'], $form['time'], $slotId);
-
-            $_SESSION['slots_success'] = $slotId
-                ? 'Appointment updated successfully.'
-                : 'Appointment created successfully.';
-        } elseif (in_array($action, ['open', 'close', 'delete'], true)) {
-            if (!$slotId) {
-                throw new RuntimeException('Invalid appointment.');
-            }
-
-            if ($action === 'delete') {
-                $appointment->delete($slotId, $providerId);
-                $_SESSION['slots_success'] = 'Appointment deleted successfully.';
-            } else {
-                $appointment->setOpen($slotId, $providerId, $action === 'open');
-
-                $_SESSION['slots_success'] =
-                    $action === 'open'
-                        ? 'Appointment opened successfully.'
-                        : 'Appointment closed successfully.';
-            }
-        } else {
-            throw new RuntimeException('Invalid action.');
-        }
-
+    if ($saved) {
+        $_SESSION['slots_success'] = 'Your appointment changes have been saved.';
         header('Location: slots.php', true, 303);
         exit();
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-        $error = 'The appointment could not be saved. Please try again.';
-    } catch (RuntimeException $e) {
-        $error = $e->getMessage();
+    }
+    if ($error === '') {
+        $error = $appointment->getError();
     }
 }
-
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['edit'])) {
-    $editId = $getId($_GET['edit']);
-    $editSlot = $editId ? $appointment->getById($editId, $providerId) : null;
-
+    $editSlot = $appointment->getById(positiveId($_GET, 'edit'), $providerId);
     if ($editSlot) {
-        $start = new DateTimeImmutable($editSlot['starts_at']);
-
+        $start = strtotime($editSlot['starts_at']);
         $form = [
             'slot_id' => (int) $editSlot['id'],
             'service_id' => (string) $editSlot['service_id'],
-            'date' => $start->format('Y-m-d'),
-            'time' => $start->format('H:i')
+            'date' => date('Y-m-d', $start),
+            'time' => date('H:i', $start)
         ];
     } else {
         $error = 'Appointment not found.';
     }
 }
-
-$filterService = $getId($_GET['service_id'] ?? null);
+$filterService = positiveId($_GET, 'service_id');
 $filterDate = inputText($_GET, 'date');
-
-if ($filterDate !== '' && !$isValidDate($filterDate)) {
+if (
+    $filterDate !== '' &&
+    (!strtotime($filterDate) || date('Y-m-d', strtotime($filterDate)) !== $filterDate)
+) {
     $filterDate = '';
     $error = 'Please select a valid filter date.';
 }
-
 $services = $appointment->getServices($providerId);
-
-$activeServices = array_filter($services, static fn($service) => (int) $service['is_active'] === 1);
-
+$activeServices = [];
+foreach ($services as $service) {
+    if ($service['is_active']) {
+        $activeServices[] = $service;
+    }
+}
 $slots = $appointment->getAll($providerId, $filterService, $filterDate);
-
-$now = new DateTimeImmutable();
+$now = time();
 $isEditing = $form['slot_id'] > 0;
 ?>
 <!DOCTYPE html>
@@ -236,7 +179,11 @@ $isEditing = $form['slot_id'] > 0;
                                 <?php foreach ($services as $service): ?>
                                     <option
                                         value="<?= (int) $service['id'] ?>"
-                                        <?= $filterService === (int) $service['id'] ? 'selected' : '' ?>
+                                        <?php if ($filterService === (int) $service['id']) {
+                                            echo 'selected';
+                                        } else {
+                                            echo '';
+                                        } ?>
                                     >
                                         <?= escapeHtml($service['name']) ?>
                                     </option>
@@ -297,8 +244,8 @@ $isEditing = $form['slot_id'] > 0;
 
                                     <?php foreach ($slots as $slot): ?>
                                         <?php
-                                        $start = new DateTimeImmutable($slot['starts_at']);
-                                        $end = new DateTimeImmutable($slot['ends_at']);
+                                        $start = strtotime($slot['starts_at']);
+                                        $end = strtotime($slot['ends_at']);
 
                                         $hasStarted = $start <= $now;
                                         $hasHistory = (bool) $slot['has_history'];
@@ -328,16 +275,18 @@ $isEditing = $form['slot_id'] > 0;
                                                 <?= escapeHtml($slot['service_name']) ?>
                                             </th>
                                             <td>
-                                                <?= escapeHtml($start->format('d M Y')) ?>
+                                                <?= escapeHtml(date('d M Y', $start)) ?>
                                             </td>
                                             <td>
-                                                <?= escapeHtml($start->format('h:i A')) ?>
+                                                <?= escapeHtml(date('h:i A', $start)) ?>
                                                 <span class="table-secondary">
-                                                    to <?= escapeHtml($end->format('h:i A')) ?>
+                                                    to <?= escapeHtml(date('h:i A', $end)) ?>
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="status-badge <?= escapeHtml( $statusClass ) ?>">
+                                                <span class="status-badge <?= escapeHtml(
+                                                    $statusClass
+                                                ) ?>">
                                                     <?= escapeHtml($status) ?>
                                                 </span>
                                             </td>
@@ -347,7 +296,9 @@ $isEditing = $form['slot_id'] > 0;
                                                     <?php if (!$hasHistory && !$hasStarted): ?>
                                                         <a
                                                             class="slot-action"
-                                                            href="slots.php?edit=<?= (int) $slot[ 'id' ] ?>#appointment-form"
+                                                            href="slots.php?edit=<?= (int) $slot[
+                                                                'id'
+                                                            ] ?>#appointment-form"
                                                         >
                                                             Edit
                                                         </a>
@@ -355,11 +306,7 @@ $isEditing = $form['slot_id'] > 0;
 
                                                     <?php if (!$hasStarted && !$reserved): ?>
                                                         <form action="slots.php" method="post">
-                                                            <input
-                                                                type="hidden"
-                                                                name="csrf_token"
-                                                                value="<?= escapeHtml( $_SESSION['slots_csrf'] ) ?>"
-                                                            >
+                                                            
                                                             <input
                                                                 type="hidden"
                                                                 name="slot_id"
@@ -368,10 +315,18 @@ $isEditing = $form['slot_id'] > 0;
                                                             <input
                                                                 type="hidden"
                                                                 name="action"
-                                                                value="<?= $open ? 'close' : 'open' ?>"
+                                                                value="<?php if ($open) {
+                                                                    echo 'close';
+                                                                } else {
+                                                                    echo 'open';
+                                                                } ?>"
                                                             >
                                                             <button class="slot-action" type="submit">
-                                                                <?= $open ? 'Close' : 'Open' ?>
+                                                                <?php if ($open) {
+                                                                    echo 'Close';
+                                                                } else {
+                                                                    echo 'Open';
+                                                                } ?>
                                                             </button>
                                                         </form>
                                                     <?php endif; ?>
@@ -386,11 +341,7 @@ $isEditing = $form['slot_id'] > 0;
                                                                 action="slots.php"
                                                                 method="post"
                                                             >
-                                                                <input
-                                                                    type="hidden"
-                                                                    name="csrf_token"
-                                                                    value="<?= escapeHtml( $_SESSION['slots_csrf'] ) ?>"
-                                                                >
+                                                                
                                                                 <input
                                                                     type="hidden"
                                                                     name="slot_id"
@@ -441,7 +392,11 @@ $isEditing = $form['slot_id'] > 0;
                     <div class="card-heading">
                         <div>
                             <h2 id="appointment-form-title">
-                                <?= $isEditing ? 'Edit appointment' : 'Add an appointment' ?>
+                                <?php if ($isEditing) {
+                                    echo 'Edit appointment';
+                                } else {
+                                    echo 'Add an appointment';
+                                } ?>
                             </h2>
                             <p>
                                 Select an active service and choose its start time.
@@ -468,16 +423,16 @@ $isEditing = $form['slot_id'] > 0;
                             action="slots.php#appointment-form"
                             method="post"
                         >
-                            <input
-                                type="hidden"
-                                name="csrf_token"
-                                value="<?= escapeHtml($_SESSION['slots_csrf']) ?>"
-                            >
+                            
                             <input type="hidden" name="action" value="save">
                             <input
                                 type="hidden"
                                 name="slot_id"
-                                value="<?= $isEditing ? (int) $form['slot_id'] : '' ?>"
+                                value="<?php if ($isEditing) {
+                                    echo (int) $form['slot_id'];
+                                } else {
+                                    echo '';
+                                } ?>"
                             >
                             <div class="slots-field">
                                 <label for="appointment-service">Service</label>
@@ -491,7 +446,13 @@ $isEditing = $form['slot_id'] > 0;
                                     <?php foreach ($activeServices as $service): ?>
                                         <option
                                             value="<?= (int) $service['id'] ?>"
-                                            <?= (int) $form['service_id'] === (int) $service['id'] ? 'selected' : '' ?>
+                                            <?php if (
+                                                (int) $form['service_id'] === (int) $service['id']
+                                            ) {
+                                                echo 'selected';
+                                            } else {
+                                                echo '';
+                                            } ?>
                                         >
                                             <?= escapeHtml($service['name']) ?>
                                             — <?= (int) $service['duration_minutes'] ?> minutes
@@ -537,7 +498,11 @@ $isEditing = $form['slot_id'] > 0;
                                 <?php endif; ?>
 
                                 <button class="btn btn-primary" type="submit">
-                                    <?= $isEditing ? 'Save changes' : 'Create appointment' ?>
+                                    <?php if ($isEditing) {
+                                        echo 'Save changes';
+                                    } else {
+                                        echo 'Create appointment';
+                                    } ?>
                                 </button>
                             </div>
                         </form>
